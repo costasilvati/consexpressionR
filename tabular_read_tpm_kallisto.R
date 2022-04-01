@@ -4,8 +4,9 @@
 # Created on: 01/11/21
 local_path <- '/Users/julianacostasilva/Library/CloudStorage/OneDrive-Pessoal/ProjetoDoutorado/bioconvergencia/reads_RNApa/kallisto_quant_align_apa_1B_0B/gonoda/'
 pattern_find <- "*.tsv"
-file_out <- paste(local_path,"gonoda_tpm.csv", sep = "")
+file_out <- "table_gonoda_tpm.csv"
 column_tpm <- 'target_id'
+group_name = c('0b', '1b')
 setwd(local_path)
 
 list_dir <- list.files(path = ".", pattern =pattern_find, all.files = FALSE,
@@ -26,7 +27,7 @@ for(sample in list_dir){
     flag <- FALSE
   }else{
     new_tabular <- cbind.data.frame(new_tabular, data)
-    write.csv(new_tabular, file_out, strin)
-    write
+    write.table(new_tabular, file_out, sep="\t", quote = FALSE)
+    #write.csv(new_tabular, file_out, row.names = TRUE)
   }
 }
