@@ -1,1 +1,10 @@
-/venv/bin/
+/venv/
+/.idea/dbnavigator.xml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/rGraphicsSettings.xml
+/.idea/rAvailablePackageCache.xml
+/.idea/misc.xml
+/.idea/rpackages.xml
+/.idea/rSettings.xml
+/.idea/modules.xml
+/.idea/vcs.xml
