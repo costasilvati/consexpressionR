@@ -5,21 +5,17 @@
 
 library("baySeq")
 
-run_baySeq <- function  (table_count, separador, replics, group_name, output){
-   if(require("parallel")) cl <- makeCluster(4) else cl <- NULL
-   replicates <- rep(group_name, each = replics)
-   table <- read.csv( table_count,  sep = separador, row.names = 1, header = TRUE, stringsAsFactors = FALSE)
-   m <- as.matrix(table)
-   # Em python gerava --- groups <- list(NDE = c(1,1), DE = c(1,1,2,2))
-   groups <- list(NDE = group_name, DE = replicates)
-   CD <- new("countData", data = m, replicates = replicates, groups = groups)
-   # ERRO: Error in .local(.Object, ...) (baySeqRun.R#16):
-   # All vectors in '@groups' slot must equal number of columns of '@data' slot.
-   # Show stack trace
-   libsizes(CD) <- getLibsizes(CD)
-   CD <- getPriors.NB(CD, samplesize = 1000, estimation = "QL", cl = cl, equalDispersions = TRUE)
-   CD <- getLikelihoods(CD, prs=c(0.5, 0.5), pET="BIC", cl=cl)
-   write.table(topCounts(CD, group = "DE", number = 65000, normaliseData = TRUE), output, sep="\t", quote = FALSE)
+run_baySeq <- function  (table_count, separador, replics, group_name, out){
+    if(require("parallel")) cl <- makeCluster(4) else cl <- NULL
+    replicates <- rep(group_name, each = replics)
+    table <- read.csv( table_count,  sep = separador, row.names = 1, header = TRUE, stringsAsFactors = FALSE)
+    m <- as.matrix(table)
+    groups <- list(NDE = replicates, DE = replicates)
+    CD <- new("countData", data = m, replicates = replicates, groups = groups)
+    libsizes(CD) <- getLibsizes(CD)
+    CD <- getPriors.NB(CD, samplesize = 1000, estimation = "QL", cl = cl, equalDispersions = TRUE)
+    CD <- getLikelihoods(CD, prs=c(0.5, 0.5), pET="BIC", cl=cl)
+    write.table(topCounts(CD, group = "DE", number = 65000, normaliseData = TRUE), out, sep="\t", quote = FALSE)
 }
 
 # Teste
@@ -29,5 +25,9 @@ table_count = '/Users/julianacostasilva/Library/CloudStorage/OneDrive-Pessoal/Pr
 separador = "\t"
 out = '/Volumes/SD128/bioconvergencia/reads_RNApa/RNApa_apa_1B_0B-consexpression_baySeq.csv'
 run_baySeq(table_count,separador, replics, group_name, out)
+# install.packages("styler") # formata
+# https://cran.r-project.org/doc/manuals/R-exts.html#Creating-R-packages
+# http://bioconductor.org/developers/package-submission/
+# https://www.bioconductor.org/developers/how-to/coding-style/
 
 
