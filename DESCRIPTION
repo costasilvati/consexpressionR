@@ -1,0 +1,14 @@
+Package: consexpression2
+Title: Consensus of expression analysis with RNA-Seq data
+Version: 2.0.0
+Date: 2022-07-01
+Author: Juliana Costa-Silva [aut, cre]
+Maintainer: Juliana Costa-Silva <julianacostasilvati@gmail.com>
+Depends: R (>= 3.1.0), nlme
+Description: Consensus among five Diferential Expressed Genes (DEGs) Analysis 
+  for RNA-Seq data. Identification methods and, with a consensus result. Count and DEGs Analysys in one tool
+License: MIT + file LICENSE
+URL: https://costasilvati.github.io/consexpression2/
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
