@@ -12,23 +12,20 @@
 
 
 
-consexpression2 <- function (numberReplics=3, 
+consexpression2 <- function (numberReplics=3,
                              groupName= c("0b", "1b"),
-                             tableCountPath="table_count.csv",
+                             tableCountPath="tablecount.csv",
                              split="\t",
                              experimentName="genericExperiment",
-                             outDirPath="."){
+                             outDirPath="results/",
+                             methodNorm = "TMM", methodAdjPvalue = "BH", numberTopTable = 1000000){
     # validações?
     countMatrix <- readCountFile(tableCountPath, split)
     designExperiment <- rep(groupName, each = numberReplics)
-    # baySeq ok
-    #bayseqResult<-runBaySeq(countMatrix, replicates, createNameFileOutput(outDirPath,experimentName,execName='baySeq'))
-    # edgeR ok
-    #edgerResult<-runEdger(countMatrix, numberReplics, designExperiment, createNameFileOutput(outDirPath,experimentName,execName='edgeR'))
-    # limma ok
-    #limmaResult<-runLimma(countMatrix, numberReplics, designExperiment, createNameFileOutput(outDirPath,experimentName,execName='limma'))
-    # NOISeq ok
-    #noiseqResult<-runNOISeq(countMatrix, designExperiment, createNameFileOutput(outDirPath,experimentName,execName='NOISeq'))
+    bayseqResult<-runBaySeq(countMatrix, designExperiment,createNameFileOutput(outDirPath,experimentName,execName='baySeq'))
+    edgerResult<-runEdger(countMatrix, numberReplics, designExperiment, createNameFileOutput(outDirPath,experimentName,execName='edgeR'))
+    limmaResult<-runLimma(countMatrix, numberReplics, designExperiment, createNameFileOutput(outDirPath,experimentName,execName='limma'), methodNorm, methodAdjPvalue, numberTopTable)
+    noiseqResult<-runNOISeq(countMatrix, designExperiment, createNameFileOutput(outDirPath,experimentName,execName='NOISeq'))
     #samseqResult<-runSamSeq(countMatrix, numberReplics, designExperiment, createNameFileOutput(outDirPath,experimentName,execName='SAMSeq'))
     # EBSeq ??s
     # ebseqResult <- runEbseq(countMatrix, numberReplics, designExperiment, createNameFileOutput(outDirPath,experimentName,execName = 'EBSeq'))

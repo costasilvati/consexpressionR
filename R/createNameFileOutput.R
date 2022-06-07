@@ -4,12 +4,12 @@
 #' @param experimentName the name of experiment analised by consexpression2
 #' @param execName name of the tool run, can be a gene expression tool
 #'
-#' @return name of file output
+#' @return string name of path file output
 #' @export
 #'
-#' @examples nameFile <- createNameFileOutput ("../", "new_experiment", "test_exec")
+#' @examples
+#' nameFile <- createNameFileOutput ("../", "new_experiment", "test_exec")
 createNameFileOutput <- function (outDirPath=".", experimentName="experiment", execName="exec"){
-  library(stringr)
   if(str_ends(outDirPath,'/', negate = TRUE)){
     outDirPath <- paste(outDirPath, '/', sep = "")
   }
