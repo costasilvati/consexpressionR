@@ -27,11 +27,15 @@ consexpression2 <- function (numberReplics=3,
     limmaResult<-runLimma(countMatrix, numberReplics, designExperiment, createNameFileOutput(outDirPath,experimentName,execName='limma'), methodNorm, methodAdjPvalue, numberTopTable)
     noiseqResult<-runNOISeq(countMatrix, designExperiment, createNameFileOutput(outDirPath,experimentName,execName='NOISeq'))
     #samseqResult<-runSamSeq(countMatrix, numberReplics, designExperiment, createNameFileOutput(outDirPath,experimentName,execName='SAMSeq'))
-    # EBSeq ??s
-    # ebseqResult <- runEbseq(countMatrix, numberReplics, designExperiment, createNameFileOutput(outDirPath,experimentName,execName = 'EBSeq'))
+    ebseqResult <- runEbseq(countMatrix, numberReplics, designExperiment, createNameFileOutput(outDirPath,experimentName,execName = 'EBSeq'))
     # DESeq ??
     # deseqResult <- runDeseq(countMatrix, numberReplics, designExperiment, createNameFileOutput(outDirPath,experimentName,execName = 'DESeq'))
     # DESeq2 ??
+    desq2Result <- runDeseq2(tableCountPath,
+                             countMatrix,
+                             numberReplics,
+                             designExperiment,
+                             createNameFileOutput(outDirPath,experimentName,execName = 'DESeq2'))
     # deseq2OutPath = '/Volumes/SD128/bioconvergencia/reads_RNApa/RNApa_apa_1B_0B_gonoda_consexpression_deseq2.csv'
     # deseq2Result <- runDeseq(countMatrix, numberReplics, designExperiment, deseq2OutPath)
 }

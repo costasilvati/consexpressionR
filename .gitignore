@@ -9,3 +9,5 @@
 /.idea/modules.xml
 /.idea/vcs.xml
 .Rproj.user
+*.txt
+*.csv

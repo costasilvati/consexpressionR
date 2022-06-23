@@ -3,20 +3,22 @@
 #'@param countMatrix either a matrix of raw (read) counts.
 #' @param designExperiment replicate and treatment by samples
 #' @param outFile path to write EBSeq report in csv file format
-#' @param fdr
-#' @param outFile
-#' @param sepCharacter
+#' @param fdr False Discovery Rate cutt off
+#' @param outFile path to write EBSeq report in csv file format
+#' @param sepCharacter pattern to seprare file csv
+#' @param maxRound
 #'
 #' @return EBSeq report in data Frame fromat
 #' @export
 #'
 #' @examples
-runEbseq <- function(countMatrix, designExperiment, fdr=0.05,outFile="consexpression2_noiseq.csv", sepCharacter){
-  Sizes<-MedianNorm(countMatrix)
-  EBOut=EBTest(Data=m,
-               Conditions<-as.factor(rep(c(grup),each=str(self._replic))),
-               sizeFactors=Sizes, maxround=5)
-  EBDERes=GetDEResults(EBOut, FDR=fdr)
-  write.table(EBDERes$Status, file=outFile, sep=sepCharacter, quote=FALSE)
+runEbseq <- function(countMatrix, designExperiment, maxRound=5, fdr=0.05,outFile="consexpression2_ebseq.csv", sepCharacter){
+  sizes<-MedianNorm(countMatrix)
+  ebOut<-EBTest(Data=countMatrix,
+               Conditions=as.factor(designExperiment),
+               sizeFactors=sizes, maxround=maxRound)
+  results<-GetDEResults(ebOut, FDR=fdr)
+  write.table(results$Status, file=outFile, sep=sepCharacter, quote=FALSE)
+  return(results$Status)
 }
 
