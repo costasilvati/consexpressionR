@@ -17,17 +17,17 @@ runLimma <- function (countMatrix, numberReplics, designExperiment, limmaOutPath
     if (numberReplics <= 1){
         print('ERROR: limma-voom require more than one replics.')
     }else {
-        nf <- calcNormFactors(countMatrix, method = methodNorm)
+        nf <- edgeR::calcNormFactors(countMatrix, method = methodNorm)
         condition = factor(c(designExperiment))
-        voom.data <- voom(countMatrix, design = model.matrix(~factor(condition)))
+        voom.data <- limma::voom(countMatrix, design = stats::model.matrix(~factor(condition)))
         voom.data$genes = rownames(countMatrix)
-        voom.fitlimma = lmFit(voom.data, design=model.matrix(~factor(condition)))
-        voom.fitbayes = eBayes(voom.fitlimma)
+        voom.fitlimma = limma::lmFit(voom.data, design= stats::model.matrix(~factor(condition)))
+        voom.fitbayes = limma::eBayes(voom.fitlimma)
         voom.pvalues = voom.fitbayes$p.value[, 2]
-        voom.adjpvalues = p.adjust(voom.pvalues, method=methodAdjPvalue)
+        voom.adjpvalues = stats::p.adjust(voom.pvalues, method=methodAdjPvalue)
         # design <- group
-        data <- topTable(voom.fitbayes, coef=ncol(design), number=numberTopTable)
-        write.table(data, file= limmaOutPath, sep = "\t", quote = FALSE)
+        data <- limma::topTable(voom.fitbayes, coef=ncol(design), number=numberTopTable)
+        utils::write.table(data, file= limmaOutPath, sep = "\t", quote = FALSE)
         return(data)
     }
 }

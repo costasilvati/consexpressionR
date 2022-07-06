@@ -13,12 +13,12 @@
 #'
 #' @examples
 runEbseq <- function(countMatrix, designExperiment, maxRound=5, fdr=0.05,outFile="consexpression2_ebseq.csv", sepCharacter){
-  sizes<-MedianNorm(countMatrix)
-  ebOut<-EBTest(Data=countMatrix,
+  sizes<- EBSeq::MedianNorm(countMatrix)
+  ebOut<-EBSeq::EBTest(Data=countMatrix,
                Conditions=as.factor(designExperiment),
                sizeFactors=sizes, maxround=maxRound)
-  results<-GetDEResults(ebOut, FDR=fdr)
-  write.table(results$Status, file=outFile, sep=sepCharacter, quote=FALSE)
+  results<-EBSeq::GetDEResults(ebOut, FDR=fdr)
+  utils::write.table(results$Status, file=outFile, sep=sepCharacter, quote=FALSE)
   return(results$Status)
 }
 
