@@ -4,7 +4,7 @@
 \alias{runEdger}
 \title{Execute edgeR expression Analisys}
 \usage{
-runEdger(countMatrix, numberReplics, desingExperiment, edgerOutPath)
+runEdger(countMatrix, numberReplics, desingExperiment)
 }
 \arguments{
 \item{countMatrix}{either a matrix of raw (read) counts.}

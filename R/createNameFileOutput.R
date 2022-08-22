@@ -9,10 +9,16 @@
 #'
 #' @examples
 #' nameFile <- createNameFileOutput ("../", "new_experiment", "test_exec")
-createNameFileOutput <- function (outDirPath=".", experimentName="experiment", execName="exec"){
-  if(str_ends(outDirPath,'/', negate = TRUE)){
-    outDirPath <- paste(outDirPath, '/', sep = "")
+createNameFileOutput <- function (outDirPath=".",
+                                  execName="exec"){
+  if(stringr::str_ends(outDirPath,'/',
+                       negate = TRUE)){
+    outDirPath <- paste(outDirPath, '/',
+                        sep = "")
   }
-  outputFileName <- paste(outDirPath, experimentName, '_consexpression_', execName, '.csv', sep = "")
+  outputFileName <- paste(outDirPath,
+                          'consexpression2_',
+                          execName, '.csv',
+                          sep = "")
   return(outputFileName)
 }

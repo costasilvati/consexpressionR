@@ -4,7 +4,19 @@
 \alias{runBaySeq}
 \title{Execute baySeq gene Expression analysis}
 \usage{
-runBaySeq(countMatrix, designExperiment, out)
+runBaySeq(
+  countMatrix,
+  designExperiment,
+  sampleSize = 1000,
+  estimationMethod = "QL",
+  clusters = 4,
+  equalDispersion = TRUE,
+  priorProbabilities = c(0.5, 0.5),
+  reestimationType = "BIC",
+  topCountGroup = "DE",
+  numberTopCount = 65000,
+  normalData = TRUE
+)
 }
 \arguments{
 \item{countMatrix}{either a matrix of raw (read) counts.}

@@ -8,7 +8,6 @@ runLimma(
   countMatrix,
   numberReplics,
   designExperiment,
-  limmaOutPath,
   methodNorm = "TMM",
   methodAdjPvalue = "BH",
   numberTopTable = 1e+06
@@ -21,20 +20,17 @@ runLimma(
 
 \item{designExperiment}{replicate and treatment by samples}
 
-\item{limmaOutPath}{path to write limma report in csv file format}
-
 \item{methodNorm}{normalization method to be used}
 
 \item{methodAdjPvalue}{correction method, a character string. Can be abbreviated.}
 
 \item{numberTopTable}{maximum number of genes to list}
+
+\item{limmaOutPath}{path to write limma report in csv file format}
 }
 \value{
 limma report in data Frame fromat
 }
 \description{
 Execute edgeR expression Analisys
-}
-\examples{
-limmaResult<-runLimma(countMatrix, numberReplics, designExperiment, createNameFileOutput(outDirPath,experimentName,execName='limma'))
 }

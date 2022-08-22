@@ -11,7 +11,7 @@
 #'
 #' @examples
 abundanceKallistoImport <- function(dir,pathReportRuns, pathReportFile, replics, dirRuns){
-  count <- utils::read.table(file.path(pathReportRuns), header=TRUE)
+  count <- utils::read.table(file.path(pathReportRuns), header=TRUE) # gonoda_report.txt
   count$condition <- factor(rep(conditionList,each=replics))
   rownames(count) <- count$run
   count[,c("pop","center","run","condition")]

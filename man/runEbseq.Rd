@@ -4,27 +4,20 @@
 \alias{runEbseq}
 \title{Execute EBSeq gene Expression analysis}
 \usage{
-runEbseq(
-  countMatrix,
-  designExperiment,
-  maxRound = 5,
-  fdr = 0.05,
-  outFile = "consexpression2_ebseq.csv",
-  sepCharacter
-)
+runEbseq(countMatrix, designExperiment, fdr = 0.05, sepCharacter)
 }
 \arguments{
 \item{countMatrix}{either a matrix of raw (read) counts.}
 
 \item{designExperiment}{replicate and treatment by samples}
 
-\item{maxRound}{}
-
 \item{fdr}{False Discovery Rate cutt off}
+
+\item{sepCharacter}{pattern to seprare file csv}
 
 \item{outFile}{path to write EBSeq report in csv file format}
 
-\item{sepCharacter}{pattern to seprare file csv}
+\item{maxRound}{}
 }
 \value{
 EBSeq report in data Frame fromat

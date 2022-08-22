@@ -12,8 +12,13 @@
 #' @export
 #'
 #' @examples
-#' limmaResult<-runLimma(countMatrix, numberReplics, designExperiment, createNameFileOutput(outDirPath,experimentName,execName='limma'))
-runLimma <- function (countMatrix, numberReplics, designExperiment, limmaOutPath, methodNorm = "TMM", methodAdjPvalue = "BH", numberTopTable = 1000000){
+#'
+runLimma <- function (countMatrix,
+                      numberReplics,
+                      designExperiment,
+                      methodNorm = "TMM",
+                      methodAdjPvalue = "BH",
+                      numberTopTable = 1000000){
     if (numberReplics <= 1){
         print('ERROR: limma-voom require more than one replics.')
     }else {
@@ -26,8 +31,7 @@ runLimma <- function (countMatrix, numberReplics, designExperiment, limmaOutPath
         voom.pvalues = voom.fitbayes$p.value[, 2]
         voom.adjpvalues = stats::p.adjust(voom.pvalues, method=methodAdjPvalue)
         # design <- group
-        data <- limma::topTable(voom.fitbayes, coef=ncol(design), number=numberTopTable)
-        utils::write.table(data, file= limmaOutPath, sep = "\t", quote = FALSE)
+        data <- limma::topTable(voom.fitbayes, coef=ncol(designExperiment), number=numberTopTable)
         return(data)
     }
 }

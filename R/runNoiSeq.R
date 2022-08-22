@@ -10,12 +10,11 @@
 #'
 #' @examples
 #' noiseqResult<-runNOISeq(countMatrix, designExperiment, createNameFileOutput(outDirPath,experimentName,execName='NOISeq'))
-runNoiSeq <- function (countMatrix, designExperiment, noiseqOutPtah){
+runNoiSeq <- function (countMatrix, designExperiment){
     myfactors = data.frame(Tissue=c(designExperiment))
-    mydata <- readData(data=countMatrix, factors=myfactors)
+    mydata <- NOISeq::readData(data=countMatrix, factors=myfactors)
     # k?? lc?? factor??
     mynoiseq = NOISeq::noiseq(mydata, k=0.5, factor="Tissue", lc=1, replicates="technical")
     result <- mynoiseq@results[[1]]
-    write.csv(result, file=noiseqOutPtah, sep="\t", quote=FALSE)
-    return(mynoiseq)
+    return(result)
 }

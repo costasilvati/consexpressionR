@@ -4,7 +4,7 @@
 \alias{runNoiSeq}
 \title{Execute NOISeq gene Expression analysis}
 \usage{
-runNoiSeq(countMatrix, designExperiment, noiseqOutPtah)
+runNoiSeq(countMatrix, designExperiment)
 }
 \arguments{
 \item{countMatrix}{either a matrix of raw (read) counts.}

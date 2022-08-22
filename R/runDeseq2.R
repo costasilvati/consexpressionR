@@ -1,15 +1,11 @@
-runDeseq2 <- function(tableCountPath, countMatrix,
-                     designExperiment,
-                     outFile="consexpression2_deseq2.csv",
-                     sepCharacter="\t",
-                     fitTypeDispersion="local"){
-
+runDeseq2 <- function(countMatrix,
+                     designExperiment){
   dds <-DESeq2::DESeqDataSetFromMatrix(countData = countMatrix,
-                                colData = coldata,
-                                design= ~ batch + condition)
+                                       colData = colnames(countMatrix),
+                                       design= designExperiment)
   dds <- DESeq2::DESeq(dds)
   resultsNames(dds) # lists the coefficients
-  res <- results(dds, name="condition_trt_vs_untrt")
-  # or to shrink log fold changes association with condition:
-  res <- lfcShrink(dds, coef="condition_trt_vs_untrt", type="apeglm")
+  res <- DESeq2::results(dds,
+                         name=nameResults)
+  return(res)
 }

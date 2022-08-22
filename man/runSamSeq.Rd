@@ -4,7 +4,12 @@
 \alias{runSamSeq}
 \title{Execute SAMSeq gene Expression analysis to count data}
 \usage{
-runSamSeq(countMatrix, designExperiment, replic, samseqOutPtah)
+runSamSeq(
+  countMatrix,
+  designExperiment,
+  respType = "Multiclass",
+  numberPermutations = 100
+)
 }
 \arguments{
 \item{countMatrix}{either a matrix of raw (read) counts.}

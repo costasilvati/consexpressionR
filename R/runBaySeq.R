@@ -9,13 +9,37 @@
 #'
 #' @examples
 #' bayseqResult<-runBaySeq(countMatrix, replicates, createNameFileOutput(outDirPath,experimentName,execName='baySeq'))
-runBaySeq <- function  (countMatrix, designExperiment, out){
-    if(require("parallel")) cl <- parallel::makeCluster(4) else cl <- NULL
-    groups <- list(NDE = designExperiment, DE = designExperiment)
-    CD <- new("countData", data = countMatrix, replicates = designExperiment, groups = groups)
+runBaySeq <- function  (countMatrix,
+                        designExperiment,
+                        sampleSize = 1000,
+                        estimationMethod = "QL",
+                        clusters=4,
+                        equalDispersion = TRUE,
+                        priorProbabilities=c(0.5, 0.5),#0.5 por grupo??
+                        reestimationType = "BIC",
+                        topCountGroup = "DE",
+                        numberTopCount=65000,
+                        normalData=TRUE){
+    if(require("parallel")) cl <- parallel::makeCluster(clusters) else cl <- NULL
+    groups <- list(NDE = designExperiment,
+                   DE = designExperiment)
+    CD <- new("countData",
+              data = countMatrix,
+              replicates = designExperiment,
+              groups = groups)
     baySeq::libsizes(CD) <- baySeq::getLibsizes(CD)
-    CD <- baySeq::getPriors.NB(CD, samplesize = 1000, estimation = "QL", cl = cl, equalDispersions = TRUE)
-    CD <- baySeq::getLikelihoods(CD, prs=c(0.5, 0.5), pET="BIC", cl=cl)
-    utils::write.table(topCounts(CD, group = "DE", number = 65000, normaliseData = TRUE), out, sep="\t", quote = FALSE)
-    return (CD)
+    CD <- baySeq::getPriors.NB(CD,
+                               samplesize = sampleSize,
+                               estimation = estimationMethod,
+                               cl = cl,
+                               equalDispersions = equalDispersion)
+    CD <- baySeq::getLikelihoods(CD,
+                                 prs=priorProbabilities,
+                                 pET=reestimationType,
+                                 cl=cl)
+    result <- topCounts(CD,
+                        group = topCountGroup,
+                        number = numberTopCount,
+                        normaliseData = normalData)
+    return (result)
 }
