@@ -7,8 +7,12 @@
 #' @export
 #'
 #' @examples readCountFile("tablecount.csv", "\t")
-readCountFile <- function(tableCountPath="tablecount.csv", split="\t"){
-    tableCount <- read.csv(tableCountPath, sep=split, row.names=1, header=TRUE,
+readCountFile <- function(tableCountPath="tablecount.csv",
+                          split="\t"){
+    tableCount <- read.csv(tableCountPath,
+                           sep=split,
+                           row.names=1,
+                           header=TRUE,
                            stringsAsFactors=FALSE)
     return(as.matrix(tableCount))
 }

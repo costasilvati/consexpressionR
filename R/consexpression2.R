@@ -10,13 +10,17 @@
 #' @param methodAdjPvalue correction method, a character string. Can be abbreviated (limma)
 #' @param numberTopTable maximum number of genes to list (limma)
 #' @param printResults logical variable: TRUE print report by each tool, FALSE print only consensus result
+#' @param kallistoReport
+#' @param kallistoDir
+#' @param kallistoSubDir
+#' @param kallistoOut
 #'
 #' @return
 #' @export
 #'
 #' @examples
 #' consexpression2(numberReplics=3,
-#                 groupName= c("0b", "1b"),
+#                 groupName= c("X0b", "X1b"),
 #                 tableCountPath="tablecount.csv",
 #                 sepCharacter="\t",
 #                 experimentName="genericExperiment",
@@ -34,12 +38,13 @@ consexpression2 <- function (numberReplics,
                              methodNorm = "TMM",
                              methodAdjPvalue = "BH",
                              numberTopTable = 1000000,
-                             printResults=FALSE){
-    # validações?
-    countMatrix <- readCountFile(tableCountPath,
-                                 sepCharacter)
-    designExperiment <- rep(groupName,
-                            each = numberReplics)
+                             printResults=FALSE,
+                             kallistoReport = "report.txt",
+                             kallistoDir = "kallisto_quant",
+                             kallistoSubDir = "expermient_kallisto",
+                             kallistoOut = "abundance.tsv"){
+    countMatrix <- readCountFile(tableCountPath,sepCharacter)
+    designExperiment <- rep(groupName, each = numberReplics)
     result <- NULL
     #result$bayseq<-runBaySeq(countMatrix,
      #                        designExperiment)
@@ -60,11 +65,25 @@ consexpression2 <- function (numberReplics,
 
     result$ebseq <- runEbseq(countMatrix,
                              designExperiment)
-    # DESeq2 ??
+
+
+    # DESeq2 kallisto
+    designExperimentDeseq2 <- colnames(countMatrix)
     result$desq2 <- runDeseq2(countMatrix,
-                              designExperiment)
-    # SAMSeq só para count data
-    result$samseq<-runSamSeq(countMatrix,
-                             numberReplics,
-                             designExperiment)
+                              groupName,
+                              designExperimentDeseq2,
+                              kallistoReport,
+                              kallistoDir,
+                              kallistoSubDir,
+                              kallistoOut)
+
+    if(typeof(countMatrix) != "double"){
+        # SAMSeq only count data
+        print("**** SAMSeq run CANCELLED, enabled for count data only.")
+        result$samseq<-runSamSeq(countMatrix,
+                                 numberReplics,
+                                 designExperiment)
+    }
+
+    return(result)
 }

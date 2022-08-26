@@ -15,7 +15,7 @@ runBaySeq <- function  (countMatrix,
                         estimationMethod = "QL",
                         clusters=4,
                         equalDispersion = TRUE,
-                        priorProbabilities=c(0.5, 0.5),#0.5 por grupo??
+                        priorProbabilities=c(0.5, 0.5), #0.5 por grupo??
                         reestimationType = "BIC",
                         topCountGroup = "DE",
                         numberTopCount=65000,

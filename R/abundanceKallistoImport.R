@@ -5,21 +5,35 @@
 #' @param pathReportFile parent directory that contains kallisto results organized by directory named like run
 #' @param replics number of biological or technical replicates
 #' @param dirRuns directory that contains kallisto results organized by directory named like run
+#' @param fileKallistoAbundance abundabce.tsv
 #'
 #' @return DESeq2 DataSet
 #' @export
 #'
 #' @examples
-abundanceKallistoImport <- function(dir,pathReportRuns, pathReportFile, replics, dirRuns){
-  count <- utils::read.table(file.path(pathReportRuns), header=TRUE) # gonoda_report.txt
-  count$condition <- factor(rep(conditionList,each=replics))
+abundanceKallistoImport <- function(pathReportRuns,
+                                    pathReportFile,
+                                    dirRuns,
+                                    fileKallistoAbundance,
+                                    conditionList){
+  count <- utils::read.table(file.path(pathReportRuns),
+                             header=TRUE) # gonoda_report.txt
+  count$condition <- conditionList
   rownames(count) <- count$run
   count[,c("pop","center","run","condition")]
-  files <- file.path(pathReportFile, dirRuns, count$run, fileKallistoAbundance)
+  files <- file.path(pathReportFile,
+                     dirRuns,
+                     count$run,
+                     fileKallistoAbundance)
+  files
   names(files) <- count$run
-  txi <- tximport::tximport(files, type = "kallisto", txOut = TRUE)
+  txi <- tximport::tximport(files,
+                            type = "kallisto",
+                            txOut = TRUE)
   sampleTable <- data.frame(condition = factor(count$run))
   rownames(sampleTable) <- colnames(txi$counts)
-  ddsTxi <- DESeq2::DESeqDataSetFromTximport(txi, design = ~ 1, colData = sampleTable)
+  ddsTxi <- DESeq2::DESeqDataSetFromTximport(txi,
+                                             design = ~ 1,
+                                             colData = sampleTable)
   return(ddsTxi)
 }
