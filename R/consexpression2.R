@@ -46,8 +46,8 @@ consexpression2 <- function (numberReplics,
     countMatrix <- readCountFile(tableCountPath,sepCharacter)
     designExperiment <- rep(groupName, each = numberReplics)
     result <- NULL
-    #result$bayseq<-runBaySeq(countMatrix,
-     #                        designExperiment)
+    result$bayseq<-runBaySeq(countMatrix,
+                             designExperiment)
 
     result$edger<-runEdger(countMatrix,
                           numberReplics,
@@ -69,7 +69,7 @@ consexpression2 <- function (numberReplics,
 
     # DESeq2 kallisto
     designExperimentDeseq2 <- colnames(countMatrix)
-    result$desq2 <- runDeseq2(countMatrix,
+    result$deseq2 <- runDeseq2(countMatrix,
                               groupName,
                               designExperimentDeseq2,
                               kallistoReport,

@@ -1,10 +1,27 @@
-expressionDefinition <- function(listDeTools){
-    # de = 0
-    # teste$edger$logFC[3]
-    # lfc = float(gene[self._logfc_colum])
-    # pv = float(gene[self._pvalue_colum])
-    # if lfc >= self._logfc or lfc <= -self._logfc:
-    #   if pv >= self._pvalue:
-    #   de = 1
-    # return de
+expressionDefinition <- function(deTool, lfc){
+    deList <- NULL
+    if(!is.null(deTool$edger)){ # edger
+        deList$edgerDe <- dplyr::filter(deTool$edger, ((logFC <= -2.0 | logFC >= 2.0) & (PValue >= 0.05)))
+        consexpression2::writeResults(deList$edgerDe,"edgerDE")
+    }
+    if(!is.null(deTool$limma)){
+        deList$limmaDe <- dplyr::filter(deTool$limma, ((logFC <= -2.0 | logFC >= 2.0) & (P.Value >= 0.05)))
+        consexpression2::writeResults(deList$limmaDe,"limmaDE")
+    }
+    if(!is.null(deTool$ebseq)){ # ebseq
+        ebseqDf <- as.data.frame(deTool$ebseq, row.names = NULL)
+        deList$ebseqDe <- dplyr::filter(ebseqDf, deTool$ebseq == "DE")
+        consexpression2::writeResults(deList$ebseqDe,"EBSeqDE")
+    }
+    if(!is.null(deTool$noiseq)){
+        deList$noiseqDe <- dplyr::filter(deTool$noiseq, (prob >= 0.95))
+        consexpression2::writeResults(deList$noiseqDe,"NOISeqDE")
+    }
+    if(!is.null(deTool$desq2)){
+        resOrdered <- deTool$desq2[order(deTool$desq2$pvalue),]
+        deseq2Df <- as.data.frame(resOrdered)
+        deList$deseq2De <- dplyr::filter(deseq2Df, ((log2FoldChange <= -2.0 | log2FoldChange >= 2.0) & (pvalue >= 0.05)))
+        consexpression2::writeResults(deList$deseq2De,"DESeq2DE")
+    }
+
 }
