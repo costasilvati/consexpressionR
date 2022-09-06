@@ -11,3 +11,7 @@
 .Rproj.user
 *.txt
 *.csv
+*.RData
+*.Rhistory
+*.Rbuildignore
+*.Rproj

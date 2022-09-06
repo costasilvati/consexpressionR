@@ -4,18 +4,26 @@
 \alias{abundanceKallistoImport}
 \title{Import kallisto abundance to DESeq2 data set}
 \usage{
-abundanceKallistoImport(dir, pathReportRuns, pathReportFile, replics, dirRuns)
+abundanceKallistoImport(
+  pathReportRuns,
+  pathReportFile,
+  dirRuns,
+  fileKallistoAbundance,
+  conditionList
+)
 }
 \arguments{
-\item{dir}{path to kallisto results}
-
 \item{pathReportRuns}{report from experiment contains columns pop : population,center: local from data,run: name for each run,condition: condition by run (ex.: treatment, treated))}
 
 \item{pathReportFile}{parent directory that contains kallisto results organized by directory named like run}
 
-\item{replics}{number of biological or technical replicates}
-
 \item{dirRuns}{directory that contains kallisto results organized by directory named like run}
+
+\item{fileKallistoAbundance}{abundabce.tsv}
+
+\item{dir}{path to kallisto results}
+
+\item{replics}{number of biological or technical replicates}
 }
 \value{
 DESeq2 DataSet

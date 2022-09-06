@@ -14,7 +14,11 @@ consexpression2(
   methodNorm = "TMM",
   methodAdjPvalue = "BH",
   numberTopTable = 1e+06,
-  printResults = FALSE
+  printResults = FALSE,
+  kallistoReport = "report.txt",
+  kallistoDir = "kallisto_quant",
+  kallistoSubDir = "expermient_kallisto",
+  kallistoOut = "abundance.tsv"
 )
 }
 \arguments{
@@ -37,6 +41,8 @@ consexpression2(
 \item{numberTopTable}{maximum number of genes to list (limma)}
 
 \item{printResults}{logical variable: TRUE print report by each tool, FALSE print only consensus result}
+
+\item{kallistoOut}{}
 }
 \description{
 Main function. Make expression analysis of 7 tools and print output by consenso
