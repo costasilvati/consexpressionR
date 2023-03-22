@@ -16,11 +16,21 @@
 #
 runDeseq2 <- function(countMatrix,
                       groupName,
+                      numberReplics,
                      designExperiment,
+                     pairedEnd = "single-read",
                      pathDirRuns = ".",
                      pathReportFile = "report_txi.txt",
                      subDirRuns = "dir_runs",
                      fileKallisto = "abundance.tsv"){
+  colDat <- NULL
+  colDat$condiction <- as.factor(rep(groupName, each=numberReplics))
+  colDat$type <- factor(rep("single-read", (numberReplics* length(groupName))))
+  colDat <- as.data.frame(colDat, row.names = colnames(countMatrix))
+
+  dds<-DESeqDataSetFromMatrix(countMatrix,
+                              colData = colDat,
+                              design = ~condiction)
   if(typeof(countMatrix) == "double"){
     print("Dataset isn't COUNT data")
     # DESeq2 kallisto
@@ -29,14 +39,17 @@ runDeseq2 <- function(countMatrix,
                                     dirRuns = subDirRuns,
                                     fileKallistoAbundance = fileKallisto,
                                     conditionList = designExperiment)
-
+    dds$condition <- factor(dds$condition, levels = groupName)
   }else{ # testar count data
     print("Dataset is COUNT data")
-    dds <-DESeq2::DESeqDataSetFromMatrix(countData = countMatrix,
-                                         colData = colnames(countMatrix),
-                                         design= ~ designExperiment)
+    colDat <- NULL
+    colDat$condiction <- as.factor(rep(groupName, each=numberReplics))
+    colDat$type <- factor(rep("single-read", (numberReplics* length(groupName))))
+    colDat <- as.data.frame(colDat, row.names = colnames(countMatrix))
+    dds<-DESeqDataSetFromMatrix(countMatrix,
+                                colData = colDat,
+                                design = ~condiction)
   }
-  dds$condition <- factor(dds$condition, levels = groupName)
   dds <- DESeq2::DESeq(dds)
   res <- DESeq2::results(dds)
   return(res)

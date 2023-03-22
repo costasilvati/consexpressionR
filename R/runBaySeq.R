@@ -10,22 +10,23 @@
 #' @examples
 #' bayseqResult<-runBaySeq(countMatrix, replicates, createNameFileOutput(outDirPath,experimentName,execName='baySeq'))
 runBaySeq <- function  (countMatrix,
-                        designExperiment,
+                        groupName,
+                        numberReplics,
                         sampleSize = 1000,
                         estimationMethod = "QL",
-                        clusters=4,
+                        clusters=2,
                         equalDispersion = TRUE,
                         priorProbabilities=c(0.5, 0.5), #0.5 por grupo??
                         reestimationType = "BIC",
                         topCountGroup = "DE",
-                        numberTopCount=65000,
-                        normalData=TRUE){
+                        numberTopCount=65000){
     if(require("parallel")) cl <- parallel::makeCluster(clusters) else cl <- NULL
-    groups <- list(NDE = designExperiment,
-                   DE = designExperiment)
+    # rep("experiment", length(designExperiment)
+    groups <- list(NDE = colnames(countMatrix),
+                   DE = rep(groupName, each=numberReplics))
     CD <- new("countData",
-              data = countMatrix,
-              replicates = designExperiment,
+              data = as.matrix(countMatrix),
+              replicates = rep(groupName, each=numberReplics),
               groups = groups)
     baySeq::libsizes(CD) <- baySeq::getLibsizes(CD)
     CD <- baySeq::getPriors.NB(CD,
@@ -37,9 +38,8 @@ runBaySeq <- function  (countMatrix,
                                  prs=priorProbabilities,
                                  pET=reestimationType,
                                  cl=cl)
-    result <- topCounts(CD,
+    result <- baySeq::topCounts(CD,
                         group = topCountGroup,
-                        number = numberTopCount,
-                        normaliseData = normalData)
+                        number = numberTopCount)
     return (result)
 }

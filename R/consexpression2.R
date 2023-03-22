@@ -46,9 +46,9 @@ consexpression2 <- function (numberReplics,
     countMatrix <- readCountFile(tableCountPath,sepCharacter)
     designExperiment <- rep(groupName, each = numberReplics)
     result <- NULL
-
     result$bayseq<-runBaySeq(countMatrix,
-                             designExperiment)
+                             groupName,
+                             numberReplics)
 
     result$edger<-runEdger(countMatrix,
                           numberReplics,
@@ -68,21 +68,22 @@ consexpression2 <- function (numberReplics,
                              designExperiment)
 
     # DESeq2 kallisto
-    designExperimentDeseq2 <- colnames(countMatrix)
     if(typeof(countMatrix) == "double"){
         result$deseq2 <- runDeseq2(countMatrix,
                               groupName,
-                              designExperimentDeseq2,
+                              numberReplics,
+                              designExperiment,
                               kallistoReport,
                               kallistoDir,
                               kallistoSubDir,
                               kallistoOut)
-    }else{
-        result$deseq2 <- runDeseq2(countMatrix,
-                                   groupName,
-                                   designExperimentDeseq2)
         # SAMSeq only count data
         print("**** SAMSeq run CANCELLED, enabled for count data only.")
+    }else{
+        result$deseq2 <- runDeseq2(countMatrix = countMatrix,
+                                   groupName = groupName,
+                                   numberReplics = numberReplics,
+                                   designExperiment = designExperiment)
         result$samseq<-runSamSeq(countMatrix,
                                  numberReplics,
                                  designExperiment)

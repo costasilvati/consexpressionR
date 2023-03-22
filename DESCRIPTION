@@ -25,4 +25,8 @@ Imports:
     tximport,
     tximportData,
     dplyr,
-    venn
+    venn,
+    shiny,
+    shinythemes,
+    bslib
+    
