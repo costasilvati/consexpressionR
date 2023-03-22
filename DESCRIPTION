@@ -1,5 +1,6 @@
 Package: consexpression2
 Title: Consensus of expression analysis with RNA-Seq data
+Type: Services
 Version: 2.0.0
 Date: 2022-07-01
 Author: Juliana Costa-Silva [aut, cre]
