@@ -6,7 +6,7 @@
 #' @return content of file in matrix R format
 #' @export
 #'
-#' @examples readCountFile("tablecount.csv", "\t")
+#' @examples readCountFile("tablecount.csv", ",")
 readCountFile <- function(tableCountPath="tablecount.csv",
                           split="\t"){
     tableCount <- read.csv(tableCountPath,
