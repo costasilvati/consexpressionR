@@ -1,33 +1,31 @@
 Package: consexpression2
 Title: Consensus of expression analysis with RNA-Seq data
-Type: Services
 Version: 2.0.0
 Date: 2022-07-01
 Author: Juliana Costa-Silva [aut, cre]
 Maintainer: Juliana Costa-Silva <julianacostasilvati@gmail.com>
-Depends: R (>= 3.1.0), nlme
 Description: Consensus among five Diferential Expressed Genes (DEGs) Analysis 
   for RNA-Seq data. Identification methods and, with a consensus result. Count and DEGs Analysys in one tool
-License: MIT + file LICENSE
+License: GPL-2 | file LICENSE
 URL: https://costasilvati.github.io/consexpression2/
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.0
-Imports: 
-    baySeq,
-    DESeq2,
-    EBSeq,
-    edgeR,
-    limma,
-    NOISeq,
+RoxygenNote: 7.2.3
+Imports:     nlme,
     readr,
-    samr,
     stringr,
-    tximport,
-    tximportData,
     dplyr,
     venn,
     shiny,
     shinythemes,
-    bslib
-    
+    bslib,
+    samr (>= 3.0), 
+    baySeq (>= 2.32.0), 
+    DESeq2 (>= 1.11.6), 
+    EBSeq, 
+    edgeR, 
+    limma,
+    tximportData, 
+    NOISeq
+Depends: 
+    R (>= 3.1.0)

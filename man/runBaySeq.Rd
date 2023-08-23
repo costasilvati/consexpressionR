@@ -6,16 +6,16 @@
 \usage{
 runBaySeq(
   countMatrix,
-  designExperiment,
+  groupName,
+  numberReplics,
   sampleSize = 1000,
   estimationMethod = "QL",
-  clusters = 4,
+  clusters = 2,
   equalDispersion = TRUE,
   priorProbabilities = c(0.5, 0.5),
   reestimationType = "BIC",
   topCountGroup = "DE",
-  numberTopCount = 65000,
-  normalData = TRUE
+  numberTopCount = 65000
 )
 }
 \arguments{

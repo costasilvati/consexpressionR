@@ -10,6 +10,7 @@
 #'
 #' @return EBSeq report in data Frame fromat
 #' @export
+#' @import package
 #'
 #' @examples
 runEbseq <- function(countMatrix,

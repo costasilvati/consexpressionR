@@ -18,5 +18,5 @@ content of file in matrix R format
 Read table count File and creates a matrix from the given content file.
 }
 \examples{
-readCountFile("tablecount.csv", "\t")
+readCountFile("tablecount.csv", ",")
 }

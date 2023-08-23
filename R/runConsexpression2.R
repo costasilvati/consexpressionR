@@ -1,4 +1,5 @@
 library(shiny)
+library(DT)
 
 #' Execute app shinny version
 #'
@@ -36,7 +37,8 @@ runConsexpression2 <- function(){
                         label = "Choose a separator:",
                         choices = c("TAB" = "\t", "Comma-separated"=","),),
             # Input: Select a file ----
-            fileInput(inputId = "tableCountInp", label = "Select a table count file (extension .CSV)",
+            fileInput(inputId = "tableCountInp",
+                      label = "Select a table count file (extension .CSV)",
                       multiple = FALSE,
                       accept = c("text/csv",
                                  "text/comma-separated-values,text/plain",
@@ -51,24 +53,34 @@ runConsexpression2 <- function(){
             #actionButton("action2", "Button2", class = "btn-primary")
         ),
         mainPanel(
-            tabsetPanel(
-                id = 'dataset',
-                tabPanel("Input Data", DT::dataTableOutput("tableCount")),
-                tabPanel("Tab 2")
+            DT::dataTableOutput("sample")
             )
-        )
     )
 
     # Define server logic required to draw a histogram
     server <- function(input, output) {
+      options(shiny.maxRequestSize=30*1024^2)
+      df_upload <- reactive({
+        inFile <- input$tableCountInp
+        if (is.null(inFile))
+          return(NULL)
+        df <- read.csv(inFile$datapath, header = TRUE,sep = input$sepCharcterInp)
+        return(df)
+      })
 
-        #options(shiny.maxRequestSize=30*1024^2)
-        output$tableCount <- DT::renderDataTable(
-            consexpression2::readCountFile(input$tableCountInp$datapath,
-                                           input$sepCharcterInp),
-            options = list(pageLength = 50,
-                           initComplete = I("function(settings, json) {alert('Done.');}"))
-            )
+      output$sample<- DT::renderDataTable({
+        df <- df_upload()
+        DT::datatable(df)
+      })
+      # #------
+      #   output$tableCount <- renderText({
+      #     req(input$tableCountInp)
+      #     data<- readCountFile(input$tableCountInp$datapath,
+      #                                      input$sepCharcterInp)
+      #     return(summary(data))
+      #       # Ajuste o número de linhas por página conforme necessário
+      #       # options = list(pageLength = 50, initComplete = I("function(settings, json) {alert('Done.');}"))
+      #     })
     }
 
     # Run the application

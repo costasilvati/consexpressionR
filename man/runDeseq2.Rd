@@ -8,7 +8,9 @@ is configured to read only kallisto files, and count data}
 runDeseq2(
   countMatrix,
   groupName,
+  numberReplics,
   designExperiment,
+  pairedEnd = "single-read",
   pathDirRuns = ".",
   pathReportFile = "report_txi.txt",
   subDirRuns = "dir_runs",

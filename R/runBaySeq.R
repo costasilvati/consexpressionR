@@ -6,6 +6,7 @@
 #'
 #' @return baySeq report in data Frame fromat
 #' @export
+#' @import baySeq
 #'
 #' @examples
 #' bayseqResult<-runBaySeq(countMatrix, replicates, createNameFileOutput(outDirPath,experimentName,execName='baySeq'))
