@@ -14,5 +14,5 @@ readCountFile <- function(tableCountPath="tablecount.csv",
                            row.names=1,
                            header=TRUE,
                            stringsAsFactors=FALSE)
-    return(as.matrix(tableCount))
+    return(tableCount)
 }

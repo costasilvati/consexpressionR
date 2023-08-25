@@ -43,7 +43,7 @@ consexpression2 <- function (numberReplics,
                              kallistoDir = "kallisto_quant",
                              kallistoSubDir = "expermient_kallisto",
                              kallistoOut = "abundance.tsv"){
-    countMatrix <- readCountFile(tableCountPath,sepCharacter)
+    countMatrix <- as.matrix(readCountFile(tableCountPath,sepCharacter))
     designExperiment <- rep(groupName, each = numberReplics)
     result <- NULL
     result$bayseq<-runBaySeq(countMatrix,
