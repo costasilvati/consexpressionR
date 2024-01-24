@@ -25,8 +25,6 @@ runLimma(
 \item{methodAdjPvalue}{correction method, a character string. Can be abbreviated.}
 
 \item{numberTopTable}{maximum number of genes to list}
-
-\item{limmaOutPath}{path to write limma report in csv file format}
 }
 \value{
 limma report in data Frame fromat

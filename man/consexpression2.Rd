@@ -42,11 +42,17 @@ consexpression2(
 
 \item{printResults}{logical variable: TRUE print report by each tool, FALSE print only consensus result}
 
-\item{kallistoOut}{}
+\item{kallistoReport}{path to kallisto report file _quant}
+
+\item{kallistoDir}{name of kallistto results}
+
+\item{kallistoSubDir}{name of directory in kallisto results}
+
+\item{kallistoOut}{path to kallisto .tsv file}
+}
+\value{
+list with all analisys expression
 }
 \description{
 Main function. Make expression analysis of 7 tools and print output by consenso
-}
-\examples{
-consexpression2(numberReplics=3,
 }

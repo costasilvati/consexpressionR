@@ -1,15 +1,13 @@
 #' Execute NOISeq gene Expression analysis
 #'
-#'
 #' @param countMatrix either a matrix of raw (read) counts.
 #' @param designExperiment replicate and treatment by samples
-#' @param noiseqOutPtah path to write EBSeq report in csv file format
 #'
 #' @return NOISeq report in data Frame fromat
 #' @export
 #'
 #' @examples
-#' noiseqResult<-runNOISeq(countMatrix, designExperiment, createNameFileOutput(outDirPath,experimentName,execName='NOISeq'))
+#'
 runNoiSeq <- function (countMatrix, designExperiment){
     myfactors = data.frame(Tissue=c(designExperiment))
     mydata <- NOISeq::readData(data=countMatrix, factors=myfactors)

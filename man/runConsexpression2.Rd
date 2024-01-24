@@ -12,6 +12,3 @@ void
 \description{
 Execute app shinny version
 }
-\examples{
-runConsexpression2()
-}

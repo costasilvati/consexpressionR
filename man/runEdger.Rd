@@ -12,8 +12,6 @@ runEdger(countMatrix, numberReplics, desingExperiment)
 \item{numberReplics}{number of replicate (technical or biologcal) integer}
 
 \item{desingExperiment}{replicate and treatment by samples}
-
-\item{edgerOutPath}{path to write edgeR report in csv file format}
 }
 \value{
 edgeR report in data Frame

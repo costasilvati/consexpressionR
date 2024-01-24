@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @examples
-#' writeResults(x, "dgelist", ",")
+#'
 writeResults <- function(data,
                          toolName="toolDE_x",
                          sepCharacter="\t"){

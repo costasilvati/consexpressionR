@@ -3,7 +3,6 @@
 #' @param countMatrix either a matrix of raw (read) counts.
 #' @param numberReplics number of replicate (technical or biologcal) integer
 #' @param desingExperiment replicate and treatment by samples
-#' @param edgerOutPath path to write edgeR report in csv file format
 #'
 #' @return edgeR report in data Frame
 #' @export

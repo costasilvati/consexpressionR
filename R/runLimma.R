@@ -3,7 +3,6 @@
 #' @param countMatrix either a matrix of raw (read) counts.
 #' @param numberReplics number of replicate (technical or biologcal) integer
 #' @param designExperiment replicate and treatment by samples
-#' @param limmaOutPath path to write limma report in csv file format
 #' @param methodNorm normalization method to be used
 #' @param methodAdjPvalue correction method, a character string. Can be abbreviated.
 #' @param numberTopTable maximum number of genes to list

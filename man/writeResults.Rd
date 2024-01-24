@@ -19,6 +19,3 @@ void
 \description{
 Write a table or data.frame in defined output file
 }
-\examples{
-writeResults(x, "dgelist", ",")
-}

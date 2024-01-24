@@ -1,3 +1,12 @@
+#' Define who genes are differentially expressed by method
+#'
+#' @param deTool table results by consexpression2 function
+#' @param lfc minimum value to consider of log Fold Change
+#'
+#' @return void
+#' @export
+#'
+#' @examples
 expressionDefinition <- function(deTool, lfc){
     deList <- NULL
     if(!is.null(deTool$edger)){ # edger

@@ -2,15 +2,12 @@
 #'
 #'@param countMatrix either a matrix of raw (read) counts.
 #' @param designExperiment replicate and treatment by samples
-#' @param outFile path to write EBSeq report in csv file format
 #' @param fdr False Discovery Rate cutt off
 #' @param outFile path to write EBSeq report in csv file format
 #' @param sepCharacter pattern to seprare file csv
-#' @param maxRound
 #'
 #' @return EBSeq report in data Frame fromat
 #' @export
-#' @import package
 #'
 #' @examples
 runEbseq <- function(countMatrix,

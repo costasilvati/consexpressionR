@@ -3,7 +3,7 @@
 #'
 #' @param countMatrix original table count or abundance data
 #' @param designExperiment replicate and treatment by samples
-#' @param pathDirsRuns parent directory that contains one folder with all kallisto output
+#' @param pathDirRuns parent directory that contains one folder with all kallisto output
 #' @param pathReportFile file path with report by sample, conditions and runs
 #' @param subDirRuns sub dir by pathRepRuns
 #' @param fileKallisto file output kallisto, exemaple: "abundance.tsv" or "quant.sf.gz"
@@ -12,9 +12,7 @@
 #' @export
 #' @import DESeq2
 #'
-#' @examples   # DESeq2::resultsNames(dds)
-# res <- DESeq2::results(dds, name="condition_vs_consition")
-#
+#' @examples
 runDeseq2 <- function(countMatrix,
                       groupName,
                       numberReplics,
@@ -43,15 +41,8 @@ runDeseq2 <- function(countMatrix,
     dds$condition <- factor(dds$condition, levels = groupName)
   }else{ # testar count data
     print("Dataset is COUNT data")
-    colDat <- NULL
-    colDat$condiction <- as.factor(rep(groupName, each=numberReplics))
-    colDat$type <- factor(rep("single-read", (numberReplics* length(groupName))))
-    colDat <- as.data.frame(colDat, row.names = colnames(countMatrix))
-    dds<-DESeqDataSetFromMatrix(countMatrix,
-                                colData = colDat,
-                                design = ~condiction)
   }
-  dds <- DESeq2::DESeq(dds)
+  dds <- DESeq2::DESeq(dds, fitType = "local")
   res <- DESeq2::results(dds)
   return(res)
 }

@@ -9,6 +9,7 @@
 #' @export
 #'
 #' @examples
+#'
 runSamSeq <- function (countMatrix,
                        designExperiment,
                        respType="Multiclass",

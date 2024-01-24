@@ -1,3 +1,12 @@
+#' Make a venn diagram with DE genes by consexpression2 results
+#'
+#' @param deList Dataset eith consexpression2 results
+#' @param outPath Path to write image
+#'
+#' @return void
+#' @export
+#'
+#' @examples
 vennDiagramDe <- function(deList, outPath){
   xDe <- NULL
   xDe$edgeR <- row.names(deList$edgerDe)

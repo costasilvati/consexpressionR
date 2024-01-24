@@ -16,8 +16,6 @@ runEbseq(countMatrix, designExperiment, fdr = 0.05, sepCharacter)
 \item{sepCharacter}{pattern to seprare file csv}
 
 \item{outFile}{path to write EBSeq report in csv file format}
-
-\item{maxRound}{}
 }
 \value{
 EBSeq report in data Frame fromat

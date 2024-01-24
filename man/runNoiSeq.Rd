@@ -10,15 +10,10 @@ runNoiSeq(countMatrix, designExperiment)
 \item{countMatrix}{either a matrix of raw (read) counts.}
 
 \item{designExperiment}{replicate and treatment by samples}
-
-\item{noiseqOutPtah}{path to write EBSeq report in csv file format}
 }
 \value{
 NOISeq report in data Frame fromat
 }
 \description{
 Execute NOISeq gene Expression analysis
-}
-\examples{
-noiseqResult<-runNOISeq(countMatrix, designExperiment, createNameFileOutput(outDirPath,experimentName,execName='NOISeq'))
 }

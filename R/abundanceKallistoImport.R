@@ -6,6 +6,7 @@
 #' @param replics number of biological or technical replicates
 #' @param dirRuns directory that contains kallisto results organized by directory named like run
 #' @param fileKallistoAbundance abundabce.tsv
+#' @param conditionList list by treatments per group
 #'
 #' @return DESeq2 DataSet
 #' @export

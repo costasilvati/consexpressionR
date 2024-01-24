@@ -10,29 +10,19 @@
 #' @param methodAdjPvalue correction method, a character string. Can be abbreviated (limma)
 #' @param numberTopTable maximum number of genes to list (limma)
 #' @param printResults logical variable: TRUE print report by each tool, FALSE print only consensus result
-#' @param kallistoReport
-#' @param kallistoDir
-#' @param kallistoSubDir
-#' @param kallistoOut
+#' @param kallistoReport path to kallisto report file _quant
+#' @param kallistoDir name of kallistto results
+#' @param kallistoSubDir name of directory in kallisto results
+#' @param kallistoOut path to kallisto .tsv file
 #'
-#' @return
+#' @return list with all analisys expression
 #' @export
 #'
 #' @examples
-#' consexpression2(numberReplics=3,
-#                 groupName= c("X0b", "X1b"),
-#                 tableCountPath="tablecount.csv",
-#                 sepCharacter="\t",
-#                 experimentName="genericExperiment",
-#                 outDirPath="consexpression2_results/",
-#                 methodNorm = "TMM",
-#                 methodAdjPvalue = "BH",
-#                 numberTopTable = 1000000,
-#                 printResults=FALSE)
 consexpression2 <- function (numberReplics,
                              groupName,
                              tableCountPath,
-                             sepCharacter="\t",
+                             sepCharacter=",",
                              experimentName="genericExperiment",
                              outDirPath="consexpression2_results/",
                              methodNorm = "TMM",
