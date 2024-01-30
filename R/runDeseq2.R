@@ -26,10 +26,10 @@ runDeseq2 <- function(countMatrix,
   colDat$condiction <- as.factor(rep(groupName, each=numberReplics))
   colDat$type <- factor(rep("single-read", (numberReplics* length(groupName))))
   colDat <- as.data.frame(colDat, row.names = colnames(countMatrix))
-
   dds<-DESeqDataSetFromMatrix(countMatrix,
                               colData = colDat,
                               design = ~condiction)
+  dds$condition <- factor(dds$condiction, levels = groupName)
   if(typeof(countMatrix) == "double"){
     print("Dataset isn't COUNT data")
     # DESeq2 kallisto
@@ -38,11 +38,14 @@ runDeseq2 <- function(countMatrix,
                                     dirRuns = subDirRuns,
                                     fileKallistoAbundance = fileKallisto,
                                     conditionList = designExperiment)
-    dds$condition <- factor(dds$condition, levels = groupName)
+    dds <- DESeq2::DESeq(dds, fitType = "local")
   }else{ # testar count data
     print("Dataset is COUNT data")
+    dds <- DESeq2::DESeq(dds, fitType = "local")
   }
-  dds <- DESeq2::DESeq(dds, fitType = "local")
-  res <- DESeq2::results(dds)
-  return(res)
+
+  res <- DESeq2::results(dds, contrast = c("condiction",groupName))
+  resOrdered <- res[order(res$pvalue),]
+  dfDeseq2 <- as.data.frame(resOrdered)
+  return(dfDeseq2)
 }

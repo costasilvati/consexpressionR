@@ -31,25 +31,25 @@ runBaySeq <- function  (countMatrix,
                         reestimationType = "BIC",
                         topCountGroup = "DE",
                         numberTopCount=65000){
+
     if(require("parallel")) cl <- parallel::makeCluster(clusters) else cl <- NULL
-    groups <- list(NDE = colnames(countMatrix),
-                   DE = rep(groupName, each=numberReplics))
+    groups <- list(NDE = factor(rep(as.character(groupName[1]), each = numberReplics*length(groupName))),
+                   DE = factor(rep(groupName, each=numberReplics)))
     CD <- new("countData",
-              data = as.matrix(countMatrix),
+              data = countMatrix,
               replicates = rep(groupName, each=numberReplics),
               groups = groups)
     baySeq::libsizes(CD) <- baySeq::getLibsizes(CD)
     CD <- baySeq::getPriors.NB(CD,
                                samplesize = sampleSize,
-                               estimation = estimationMethod,
-                               cl = cl,
-                               equalDispersions = equalDispersion)
+                               cl = cl)
     CD <- baySeq::getLikelihoods(CD,
-                                 prs=priorProbabilities,
-                                 pET=reestimationType,
+                                 bootStraps = 3,
                                  cl=cl)
     result <- baySeq::topCounts(CD,
-                        group = topCountGroup,
-                        number = numberTopCount)
+                       group = topCountGroup,
+                        number = numberTopCount,
+                        normaliseData = TRUE)
+    if(!is.null(cl)) stopCluster(cl)
     return (result)
 }

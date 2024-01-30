@@ -18,6 +18,6 @@ vennDiagramDe <- function(deList, outPath){
     xDe$SAMSeq <- row.names(deList$samseqDe)
   }
   pdf(file=outPath)
-  venn::venn(xDe, borders = FALSE, zcolor = "style", ellipse = TRUE)
+  venn::venn(xDe, borders = FALSE, zcolor = "style", ellipse = TRUE, ilabels = TRUE)
   dev.off()
 }

@@ -21,7 +21,7 @@
 #' @examples
 consexpression2 <- function (numberReplics,
                              groupName,
-                             tableCountPath,
+                             tableCountPath, # /Volumes/SD128/GitHub/consexpression2/data/UHR_vs_Brain_TopHat_table_count.txt
                              sepCharacter=",",
                              experimentName="genericExperiment",
                              outDirPath="consexpression2_results/",
@@ -32,34 +32,35 @@ consexpression2 <- function (numberReplics,
                              kallistoReport = "report.txt",
                              kallistoDir = "kallisto_quant",
                              kallistoSubDir = "expermient_kallisto",
-                             kallistoOut = "abundance.tsv"){
+                             kallistoOut = "abundance.tsv",
+                             baySeqRespType = "Multiclass"){
     countMatrix <- as.matrix(readCountFile(tableCountPath,sepCharacter))
     designExperiment <- rep(groupName, each = numberReplics)
-    result <- NULL
-    result$bayseq<-runBaySeq(countMatrix,
+    resultTool <- NULL
+    resultTool$bayseq<-runBaySeq(countMatrix,
                              groupName,
                              numberReplics)
-
-    result$edger<-runEdger(countMatrix,
+    cat("baySeq executed!\n")
+    resultTool$edger<-runEdger(countMatrix,
                           numberReplics,
                           designExperiment)
-
-    result$limma<-runLimma(countMatrix,
+    cat("edger executed!\n")
+    resultTool$limma<-runLimma(countMatrix,
                           numberReplics,
                           designExperiment,
                           methodNorm,
                           methodAdjPvalue,
                           numberTopTable)
-
-    result$noiseq<-runNoiSeq(countMatrix,
+    cat("limma executed!\n")
+    resultTool$noiseq<-runNoiSeq(countMatrix,
                             designExperiment)
-
-    result$ebseq <- runEbseq(countMatrix,
+    cat("NOISeq executed!")
+    resultTool$ebseq <- runEbseq(countMatrix,
                              designExperiment)
-
+    cat("ebseq executed!\n")
     # DESeq2 kallisto
     if(typeof(countMatrix) == "double"){
-        result$deseq2 <- runDeseq2(countMatrix,
+        resultTool$deseq2 <- runDeseq2(countMatrix,
                               groupName,
                               numberReplics,
                               designExperiment,
@@ -67,16 +68,18 @@ consexpression2 <- function (numberReplics,
                               kallistoDir,
                               kallistoSubDir,
                               kallistoOut)
+        cat("DESeq2 executed!\n")
         # SAMSeq only count data
-        print("**** SAMSeq run CANCELLED, enabled for count data only.")
+        cat("**** SAMSeq run CANCELLED, enabled for count data only.\n")
     }else{
-        result$deseq2 <- runDeseq2(countMatrix = countMatrix,
+        resultTool$deseq2 <- runDeseq2(countMatrix = countMatrix,
                                    groupName = groupName,
                                    numberReplics = numberReplics,
                                    designExperiment = designExperiment)
-        result$samseq<-runSamSeq(countMatrix,
-                                 numberReplics,
-                                 designExperiment)
+        cat("DESeq2 executed!\n")
+        resultTool$samseq<-runSamSeq(countMatrix,
+                                 designExperiment, respType = "Two class unpaired")
+        cat("SAMSeq executed!\n")
     }
-    return(result)
+    return(resultTool)
 }

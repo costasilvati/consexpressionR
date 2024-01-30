@@ -12,7 +12,7 @@
 #'
 runSamSeq <- function (countMatrix,
                        designExperiment,
-                       respType="Multiclass",
+                       respType="Two class unpaired",
                        numberPermutations=100){
     samResult <- samr::SAMseq(countMatrix,
                               as.factor(designExperiment),
