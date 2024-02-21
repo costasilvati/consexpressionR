@@ -61,3 +61,5 @@ for (i in 1: length(colnames(SRA010153_DE_Tool))) {
   SRA010153_consensus[[i]] <- consensusList(SRA010153_DE_Tool, i)
 }
 names(SRA010153_consensus) <- namesCons
+
+SRA010153_consensus_metrics <-metricsCalc(deToolList = SRA010153_consensus, goldList = SRA010153_qRTPCR, pathOut = "/Volumes/SD128/consexpression2_testesOutput/data/SRA010153/", experimentName = "SRA010153_consensus")
