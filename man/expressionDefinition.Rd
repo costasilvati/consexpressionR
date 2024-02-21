@@ -4,7 +4,15 @@
 \alias{expressionDefinition}
 \title{Define who genes are differentially expressed by method}
 \usage{
-expressionDefinition(deTool, lfc)
+expressionDefinition(
+  resultTool,
+  lfcMin = -2,
+  lfcMax = 2,
+  pValue = 0.05,
+  prob = 0.95,
+  qValue = 1,
+  deClass = "DE"
+)
 }
 \arguments{
 \item{deTool}{table results by consexpression2 function}

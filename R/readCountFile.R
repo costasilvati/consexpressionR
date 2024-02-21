@@ -13,6 +13,8 @@ readCountFile <- function(tableCountPath="tablecount.csv",
                            sep=split,
                            row.names=1,
                            header=TRUE,
-                           stringsAsFactors=FALSE)
+                           stringsAsFactors=FALSE,
+                           na.strings = "NA")
+    tableCount[is.na(tableCount)] <- 0
     return(tableCount)
 }

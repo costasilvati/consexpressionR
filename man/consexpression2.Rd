@@ -8,7 +8,7 @@ consexpression2(
   numberReplics,
   groupName,
   tableCountPath,
-  sepCharacter = "\\t",
+  sepCharacter = ",",
   experimentName = "genericExperiment",
   outDirPath = "consexpression2_results/",
   methodNorm = "TMM",
@@ -18,7 +18,9 @@ consexpression2(
   kallistoReport = "report.txt",
   kallistoDir = "kallisto_quant",
   kallistoSubDir = "expermient_kallisto",
-  kallistoOut = "abundance.tsv"
+  kallistoOut = "abundance.tsv",
+  baySeqRespType = "Multiclass",
+  knowSeqFilter = "ensembl_gene_id"
 )
 }
 \arguments{

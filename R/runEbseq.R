@@ -1,9 +1,8 @@
 #' Execute EBSeq gene Expression analysis
 #'
-#'@param countMatrix either a matrix of raw (read) counts.
+#' @param countMatrix either a matrix of raw (read) counts.
 #' @param designExperiment replicate and treatment by samples
 #' @param fdr False Discovery Rate cutt off
-#' @param outFile path to write EBSeq report in csv file format
 #' @param sepCharacter pattern to seprare file csv
 #'
 #' @return EBSeq report in data Frame fromat
@@ -14,6 +13,7 @@ runEbseq <- function(countMatrix,
                      designExperiment,
                      fdr=0.05,
                      sepCharacter){
+  results <- NULL
   sizes<- EBSeq::MedianNorm(countMatrix)
   ebOut<-EBSeq::EBTest(Data=countMatrix,
                        Conditions=as.factor(designExperiment),

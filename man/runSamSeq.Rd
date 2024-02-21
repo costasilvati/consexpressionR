@@ -7,7 +7,7 @@
 runSamSeq(
   countMatrix,
   designExperiment,
-  respType = "Multiclass",
+  respType = "Two class unpaired",
   numberPermutations = 100
 )
 }
