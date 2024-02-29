@@ -1,6 +1,6 @@
-#' Make a venn diagram with DE genes by consexpression2 results
+#' Make a venn diagram with DE genes by consexpressionR results
 #'
-#' @param deList Dataset eith consexpression2 results
+#' @param deList Dataset eith consexpressionR results
 #' @param outPath Path to write image
 #'
 #' @return void

@@ -1,12 +1,24 @@
 #' Define who genes are differentially expressed by method
 #'
-#' @param deTool table results by consexpression2 function
-#' @param lfc minimum value to consider of log Fold Change
+#' @param deTool table results by consexpressionR function
+#' @param lfcMin minimum value to consider of log Fold Change (default: -2). Used by: KnowSeq, edgeR, limma, DESeq2 and SAMSeq.
+#' @param lfcMax maximum value to consider of log Fold Change (default: 2), Used by: KnowSeq, edgeR, limma, DESeq2 and SAMSeq.
+#' @param pValue maximum P-Value to consider (default: 0.05). Used by KnowSeq,, edgeR, limma and DESeq2, are consider p-Value >=.
+#' @param prob floating point, minimum probability that a read count comes from a real gene expression peak, rather than background noiseq (default: 0.95)
+#' @param qValue q-value is a measure of the statistical significance of the difference in expression between the compared groups, taking the problem of multiple comparisons into account (default: 1)
+#' @param deClass name od class to consider by EBSeq (default: "DE")
 #'
-#' @return void
+#' @return Object data.frame containing genes in the rows and tools executed in the columns, with a value of 1 for tools that considered the gene to be differentially expressed, and 0 for no DE.
 #' @export
 #'
 #' @examples
+#' exp_result <- consexpressionR(numberReplics = 3,
+#'                               groupName = c("BM", "JJ"),
+#'                               tableCountPath = "data/GSE95077_filtred.csv",
+#'                               sepCharacter = ",",
+#'                               experimentName = "GSE95077",
+#'                               outDirPath = "." )
+#' cons_exp <- expressionDefinition(resultTool = exp_result)
 expressionDefinition <- function(resultTool,
                                  lfcMin = -2,
                                  lfcMax = 2,
@@ -17,48 +29,48 @@ expressionDefinition <- function(resultTool,
     deList <- NULL
     # if(!is.null(resultTool$bayseq)){ # baySeq
     #   deList$bayseq <- dplyr::filter(resultTool$bayseq, ((log2FoldChange <= lfcMin | log2FoldChange >= lfcMax) & (pvalue >=pValue)))
-    #   consexpression2::writeResults(deList$bayseq2De,"DESeq2DE")
+    #   consexpressionR::writeResults(deList$bayseq2De,"DESeq2DE")
     # }
     if(!is.null(resultTool$knowseq)){ # knowseq
       deList$knowseq <- dplyr::filter(resultTool$knowseq,
                                       ((logFC <= lfcMin  | logFC >= lfcMax) & `P.Value` <= pValue))
-      consexpression2::writeResults(deList$knowseq,"knowseqDE")
+      consexpressionR::writeResults(deList$knowseq,"knowseqDE")
     }
     if(!is.null(resultTool$edger)){ # edger
         deList$edger <- dplyr::filter(resultTool$edger,
                                         ((logFC <= lfcMin  | logFC >= lfcMax) & `PValue` <=pValue))
-        consexpression2::writeResults(deList$edger,"edgerDE")
+        consexpressionR::writeResults(deList$edger,"edgerDE")
     }
     if(!is.null(resultTool$limma)){ #limma
         deList$limma <- dplyr::filter(resultTool$limma,
                                         ((logFC <= lfcMin | logFC >= lfcMax) & `P.Value` <= pValue))
-        consexpression2::writeResults(deList$limma,"limmaDE")
+        consexpressionR::writeResults(deList$limma,"limmaDE")
     }
     if(!is.null(resultTool$ebseq)){ # ebseq
         ebseqDf <- as.data.frame(resultTool$ebseq,
                                  row.names = NULL)
         deList$ebseq <- dplyr::filter(ebseqDf,
                                         resultTool$ebseq == deClass)
-        consexpression2::writeResults(deList$ebseq,
+        consexpressionR::writeResults(deList$ebseq,
                                       "EBSeqDE")
     }
     if(!is.null(resultTool$noiseq)){ # NOISeq
         deList$noiseq <- dplyr::filter(resultTool$noiseq,
                                          (prob >=prob))
-        consexpression2::writeResults(deList$noiseq,
+        consexpressionR::writeResults(deList$noiseq,
                                       "NOISeqDE")
     }
     if(!is.null(resultTool$deseq2)){ # DESeq2
         deList$deseq2 <- dplyr::filter(resultTool$deseq2,
                                          ((log2FoldChange <= lfcMin  | log2FoldChange >= lfcMax) & (pvalue <= pValue)))
-        consexpression2::writeResults(deList$deseq2,"DESeq2DE")
+        consexpressionR::writeResults(deList$deseq2,"DESeq2DE")
     }
     if(!is.null(resultTool$samseq)){ #SAMSeq
       samseqDf <- as.data.frame(resultTool$samseq, row.names = NULL)
       deList$samseq <- dplyr::filter(samseqDf,
                                        ((`Fold Change` >= lfcMin  & `Fold Change` >= lfcMax) & (`q-value(%)` <= qValue)))
       row.names(deList$samseq) <- deList$samseq$`Gene ID`
-      consexpression2::writeResults(deList$samseq,"SAMSeqDE")
+      consexpressionR::writeResults(deList$samseq,"SAMSeqDE")
     }
     return(deList)
 }

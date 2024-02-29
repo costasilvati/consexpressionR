@@ -16,3 +16,4 @@
 *.Rbuildignore
 *.Rproj
 ._*
+inst/doc

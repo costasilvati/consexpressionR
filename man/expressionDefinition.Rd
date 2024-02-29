@@ -15,13 +15,32 @@ expressionDefinition(
 )
 }
 \arguments{
-\item{deTool}{table results by consexpression2 function}
+\item{lfcMin}{minimum value to consider of log Fold Change (default: -2). Used by: KnowSeq, edgeR, limma, DESeq2 and SAMSeq.}
 
-\item{lfc}{minimum value to consider of log Fold Change}
+\item{lfcMax}{maximum value to consider of log Fold Change (default: 2), Used by: KnowSeq, edgeR, limma, DESeq2 and SAMSeq.}
+
+\item{pValue}{maximum P-Value to consider (default: 0.05). Used by KnowSeq,, edgeR, limma and DESeq2, are consider p-Value >=.}
+
+\item{prob}{floating point, minimum probability that a read count comes from a real gene expression peak, rather than background noiseq (default: 0.95)}
+
+\item{qValue}{q-value is a measure of the statistical significance of the difference in expression between the compared groups, taking the problem of multiple comparisons into account (default: 1)}
+
+\item{deClass}{name od class to consider by EBSeq (default: "DE")}
+
+\item{deTool}{table results by consexpressionR function}
 }
 \value{
-void
+Object data.frame containing genes in the rows and tools executed in the columns, with a value of 1 for tools that considered the gene to be differentially expressed, and 0 for no DE.
 }
 \description{
 Define who genes are differentially expressed by method
+}
+\examples{
+exp_result <- consexpressionR(numberReplics = 3,
+                              groupName = c("BM", "JJ"),
+                              tableCountPath = "data/GSE95077_filtred.csv",
+                              sepCharacter = ",",
+                              experimentName = "GSE95077",
+                              outDirPath = "." )
+cons_exp <- expressionDefinition(resultTool = exp_result)
 }

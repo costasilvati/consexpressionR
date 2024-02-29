@@ -20,7 +20,8 @@
 #' @export
 #'
 #' @examples
-consexpression2 <- function (numberReplics,
+#' exp_result <- consexpressionR(numberReplics = 3, groupName = c("BM", "JJ"), tableCountPath = "data/GSE95077_filtred.csv", sepCharacter = ",", experimentName = "GSE95077", outDirPath = "." )
+consexpressionR <- function (numberReplics,
                              groupName,
                              tableCountPath,
                              sepCharacter=",",
@@ -89,7 +90,7 @@ consexpression2 <- function (numberReplics,
                                    numberReplics = numberReplics,
                                    designExperiment = designExperiment)
         cat("DESeq2 executed!\n")
-        resultTool$samseq<-runSamSeq(countMatrix,
+        resultTool$samseq <- runSamSeq(countMatrix,
                                  designExperiment, respType = "Two class unpaired")
         cat("SAMSeq executed!\n")
     }

@@ -1,4 +1,4 @@
 library(testthat)
-library(consexpression2)
+library(consexpressionR)
 
-test_check("consexpression2")
+test_check("consexpressionR")

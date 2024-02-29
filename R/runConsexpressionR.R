@@ -4,7 +4,7 @@
 #' @export
 #'
 #' @examples
-runConsexpression2 <- function(){
+runConsexpressionR <- function(){
     # Namespaces in Imports field not imported from:
   # ‘bslib’ ‘nlme’ ‘readr’ ‘shinythemes’ ‘tximportData’
 

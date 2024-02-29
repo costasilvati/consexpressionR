@@ -2,12 +2,12 @@
 % Please edit documentation in R/vennDiagramDe.R
 \name{vennDiagramDe}
 \alias{vennDiagramDe}
-\title{Make a venn diagram with DE genes by consexpression2 results}
+\title{Make a venn diagram with DE genes by consexpressionR results}
 \usage{
 vennDiagramDe(deList, outPath)
 }
 \arguments{
-\item{deList}{Dataset eith consexpression2 results}
+\item{deList}{Dataset eith consexpressionR results}
 
 \item{outPath}{Path to write image}
 }
@@ -15,5 +15,5 @@ vennDiagramDe(deList, outPath)
 void
 }
 \description{
-Make a venn diagram with DE genes by consexpression2 results
+Make a venn diagram with DE genes by consexpressionR results
 }

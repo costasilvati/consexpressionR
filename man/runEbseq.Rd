@@ -14,8 +14,6 @@ runEbseq(countMatrix, designExperiment, fdr = 0.05, sepCharacter)
 \item{fdr}{False Discovery Rate cutt off}
 
 \item{sepCharacter}{pattern to seprare file csv}
-
-\item{outFile}{path to write EBSeq report in csv file format}
 }
 \value{
 EBSeq report in data Frame fromat

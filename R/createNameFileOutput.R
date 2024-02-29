@@ -7,6 +7,8 @@
 #' @export
 #'
 #' @examples
+#' nameFile <- createNameFileOutput (outDirPath = "data/", execName = "expermient1")
+#' print(nameFile)
 createNameFileOutput <- function (outDirPath=".",
                                   execName="exec"){
   if(stringr::str_ends(outDirPath,'/',

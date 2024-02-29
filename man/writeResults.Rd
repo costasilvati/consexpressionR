@@ -19,3 +19,7 @@ void
 \description{
 Write a table or data.frame in defined output file
 }
+\examples{
+df <- data.frame(col1 = c("treat1", "treat2", "treat3"), col2 = c(1, 2, 3))
+writeResults(data = df, toolName = "test")
+}

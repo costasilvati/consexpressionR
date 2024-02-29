@@ -3,10 +3,10 @@ runKnowSeq <- function(countMatrix,
                        numberReplic,
                        filterId="ensembl_gene_id"){
   designExperiment <- rep(groupName, each = numberReplic)
-  myAnnotation <- getGenesAnnotation(row.names(countMatrix),
+  myAnnotation <- KnowSeq::getGenesAnnotation(row.names(countMatrix),
                                      filter=filterId)
   designExperiment <- rep(groupName, each=numberReplic)
-  knowSeq <- DEGsExtraction(countMatrix,
+  knowSeq <- KnowSeq::DEGsExtraction(countMatrix,
                             labels = designExperiment)
   return(knowSeq$DEG_Results$DEGs_Table)
 }
