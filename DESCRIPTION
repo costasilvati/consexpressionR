@@ -1,5 +1,5 @@
 Package: consexpressionR
-Title: Consensus of expression analysis with RNA-Seq data
+Title: Consensus of expression analysis with RNA-Seq data. Consensus among five Diferential Expressed Genes (DEGs) Analysis for RNA-Seq data.
 Version: 2.0.0
 Date: 2024-02-01
 Author: Juliana Costa-Silva [aut, cre]
@@ -25,7 +25,9 @@ Imports:
     EBSeq (>= 1.1.5),
     edgeR (>= 4.0.11),
     limma (>= 3.58.0),
-    tximportData,
+    tximportData (>= 1.31.0),
+    UpSetR (>= 1.4.0),
+    tximport (>= 1.31.0)
     utils (>= 4.3.1),
     NOISeq (>= 2.46.0),
     shinyjs (>= 2.1.0),
@@ -37,7 +39,7 @@ Imports:
     BiocParallel (>= 1.36.0),
     impute (>= 1.77.0)
 Depends: 
-    R (>= 3.1.0)
+    R (>= 3.5.0)
 Suggests: 
     knitr,
     rmarkdown

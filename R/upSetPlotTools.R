@@ -11,7 +11,7 @@ upSetPlotTools <- function(df,
                                  sets.bar.color = "#56B4E9",
                                  order.by = "freq",
                                  empty.intersections = "on")
-    pdf(paste0(pathOut,
+    grDevices::pdf(paste0(pathOut,
                "upset_plot_",
                condition ,
                ".pdf"),
@@ -19,9 +19,9 @@ upSetPlotTools <- function(df,
         height = 7.5,
         onefile = FALSE)
     print(meu_grafico)
-    dev.off()
+    grDevices::dev.off()
     df$`number of methods` <- rowSums(df)
-    write.csv(df,
+    utils::write.csv(df,
               file = paste0(pathOut,
                            "upset_plot_",
                            condition ,

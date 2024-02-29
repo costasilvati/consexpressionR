@@ -17,7 +17,7 @@ vennDiagramDe <- function(deList, outPath){
   if(is.null(deList$samseqDe)){
     xDe$SAMSeq <- row.names(deList$samseqDe)
   }
-  pdf(file=outPath)
+  grDevices::pdf(file=outPath)
   venn::venn(xDe, borders = FALSE, zcolor = "style", ellipse = TRUE, ilabels = TRUE)
-  dev.off()
+  grDevices::dev.off()
 }

@@ -20,7 +20,11 @@
 #' @export
 #'
 #' @examples
-#' exp_result <- consexpressionR(numberReplics = 3, groupName = c("BM", "JJ"), tableCountPath = "data/GSE95077_filtred.csv", sepCharacter = ",", experimentName = "GSE95077", outDirPath = "." )
+#' exp_result <- consexpressionR(numberReplics = 3, groupName = c("BM", "JJ"),
+#' tableCountPath = "data/GSE95077_filtred.csv",
+#' sepCharacter = ",",
+#' experimentName = "GSE95077",
+#' outDirPath = "." )
 consexpressionR <- function (numberReplics,
                              groupName,
                              tableCountPath,
