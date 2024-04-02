@@ -1,10 +1,12 @@
 Package: consexpressionR
-Title: Consensus of expression analysis with RNA-Seq data. Consensus among five Diferential Expressed Genes (DEGs) Analysis for RNA-Seq data.
+Title: consexpressionR: Consensus of expression analysis with RNA-Seq data.
 Version: 2.0.0
 Date: 2024-02-01
 Author: Juliana Costa-Silva [aut, cre]
 Maintainer: Juliana Costa-Silva <julianacostasilvati@gmail.com>
-Description: Consensus among five Diferential Expressed Genes (DEGs) Analysis for RNA-Seq data. Identification methods and, with a consensus result. Count and DEGs Analysys in one tool
+Description: Consensus among five Diferential Expressed Genes (DEGs) Analysis 
+  for RNA-Seq data. Identification methods and, with a consensus result. 
+  Various methods DEGs Analysys in one tool.
 License: GPL-2 | file LICENSE
 URL: https://costasilvati.github.io/consexpressionR/
 Encoding: UTF-8
@@ -27,7 +29,7 @@ Imports:
     limma (>= 3.58.0),
     tximportData (>= 1.31.0),
     UpSetR (>= 1.4.0),
-    tximport (>= 1.31.0)
+    tximport (>= 1.31.0),
     utils (>= 4.3.1),
     NOISeq (>= 2.46.0),
     shinyjs (>= 2.1.0),
@@ -37,9 +39,11 @@ Imports:
     KnowSeq (>= 1.16.0),
     variancePartition (>= 1.32.3),
     BiocParallel (>= 1.36.0),
-    impute (>= 1.77.0)
+    impute (>= 1.77.0),
+    plotly
 Depends: 
-    R (>= 3.5.0)
+    R (>= 3.5.0),
+    roxygen2 (>= 7.3.1)
 Suggests: 
     knitr,
     rmarkdown

@@ -36,11 +36,10 @@ Object data.frame containing genes in the rows and tools executed in the columns
 Define who genes are differentially expressed by method
 }
 \examples{
-exp_result <- consexpressionR(numberReplics = 3,
-                              groupName = c("BM", "JJ"),
-                              tableCountPath = "data/GSE95077_filtred.csv",
+cons_result <- consexpressionR(numberReplics = 3, groupName = c("BM", "JJ"),
+                              rDataFrameCount = table_count_df,
                               sepCharacter = ",",
-                              experimentName = "GSE95077",
+                              experimentName = "test_cons",
                               outDirPath = "." )
-cons_exp <- expressionDefinition(resultTool = exp_result)
+expDef_result <- expressionDefinition(resultTool = cons_result)
 }

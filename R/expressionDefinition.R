@@ -12,13 +12,12 @@
 #' @export
 #'
 #' @examples
-#' exp_result <- consexpressionR(numberReplics = 3,
-#'                               groupName = c("BM", "JJ"),
-#'                               tableCountPath = "data/GSE95077_filtred.csv",
+#' cons_result <- consexpressionR(numberReplics = 3, groupName = c("BM", "JJ"),
+#'                               rDataFrameCount = table_count_df,
 #'                               sepCharacter = ",",
-#'                               experimentName = "GSE95077",
+#'                               experimentName = "test_cons",
 #'                               outDirPath = "." )
-#' cons_exp <- expressionDefinition(resultTool = exp_result)
+#' expDef_result <- expressionDefinition(resultTool = cons_result)
 expressionDefinition <- function(resultTool,
                                  lfcMin = -2,
                                  lfcMax = 2,

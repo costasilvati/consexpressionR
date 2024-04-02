@@ -1,5 +1,6 @@
 #' Write a table or data.frame in defined output file
 #'
+#' @importFrom utils write.table
 #' @param data table or data.frame dataset
 #' @param toolName text with file name
 #' @param sepCharacter character to separe data columns
@@ -16,7 +17,7 @@ writeResults <- function(data,
   if(!is.null(data)){
     out <- createNameFileOutput(".",
                                 execName=toolName)
-    utils::write.table(data,
+    write.table(data,
                        out,
                        sep=sepCharacter,
                        quote = FALSE)

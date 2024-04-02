@@ -62,9 +62,9 @@ list with all analisys expression
 Main function. Make expression analysis of 7 tools and print output by consenso
 }
 \examples{
-exp_result <- consexpressionR(numberReplics = 3, groupName = c("BM", "JJ"),
-tableCountPath = "data/GSE95077_filtred.csv",
-sepCharacter = ",",
-experimentName = "GSE95077",
-outDirPath = "." )
+cons_result <- consexpressionR(numberReplics = 3, groupName = c("BM", "JJ"),
+                              rDataFrameCount = table_count_df,
+                              sepCharacter = ",",
+                              experimentName = "test_cons",
+                              outDirPath = "." )
 }
