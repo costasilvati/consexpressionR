@@ -7,7 +7,9 @@
 #' @export
 #'
 #' @examples
-readCountFile <- function(tableCountPath="tablecount.csv",
+#' df <- readCountFile(tableCountPath="data/table_count_df.csv",
+#'                     split=",")
+readCountFile <- function(tableCountPath="data/table_count_df.csv",
                           split=","){
     tableCount <- utils::read.csv(tableCountPath,
                            sep=split,

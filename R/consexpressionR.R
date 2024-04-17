@@ -50,10 +50,6 @@ consexpressionR <- function (numberReplics,
     }
     designExperiment <- rep(groupName, each = numberReplics)
     resultTool <- NULL
-    # resultTool$bayseq<-runBaySeq(countMatrix,
-    #                          groupName,
-    #                          numberReplics)
-    # cat("baySeq executed!\n")
     resultTool$knowseq <- runKnowSeq(as.matrix(countMatrix),
                                      groupName = groupName,
                                      numberReplic = numberReplics,

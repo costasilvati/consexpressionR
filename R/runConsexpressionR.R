@@ -8,8 +8,8 @@ runConsexpressionR <- function(){
   # Namespaces in Imports field not imported from:
   # ‘bslib’ ‘nlme’ ‘readr’ ‘shinythemes’ ‘tximportData’
 
-  ui <- shinydashboard::dashboardPage(
-    shinydashboard::dashboardHeader(title = "consexpression2"),
+  ui <- shinydashboard::dashboardPage( skin = "black",
+    shinydashboard::dashboardHeader(title = "consexpressionR"),
     shinydashboard::dashboardSidebar(
       shinydashboard::sidebarMenu(
         shinydashboard::menuItem("Configure and View", tabName = "configAndView", icon = icon("upload")),
