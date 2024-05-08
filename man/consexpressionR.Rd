@@ -12,16 +12,28 @@ consexpressionR(
   rDataFrameCount = NULL,
   experimentName = "genericExperiment",
   outDirPath = "consexpression2_results/",
-  methodNorm = "TMM",
-  methodAdjPvalue = "BH",
-  numberTopTable = 1e+06,
   printResults = FALSE,
+  fitTypeDeseq2 = "local",
   kallistoReport = "report.txt",
   kallistoDir = "kallisto_quant",
   kallistoSubDir = "expermient_kallisto",
   kallistoOut = "abundance.tsv",
-  baySeqRespType = "Multiclass",
-  knowSeqFilter = "ensembl_gene_id"
+  methodNormLimma = "TMM",
+  methodAdjPvalueLimma = "BH",
+  numberTopTableLimma = 1e+06,
+  filterIdKnowseq = "ensembl_gene_id",
+  notSapiensKnowseq = FALSE,
+  methodNormEdgeR = "TMM",
+  normNoiseq = "rpkm",
+  kNoiseq = 0.5,
+  factorNoiseq = "Tissue",
+  lcNoiseq = 0,
+  replicatesNoiseq = "technical",
+  respTypeSamseq = "Two class unpaired",
+  npermSamseq = 100,
+  fdrEbseq = 0.05,
+  maxRoundEbseq = 50,
+  methodDeResultsEbseq = "robust"
 )
 }
 \arguments{
@@ -39,13 +51,9 @@ consexpressionR(
 
 \item{outDirPath}{path to write output, need be a directory (local)}
 
-\item{methodNorm}{normalization method to be used (limma)}
-
-\item{methodAdjPvalue}{correction method, a character string. Can be abbreviated (limma)}
-
-\item{numberTopTable}{maximum number of genes to list (limma)}
-
 \item{printResults}{logical variable: TRUE print report by each tool, FALSE print only consensus result}
+
+\item{fitTypeDeseq2}{either "parametric", "local", "mean", or "glmGamPoi" for the type of fitting of dispersions to the mean intensity}
 
 \item{kallistoReport}{path to kallisto report file _quant}
 
@@ -54,6 +62,38 @@ consexpressionR(
 \item{kallistoSubDir}{name of directory in kallisto results}
 
 \item{kallistoOut}{path to kallisto .tsv file}
+
+\item{methodNormLimma}{normalization method to be used (limma)}
+
+\item{methodAdjPvalueLimma}{correction method, a character string. Can be abbreviated (limma)}
+
+\item{numberTopTableLimma}{maximum number of genes to list (limma)}
+
+\item{filterIdKnowseq}{The attribute used as filter to return the rest of the attributes.}
+
+\item{notSapiensKnowseq}{A boolean value that indicates if the user wants the human annotation or another annotation available in BiomaRt. The possible not human dataset can be consulted by calling the following function: biomaRt::listDatasets(useMart("ensembl")).}
+
+\item{methodNormEdgeR}{normalization method to be used in edgeR::calcNormFactors(), default: "TMM"}
+
+\item{normNoiseq}{Normalization method t can be one of "rpkm" (default), "uqua" (upper quartile), "tmm" (trimmed mean of M) or "n" (no normalization). Default: "rpkm".}
+
+\item{kNoiseq}{Counts equal to 0 are replaced by k. By default, k = 0.5}
+
+\item{factorNoiseq}{A string indicating the name of factor whose levels are the conditions to be compared.}
+
+\item{lcNoiseq}{Length correction is done by dividing expression by length^lc. By default, lc = 0}
+
+\item{replicatesNoiseq}{In this argument, the type of replicates to be used is defined: "technical", "biological" or "no" replicates. By default, "technical" replicates option is chosen.}
+
+\item{respTypeSamseq}{Problem type: "Quantitative" for a continuous parameter; "Two class unpaired" for two classes with unpaired observations; "Survival" for censored survival outcome; "Multiclass": more than 2 groups; "Two class paired" for two classes with paired observations. Default: "Two class unpaired".}
+
+\item{npermSamseq}{Number of permutations used to estimate false discovery rates. Default 100}
+
+\item{fdrEbseq}{parameter used in EBTest function: fdr False Discovery Rate cutt off}
+
+\item{maxRoundEbseq}{parameter used in EBTest function: Number of iterations. The default value is 50.}
+
+\item{methodDeResultsEbseq}{parameter used in GetDEResults function: "robust" or "classic". Using the "robust" option, EBSeq is more robust to genes with outliers and genes with extremely small variances. Using the "classic" option, the results will be more comparable to those obtained by using the GetPPMat() function from earlier version (<= 1.7.0) of EBSeq}
 }
 \value{
 list with all analisys expression

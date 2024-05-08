@@ -4,15 +4,33 @@
 \alias{runNoiSeq}
 \title{Execute NOISeq gene Expression analysis}
 \usage{
-runNoiSeq(countMatrix, designExperiment)
+runNoiSeq(
+  countMatrix,
+  designExperiment,
+  normParm = "rpkm",
+  kParam = 0.5,
+  factorParam = "Tissue",
+  lcParam = 0,
+  replicatesParam = "technical"
+)
 }
 \arguments{
 \item{countMatrix}{either a matrix of raw (read) counts.}
 
 \item{designExperiment}{replicate and treatment by samples}
+
+\item{normParm}{Normalization method t can be one of "rpkm" (default), "uqua" (upper quartile), "tmm" (trimmed mean of M) or "n" (no normalization).}
+
+\item{kParam}{Counts equal to 0 are replaced by k. By default, k = 0.5}
+
+\item{factorParam}{A string indicating the name of factor whose levels are the conditions to be compared.}
+
+\item{lcParam}{Length correction is done by dividing expression by length^lc. By default, lc = 0}
+
+\item{replicatesParam}{In this argument, the type of replicates to be used is defined: "technical", "biological" or "no" replicates. By default, "technical" replicates option is chosen.}
 }
 \value{
-NOISeq report in data Frame fromat
+A data.frame with output of noiseqOut@results
 }
 \description{
 Execute NOISeq gene Expression analysis

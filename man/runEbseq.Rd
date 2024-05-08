@@ -4,16 +4,24 @@
 \alias{runEbseq}
 \title{Execute EBSeq gene Expression analysis}
 \usage{
-runEbseq(countMatrix, designExperiment, fdr = 0.05, sepCharacter)
+runEbseq(
+  countMatrix,
+  designExperiment,
+  fdr = 0.05,
+  maxRound = 50,
+  methodDeResults = "robust"
+)
 }
 \arguments{
 \item{countMatrix}{either a matrix of raw (read) counts.}
 
 \item{designExperiment}{replicate and treatment by samples}
 
-\item{fdr}{False Discovery Rate cutt off}
+\item{fdr}{parameter used in EBTest function: fdr False Discovery Rate cutt off}
 
-\item{sepCharacter}{pattern to seprare file csv}
+\item{maxRound}{parameter used in EBTest function: Number of iterations. The default value is 50.}
+
+\item{methodDeResults}{parameter used in GetDEResults function: "robust" or "classic". Using the "robust" option, EBSeq is more robust to genes with outliers and genes with extremely small variances. Using the "classic" option, the results will be more comparable to those obtained by using the GetPPMat() function from earlier version (<= 1.7.0) of EBSeq}
 }
 \value{
 EBSeq report in data Frame fromat

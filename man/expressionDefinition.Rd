@@ -9,8 +9,8 @@ expressionDefinition(
   lfcMin = -2,
   lfcMax = 2,
   pValue = 0.05,
-  prob = 0.95,
-  qValue = 1,
+  probNoiseq = 0.8,
+  qValue = 0.8,
   deClass = "DE"
 )
 }
@@ -21,7 +21,7 @@ expressionDefinition(
 
 \item{pValue}{maximum P-Value to consider (default: 0.05). Used by KnowSeq,, edgeR, limma and DESeq2, are consider p-Value >=.}
 
-\item{prob}{floating point, minimum probability that a read count comes from a real gene expression peak, rather than background noiseq (default: 0.95)}
+\item{probNoiseq}{floating point, minimum probability that a read count comes from a real gene expression peak, rather than background noiseq (default: 0.95)}
 
 \item{qValue}{q-value is a measure of the statistical significance of the difference in expression between the compared groups, taking the problem of multiple comparisons into account (default: 1)}
 
@@ -36,7 +36,8 @@ Object data.frame containing genes in the rows and tools executed in the columns
 Define who genes are differentially expressed by method
 }
 \examples{
-cons_result <- consexpressionR(numberReplics = 3, groupName = c("BM", "JJ"),
+cons_result <- consexpressionR(numberReplics = 3,
+                              groupName = c("BM", "JJ"),
                               rDataFrameCount = table_count_df,
                               sepCharacter = ",",
                               experimentName = "test_cons",

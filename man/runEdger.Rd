@@ -4,7 +4,7 @@
 \alias{runEdger}
 \title{Execute edgeR expression Analisys}
 \usage{
-runEdger(countMatrix, numberReplics, desingExperiment)
+runEdger(countMatrix, numberReplics, desingExperiment, methNorm = "TMM")
 }
 \arguments{
 \item{countMatrix}{either a matrix of raw (read) counts.}
@@ -12,6 +12,8 @@ runEdger(countMatrix, numberReplics, desingExperiment)
 \item{numberReplics}{number of replicate (technical or biologcal) integer}
 
 \item{desingExperiment}{replicate and treatment by samples}
+
+\item{methNorm}{normalization method to be used in edgeR::calcNormFactors(), default: "TMM"}
 }
 \value{
 edgeR report in data Frame

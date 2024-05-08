@@ -4,7 +4,7 @@
 #' @param lfcMin minimum value to consider of log Fold Change (default: -2). Used by: KnowSeq, edgeR, limma, DESeq2 and SAMSeq.
 #' @param lfcMax maximum value to consider of log Fold Change (default: 2), Used by: KnowSeq, edgeR, limma, DESeq2 and SAMSeq.
 #' @param pValue maximum P-Value to consider (default: 0.05). Used by KnowSeq,, edgeR, limma and DESeq2, are consider p-Value >=.
-#' @param prob floating point, minimum probability that a read count comes from a real gene expression peak, rather than background noiseq (default: 0.95)
+#' @param probNoiseq floating point, minimum probability that a read count comes from a real gene expression peak, rather than background noiseq (default: 0.95)
 #' @param qValue q-value is a measure of the statistical significance of the difference in expression between the compared groups, taking the problem of multiple comparisons into account (default: 1)
 #' @param deClass name od class to consider by EBSeq (default: "DE")
 #'
@@ -12,7 +12,8 @@
 #' @export
 #'
 #' @examples
-#' cons_result <- consexpressionR(numberReplics = 3, groupName = c("BM", "JJ"),
+#' cons_result <- consexpressionR(numberReplics = 3,
+#'                               groupName = c("BM", "JJ"),
 #'                               rDataFrameCount = table_count_df,
 #'                               sepCharacter = ",",
 #'                               experimentName = "test_cons",
@@ -22,8 +23,8 @@ expressionDefinition <- function(resultTool,
                                  lfcMin = -2,
                                  lfcMax = 2,
                                  pValue = 0.05,
-                                 prob = 0.95,
-                                 qValue = 1,
+                                 probNoiseq = 0.8,
+                                 qValue = 0.8,
                                  deClass = "DE" ){
     deList <- NULL
     # if(!is.null(resultTool$bayseq)){ # baySeq
@@ -37,7 +38,7 @@ expressionDefinition <- function(resultTool,
     }
     if(!is.null(resultTool$edger)){ # edger
         deList$edger <- dplyr::filter(resultTool$edger,
-                                        ((logFC <= lfcMin  | logFC >= lfcMax) & `PValue` <=pValue))
+                                        ((logFC <= lfcMin  | logFC >= lfcMax) & `PValue` <= pValue))
         consexpressionR::writeResults(deList$edger,"edgerDE")
     }
     if(!is.null(resultTool$limma)){ #limma
@@ -55,7 +56,7 @@ expressionDefinition <- function(resultTool,
     }
     if(!is.null(resultTool$noiseq)){ # NOISeq
         deList$noiseq <- dplyr::filter(resultTool$noiseq,
-                                         (prob >=prob))
+                                         (prob >=probNoiseq))
         consexpressionR::writeResults(deList$noiseq,
                                       "NOISeqDE")
     }

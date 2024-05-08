@@ -14,11 +14,11 @@ runSamSeq(
 \arguments{
 \item{countMatrix}{either a matrix of raw (read) counts.}
 
-\item{replic}{number of replicate (technical or biologcal) integer}
+\item{respType}{Problem type: "Quantitative" for a continuous parameter; "Two class unpaired" for two classes with unpaired observations; "Survival" for censored survival outcome; "Multiclass": more than 2 groups; "Two class paired" for two classes with paired observations.}
 
 \item{desingExperiment}{replicate and treatment by samples}
 
-\item{samseqOutPath}{path to write SAMSeq report in csv file format}
+\item{numerPermutations}{Number of permutations used to estimate false discovery rates}
 }
 \value{
 SAMSeq report in data Frame

@@ -1,9 +1,9 @@
 #'  Execute SAMSeq gene Expression analysis to count data
 #'
 #' @param countMatrix either a matrix of raw (read) counts.
-#' @param replic number of replicate (technical or biologcal) integer
+#' @param respType Problem type: "Quantitative" for a continuous parameter; "Two class unpaired" for two classes with unpaired observations; "Survival" for censored survival outcome; "Multiclass": more than 2 groups; "Two class paired" for two classes with paired observations.
 #' @param desingExperiment replicate and treatment by samples
-#' @param samseqOutPath path to write SAMSeq report in csv file format
+#' @param numerPermutations Number of permutations used to estimate false discovery rates
 #'
 #' @return SAMSeq report in data Frame
 #' @export

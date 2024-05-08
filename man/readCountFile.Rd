@@ -4,7 +4,7 @@
 \alias{readCountFile}
 \title{Read table count File and creates a matrix from the given content file.}
 \usage{
-readCountFile(tableCountPath = "tablecount.csv", split = ",")
+readCountFile(tableCountPath = "data/table_count_df.csv", split = ",")
 }
 \arguments{
 \item{tableCountPath}{the name of the file which the data are to be read from. Each row of the table appears as one line of the file. If it does not contain an absolute path, the file name is relative to the current working directory, getwd(). This can be a compressed file (see file). Alternatively, file can be a readable text-mode connection (which will be opened for reading if necessary, and if so closed (and hence destroyed) at the end of the function call).}
@@ -16,4 +16,8 @@ content of file in matrix R format
 }
 \description{
 Read table count File and creates a matrix from the given content file.
+}
+\examples{
+df <- readCountFile(tableCountPath="data/table_count_df.csv",
+                    split=",")
 }
