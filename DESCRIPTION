@@ -10,3 +10,21 @@ License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
+Imports: 
+    DESeq2 (>= 1.43.2),
+    dplyr (>= 1.1.4),
+    DT (>= 0.32),
+    EBSeq (>= 2.1.0),
+    edgeR (>= 4.1.17),
+    grDevices (>= 4.4.0),
+    knitr (>= 1.45),
+    KnowSeq (>= 1.17.0),
+    limma (>= 3.59.3),
+    NOISeq (>= 2.47.0),
+    plotly (>= 4.10.4),
+    samr (>= 3.0),
+    shiny (>= 1.8.1.1),
+    shinydashboard (>= 0.7.2),
+    tximport (>= 1.31.0),
+    UpSetR (>= 1.4.0),
+    utils (>= 4.4.0)

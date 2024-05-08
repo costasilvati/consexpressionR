@@ -123,10 +123,11 @@ runExpression <- function (numberReplics,
         # SAMSeq only count data
         cat("**** SAMSeq run CANCELLED, enabled for count data only.\n")
     }else{
-        resultTool$deseq2 <- runDeseq2(countMatrix = countMatrix,
-                                   groupName = groupName,
-                                   numberReplics = numberReplics,
-                                   designExperiment = designExperiment)
+      resultTool$deseq2 <- runDeseq2(countMatrix,
+                                     groupName,
+                                     numberReplics,
+                                     designExperiment,
+                                     fitTypeParm = fitTypeDeseq2)
         cat("DESeq2 executed!\n")
         resultTool$samseq <- runSamSeq(countMatrix,
                                  designExperiment,

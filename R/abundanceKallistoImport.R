@@ -9,6 +9,9 @@
 #' @param conditionList list by treatments per group
 #'
 #' @return DESeq2 DataSet
+#' @import utils
+#' @import tximport
+#' @import DESeq2
 #' @export
 #'
 #' @examples

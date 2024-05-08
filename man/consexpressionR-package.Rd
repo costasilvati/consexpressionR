@@ -9,7 +9,7 @@
 Comprehensive five-stage workflow for differential expression (DE) analysis. Execution of DE analysis with default parameter with seven or six R packages: DeSeq2, EBSeq, edgeR, KnowSeq, limma, NOISeq, SAMSeq. Combine the results from different methods to obtain a more robust and reliable results of gene expression changes.
 }
 \author{
-\strong{Maintainer}: Juliana Costa-Silva \email{julianacostasilvati@gmail.com} (\href{https://orcid.org//0000-0002-5830-8548}{ORCID})
+\strong{Maintainer}: Juliana Costa-Silva \email{julianacostasilvati@gmail.com} (\href{https://orcid.org/0000-0002-5830-8548}{ORCID})
 
 }
 \keyword{internal}
