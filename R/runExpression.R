@@ -1,4 +1,4 @@
-#' Main function. Make expression analysis of 7 tools and print output by consenso
+#' Make expression analysis of 7 tools, and return a list of results by each tool.
 #'
 #' @importFrom utils read.csv
 #' @param numberReplics number of replicate (technical or biological) by sample
@@ -34,12 +34,12 @@
 #' @export
 #'
 #' @examples
-#' cons_result <- consexpressionR(numberReplics = 3, groupName = c("BM", "JJ"),
+#' cons_result <- runExpression(numberReplics = 3, groupName = c("BM", "JJ"),
 #'                               rDataFrameCount = table_count_df,
 #'                               sepCharacter = ",",
 #'                               experimentName = "test_cons",
 #'                               outDirPath = "." )
-consexpressionR <- function (numberReplics,
+runExpression <- function (numberReplics,
                              groupName,
                              tableCountPath,
                              sepCharacter=",",

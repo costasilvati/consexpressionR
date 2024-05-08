@@ -20,7 +20,7 @@ data.frame with DE genes and values of limma analysis
 consensusList: make a list of genes was consider DE by threshold tools
 }
 \examples{
-cons_result <- consexpressionR(numberReplics = 3, groupName = c("BM", "JJ"),
+cons_result <- runExpression(numberReplics = 3, groupName = c("BM", "JJ"),
                               rDataFrameCount = table_count_df,
                               sepCharacter = ",",
                               experimentName = "test_cons",

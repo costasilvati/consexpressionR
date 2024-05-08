@@ -1,50 +1,12 @@
 Package: consexpressionR
-Title: consexpressionR: Consensus of expression analysis with RNA-Seq data.
-Version: 2.0.0
-Date: 2024-02-01
-Author: Juliana Costa-Silva [aut, cre]
-Maintainer: Juliana Costa-Silva <julianacostasilvati@gmail.com>
-Description: Consensus among five Diferential Expressed Genes (DEGs) Analysis 
-  for RNA-Seq data. Identification methods and, with a consensus result. 
-  Various methods DEGs Analysys in one tool.
-License: GPL-2 | file LICENSE
-URL: https://costasilvati.github.io/consexpressionR/
+Title: Differential Expression Analysis using consensus of 7 methods
+Version: 0.0.0.9000
+Authors@R: 
+    person("Juliana", "Costa-Silva", , "julianacostasilvati@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-5830-8548"))
+Description: Comprehensive five-stage workflow for differential expression (DE) analysis. Execution of DE analysis with default parameter with seven or six R packages: DeSeq2, EBSeq, edgeR, KnowSeq, limma, NOISeq, SAMSeq. Combine the results from different methods to obtain a more robust and reliable results of gene expression changes.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
-LazyData: true
-Imports: 
-    nlme (>= 3.1-163),
-    readr (>= 2.1.4),
-    stringr (>= 1.5.0),
-    dplyr (>= 1.1.3),
-    venn (>= 1.12),
-    shiny (>= 1.7.5.1),
-    shinythemes (>= 1.2.0),
-    bslib (>= 0.5.1),
-    samr (>= 3.0),
-    DESeq2 (>= 1.11.6),
-    EBSeq (>= 1.1.5),
-    edgeR (>= 4.0.11),
-    limma (>= 3.58.0),
-    tximportData (>= 1.31.0),
-    UpSetR (>= 1.4.0),
-    tximport (>= 1.31.0),
-    utils (>= 4.3.1),
-    NOISeq (>= 2.46.0),
-    shinyjs (>= 2.1.0),
-    shinydashboard (>= 0.7.2),
-    DT,
-    parallel (>= 4.3.1),
-    KnowSeq (>= 1.16.0),
-    variancePartition (>= 1.32.3),
-    BiocParallel (>= 1.36.0),
-    impute (>= 1.77.0),
-    plotly
-Depends: 
-    R (>= 3.5.0),
-    roxygen2 (>= 7.3.1)
-Suggests: 
-    knitr,
-    rmarkdown
-VignetteBuilder: knitr

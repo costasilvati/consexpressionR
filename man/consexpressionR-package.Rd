@@ -2,16 +2,14 @@
 % Please edit documentation in R/consexpressionR-package.R
 \docType{package}
 \name{consexpressionR-package}
+\alias{consexpressionR}
 \alias{consexpressionR-package}
-\title{consexpressionR: consexpressionR: Consensus of expression analysis with RNA-Seq data.}
+\title{consexpressionR: Differential Expression Analysis using consensus of 7 methods}
 \description{
-Consensus among five Diferential Expressed Genes (DEGs) Analysis for RNA-Seq data. Identification methods and, with a consensus result. Various methods DEGs Analysys in one tool.
+Comprehensive five-stage workflow for differential expression (DE) analysis. Execution of DE analysis with default parameter with seven or six R packages: DeSeq2, EBSeq, edgeR, KnowSeq, limma, NOISeq, SAMSeq. Combine the results from different methods to obtain a more robust and reliable results of gene expression changes.
 }
-\seealso{
-Useful links:
-\itemize{
-  \item \url{https://costasilvati.github.io/consexpressionR/}
-}
+\author{
+\strong{Maintainer}: Juliana Costa-Silva \email{julianacostasilvati@gmail.com} (\href{https://orcid.org//0000-0002-5830-8548}{ORCID})
 
 }
 \keyword{internal}

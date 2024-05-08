@@ -27,7 +27,7 @@ data.frame with row sum by input df
 UpSet Plot shows intersections by DE indications
 }
 \examples{
-cons_result <- consexpressionR(numberReplics = 3, groupName = c("BM", "JJ"),
+cons_result <- runExpression(numberReplics = 3, groupName = c("BM", "JJ"),
                               rDataFrameCount = table_count_df,
                               sepCharacter = ",",
                               experimentName = "test_cons",

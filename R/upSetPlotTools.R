@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples
-#' cons_result <- consexpressionR(numberReplics = 3, groupName = c("BM", "JJ"),
+#' cons_result <- runExpression(numberReplics = 3, groupName = c("BM", "JJ"),
 #'                               rDataFrameCount = table_count_df,
 #'                               sepCharacter = ",",
 #'                               experimentName = "test_cons",

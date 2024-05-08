@@ -2,41 +2,71 @@
 % Please edit documentation in R/expressionDefinition.R
 \name{expressionDefinition}
 \alias{expressionDefinition}
-\title{Define who genes are differentially expressed by method}
+\title{Define who genes are deferentially expressed by method}
 \usage{
 expressionDefinition(
   resultTool,
-  lfcMin = -2,
-  lfcMax = 2,
-  pValue = 0.05,
+  lfcMinLimma = -2,
+  lfcMaxLimma = 2,
+  pValueLimma = 0.05,
+  lfcMinSamseq = -2,
+  lfcMaxSamseq = 2,
+  qValueSamseq = 0.8,
+  lfcMinDeseq2 = -2,
+  lfcMaxDeseq2 = 2,
+  pValueDeseq2 = 0.05,
+  lfcMinEdger = -2,
+  lfcMaxEdger = 2,
+  pValueEdger = 0.05,
   probNoiseq = 0.8,
-  qValue = 0.8,
-  deClass = "DE"
+  lfcMinKnowseq = -2,
+  lfcMaxKnowseq = 2,
+  pValueKnowseq = 0.05,
+  deClassEbseq = "DE"
 )
 }
 \arguments{
-\item{lfcMin}{minimum value to consider of log Fold Change (default: -2). Used by: KnowSeq, edgeR, limma, DESeq2 and SAMSeq.}
+\item{resultTool}{table results by consexpressionR function}
 
-\item{lfcMax}{maximum value to consider of log Fold Change (default: 2), Used by: KnowSeq, edgeR, limma, DESeq2 and SAMSeq.}
+\item{lfcMinLimma}{minimum value to consider of log Fold Change (default: -2).}
 
-\item{pValue}{maximum P-Value to consider (default: 0.05). Used by KnowSeq,, edgeR, limma and DESeq2, are consider p-Value >=.}
+\item{lfcMaxLimma}{maximum value to consider of log Fold Change (default: 2)}
+
+\item{pValueLimma}{minimum P-Value to consider (default: 0.05)}
+
+\item{lfcMinSamseq}{minimum value to consider of log Fold Change (default: -2).}
+
+\item{lfcMaxSamseq}{maximum value to consider of log Fold Change (default: 2)}
+
+\item{qValueSamseq}{q-value is a measure of the statistical significance of the difference in expression between the compared groups, taking the problem of multiple comparisons into account (default: 0.8)}
+
+\item{lfcMinDeseq2}{minimum value to consider of log Fold Change (default: -2).}
+
+\item{lfcMaxDeseq2}{maximum value to consider of log Fold Change (default: 2)}
+
+\item{pValueDeseq2}{minimum P-Value to consider (default: 0.05)}
+
+\item{lfcMinEdger}{minimum value to consider of log Fold Change (default: -2).}
+
+\item{lfcMaxEdger}{maximum value to consider of log Fold Change (default: 2)}
+
+\item{pValueEdger}{minimum P-Value to consider (default: 0.05)}
 
 \item{probNoiseq}{floating point, minimum probability that a read count comes from a real gene expression peak, rather than background noiseq (default: 0.95)}
 
-\item{qValue}{q-value is a measure of the statistical significance of the difference in expression between the compared groups, taking the problem of multiple comparisons into account (default: 1)}
+\item{lfcMinKnowseq}{minimum value to consider of log Fold Change (default: -2).}
 
-\item{deClass}{name od class to consider by EBSeq (default: "DE")}
+\item{lfcMaxKnowseq}{maximum value to consider of log Fold Change (default: 2)}
 
-\item{deTool}{table results by consexpressionR function}
-}
-\value{
-Object data.frame containing genes in the rows and tools executed in the columns, with a value of 1 for tools that considered the gene to be differentially expressed, and 0 for no DE.
+\item{pValueKnowseq}{minimum P-Value to consider (default: 0.05)}
+
+\item{deClassEbseq}{name of class to consider by EBSeq (default: "DE")}
 }
 \description{
-Define who genes are differentially expressed by method
+Define who genes are deferentially expressed by method
 }
 \examples{
-cons_result <- consexpressionR(numberReplics = 3,
+cons_result <- runExpression(numberReplics = 3,
                               groupName = c("BM", "JJ"),
                               rDataFrameCount = table_count_df,
                               sepCharacter = ",",
