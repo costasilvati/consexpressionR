@@ -40,7 +40,7 @@ Imports:
     stringr (>= 1.5.1),
     tximport (>= 1.31.0),
     UpSetR (>= 1.4.0),
-    utils (>= 4.4.0)
+    utils (>= 4.2.2)
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
