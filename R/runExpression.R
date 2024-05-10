@@ -78,11 +78,11 @@ runExpression <- function (numberReplics,
     }
     designExperiment <- rep(groupName, each = numberReplics)
     resultTool <- NULL
-    resultTool$knowseq <- runKnowSeq(as.matrix(countMatrix),
-                                     groupName = groupName,
-                                     numberReplic = numberReplics,
-                                     filterId = filterIdKnowseq,
-                                     notSapiens = notSapiensKnowseq)
+    # resultTool$knowseq <- runKnowSeq(as.matrix(countMatrix),
+    #                                  groupName = groupName,
+    #                                  numberReplic = numberReplics,
+    #                                  filterId = filterIdKnowseq,
+    #                                  notSapiens = notSapiensKnowseq)
     cat("knowSeq executed!\n")
     resultTool$edger<-runEdger(countMatrix,
                           numberReplics,

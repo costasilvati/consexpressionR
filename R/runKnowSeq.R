@@ -29,6 +29,7 @@ runKnowSeq <- function(countMatrix,
   myAnnotation <- KnowSeq::getGenesAnnotation(values = geneNames,
                                               filter=filterId,
                                               notHSapiens = notSapiens)
+  cat("anotation")
   designExperiment <- rep(groupName, each=numberReplic)
   expressionMatrix <- KnowSeq::calculateGeneExpressionValues(countsMatrix = countMatrix,
                                                              annotation = myAnnotation,
