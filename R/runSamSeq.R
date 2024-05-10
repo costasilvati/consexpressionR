@@ -2,14 +2,19 @@
 #'
 #' @param countMatrix either a matrix of raw (read) counts.
 #' @param respType Problem type: "Quantitative" for a continuous parameter; "Two class unpaired" for two classes with unpaired observations; "Survival" for censored survival outcome; "Multiclass": more than 2 groups; "Two class paired" for two classes with paired observations.
-#' @param desingExperiment replicate and treatment by samples
-#' @param numerPermutations Number of permutations used to estimate false discovery rates
+#' @param designExperiment replicate and treatment by samples
+#' @param numberPermutations Number of permutations used to estimate false discovery rates
 #'
 #' @return SAMSeq report in data Frame
 #' @export
 #'
 #' @examples
-#'
+#' groupNameModel = c("BM","JJ")
+#' numberReplicsModel = 3
+#' designExperimentModel <- rep(groupNameModel, each = numberReplicsModel)
+#' toolResult <- NULL
+#' toolResult$samseq <- runSamSeq(countMatrix = gse95077,
+#'                                designExperiment = designExperimentModel)
 runSamSeq <- function (countMatrix,
                        designExperiment,
                        respType="Two class unpaired",

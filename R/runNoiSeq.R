@@ -12,6 +12,12 @@
 #' @export
 #'
 #' @examples
+#' groupNameModel = c("BM","JJ")
+#' numberReplicsModel = 3
+#' designExperimentModel <- rep(groupNameModel, each = numberReplicsModel)
+#' toolResult <- NULL
+#' toolResult$noiseq <- runNoiSeq(countMatrix = gse95077,
+#'                                designExperiment = designExperimentModel)
 runNoiSeq <- function (countMatrix,
                        designExperiment,
                        normParm = "rpkm",
@@ -22,7 +28,7 @@ runNoiSeq <- function (countMatrix,
   myfactors = data.frame(Tissue=c(designExperiment))
   print(myfactors$Tissue)
   mydata <- NOISeq::readData(data=countMatrix, factors=myfactors)
-  print(head(mydata$Tissue))
+  print(utils::head(mydata$Tissue))
   #pnr?? nss?? v??
   mynoiseq = NOISeq::noiseq(mydata,
                             norm = normParm,

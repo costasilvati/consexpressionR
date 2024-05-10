@@ -2,6 +2,8 @@
 #' is configured to read only kallisto files, and count data
 #'
 #' @param countMatrix original table count or abundance data
+#' @param numberReplics number of replicate (technical or biological) by sample
+#' @param groupName text, name of samples or treatment
 #' @param designExperiment replicate and treatment by samples
 #' @param pathDirRuns parent directory that contains one folder with all kallisto output
 #' @param pathReportFile file path with report by sample, conditions and runs
@@ -14,15 +16,13 @@
 #' @import DESeq2
 #'
 #' @examples
-#' df <- readCountFile(tableCountPath="data/table_count_df.csv",
-#'                     split=",")
 #' groupNameModel = c("BM","JJ")
 #' numberReplicsModel = 3
-#' designExperimentModel <- rep(groupNameModel, each = numberReplicModel)
 #' toolResult <- NULL
-#' toolResult$deseq2 <- runDeseq2(countMatrix = df,
+#' toolResult$deseq2 <- runDeseq2(countMatrix = gse95077,
 #'                                groupName = groupNameModel,
-#'                                numberReplics = numberReplicsModel)
+#'                                numberReplics = numberReplicsModel,
+#'                                fitTypeParam = "local")
 runDeseq2 <- function(countMatrix,
                       groupName,
                       numberReplics,

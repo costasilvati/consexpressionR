@@ -8,8 +8,9 @@
 #' @export
 #'
 #' @examples
+#' library(cqn)
 #' cons_result <- runExpression(numberReplics = 3, groupName = c("BM", "JJ"),
-#'                               rDataFrameCount = table_count_df,
+#'                               rDataFrameCount = gse95077,
 #'                               sepCharacter = ",",
 #'                               experimentName = "test_cons",
 #'                               outDirPath = "." )

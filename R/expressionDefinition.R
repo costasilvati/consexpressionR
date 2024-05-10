@@ -19,11 +19,12 @@
 #' @param lfcMaxKnowseq maximum value to consider of log Fold Change (default: 2)
 #' @param pValueKnowseq minimum P-Value to consider (default: 0.05)
 #' @param deClassEbseq name of class to consider by EBSeq (default: "DE")
-#'
+#' @export
 #' @examples
+#' library(cqn)
 #' cons_result <- runExpression(numberReplics = 3,
 #'                               groupName = c("BM", "JJ"),
-#'                               rDataFrameCount = table_count_df,
+#'                               rDataFrameCount = gse95077,
 #'                               sepCharacter = ",",
 #'                               experimentName = "test_cons",
 #'                               outDirPath = "." )

@@ -22,10 +22,6 @@ abundanceKallistoImport(
 \item{fileKallistoAbundance}{abundabce.tsv}
 
 \item{conditionList}{list by treatments per group}
-
-\item{dir}{path to kallisto results}
-
-\item{replics}{number of biological or technical replicates}
 }
 \value{
 DESeq2 DataSet

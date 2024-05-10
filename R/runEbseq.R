@@ -10,6 +10,12 @@
 #' @export
 #'
 #' @examples
+#' groupNameModel = c("BM","JJ")
+#' numberReplicsModel = 3
+#' designExperimentModel <- rep(groupNameModel, each = numberReplicsModel)
+#' toolResult <- NULL
+#' toolResult$ebseq <- runEbseq(countMatrix = as.matrix(gse95077),
+#'                               designExperiment = designExperimentModel)
 runEbseq <- function(countMatrix,
                      designExperiment,
                      fdr=0.05,

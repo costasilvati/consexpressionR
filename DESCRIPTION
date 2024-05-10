@@ -1,16 +1,27 @@
 Package: consexpressionR
 Title: Differential Expression Analysis using consensus of 7 methods
 Version: 0.0.0.9000
-Authors@R: 
-    person("Juliana", "Costa-Silva", , "julianacostasilvati@gmail.com", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-5830-8548"))
+Authors@R: c(person("Juliana", "Costa-Silva",
+            email="julianacostasilvati@gmail.com", 
+            role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-5830-8548")),
+  person("David", "Menotti", 
+            email="menottida@gmail.com", 
+            role = "aut",
+            comment = c(ORCID = "YOUR-ORCID-ID")),
+    person("Fabricio", "M. Lopes",
+           email="fabricio@utfpr.edu.br",
+           role = "aut",
+           comment = c(ORCID = "0000-0002-8025-6422"))
+    )
 Description: Comprehensive five-stage workflow for differential expression (DE) analysis. Execution of DE analysis with default parameter with seven or six R packages: DeSeq2, EBSeq, edgeR, KnowSeq, limma, NOISeq, SAMSeq. Combine the results from different methods to obtain a more robust and reliable results of gene expression changes.
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
+Depends: R (>= 2.10)
 Imports: 
+    cqn,
     DESeq2 (>= 1.43.2),
     dplyr (>= 1.1.4),
     DT (>= 0.32),
@@ -22,9 +33,16 @@ Imports:
     limma (>= 3.59.3),
     NOISeq (>= 2.47.0),
     plotly (>= 4.10.4),
+    quantreg,
     samr (>= 3.0),
     shiny (>= 1.8.1.1),
     shinydashboard (>= 0.7.2),
+    stringr (>= 1.5.1),
     tximport (>= 1.31.0),
     UpSetR (>= 1.4.0),
     utils (>= 4.4.0)
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+File: data/gse95077.csv
+LazyData: true

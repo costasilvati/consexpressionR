@@ -9,6 +9,13 @@
 #' @export
 #'
 #' @examples
+#' groupNameModel = c("BM","JJ")
+#' numberReplicsModel = 3
+#' designExperimentModel <- rep(groupNameModel, each = numberReplicsModel)
+#' toolResult <- NULL
+#' toolResult$edger <- runEdger(countMatrix = gse95077,
+#'                                numberReplics = numberReplicsModel,
+#'                                desingExperiment = designExperimentModel )
 runEdger <- function (countMatrix,
                       numberReplics,
                       desingExperiment,

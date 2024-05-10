@@ -20,6 +20,10 @@ runDeseq2(
 \arguments{
 \item{countMatrix}{original table count or abundance data}
 
+\item{groupName}{text, name of samples or treatment}
+
+\item{numberReplics}{number of replicate (technical or biological) by sample}
+
 \item{designExperiment}{replicate and treatment by samples}
 
 \item{fitTypeParam}{either "parametric", "local", "mean", or "glmGamPoi" for the type of fitting of dispersions to the mean intensity}
@@ -40,13 +44,11 @@ Execute DESeq2 DGE default analysis
 is configured to read only kallisto files, and count data
 }
 \examples{
-df <- readCountFile(tableCountPath="data/table_count_df.csv",
-                    split=",")
 groupNameModel = c("BM","JJ")
 numberReplicsModel = 3
-designExperimentModel <- rep(groupNameModel, each = numberReplicModel)
 toolResult <- NULL
-toolResult$deseq2 <- runDeseq2(countMatrix = df,
+toolResult$deseq2 <- runDeseq2(countMatrix = gse95077,
                                groupName = groupNameModel,
-                               numberReplics = numberReplicsModel)
+                               numberReplics = numberReplicsModel,
+                               fitTypeParam = "local")
 }

@@ -21,8 +21,9 @@ listDeByTool: makes a data.frame with genes (lines) and all executed DE tool.
 Each tool that identify gene as DE, are marked by 1.
 }
 \examples{
+library(cqn)
 cons_result <- runExpression(numberReplics = 3, groupName = c("BM", "JJ"),
-                              rDataFrameCount = table_count_df,
+                              rDataFrameCount = gse95077,
                               sepCharacter = ",",
                               experimentName = "test_cons",
                               outDirPath = "." )

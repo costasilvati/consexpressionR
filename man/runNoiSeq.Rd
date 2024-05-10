@@ -35,3 +35,11 @@ A data.frame with output of noiseqOut@results
 \description{
 Execute NOISeq gene Expression analysis
 }
+\examples{
+groupNameModel = c("BM","JJ")
+numberReplicsModel = 3
+designExperimentModel <- rep(groupNameModel, each = numberReplicsModel)
+toolResult <- NULL
+toolResult$noiseq <- runNoiSeq(countMatrix = gse95077,
+                               designExperiment = designExperimentModel)
+}

@@ -34,8 +34,10 @@
 #' @export
 #'
 #' @examples
-#' cons_result <- runExpression(numberReplics = 3, groupName = c("BM", "JJ"),
-#'                               rDataFrameCount = table_count_df,
+#' library(cqn)
+#' cons_result <- runExpression(numberReplics = 3,
+#'                              groupName = c("BM", "JJ"),
+#'                               rDataFrameCount = gse95077,
 #'                               sepCharacter = ",",
 #'                               experimentName = "test_cons",
 #'                               outDirPath = "." )
@@ -110,15 +112,11 @@ runExpression <- function (numberReplics,
     cat("ebseq executed!\n")
     # DESeq2 kallisto
     if(typeof(countMatrix) == "double"){
-        resultTool$deseq2 <- runDeseq2(countMatrix,
-                              groupName,
-                              numberReplics,
-                              designExperiment,
-                              kallistoReport,
-                              kallistoDir,
-                              kallistoSubDir,
-                              kallistoOut,
-                              fitTypeParm = fitTypeDeseq2)
+        resultTool$deseq2 <- runDeseq2(countMatrix = countMatrix,
+                                       groupName = groupName,
+                                       numberReplics = numberReplics,
+                                       designExperiment = designExperiment,
+                                       fitTypeParam = fitTypeDeseq2)
         cat("DESeq2 executed!\n")
         # SAMSeq only count data
         cat("**** SAMSeq run CANCELLED, enabled for count data only.\n")
@@ -127,7 +125,7 @@ runExpression <- function (numberReplics,
                                      groupName,
                                      numberReplics,
                                      designExperiment,
-                                     fitTypeParm = fitTypeDeseq2)
+                                     fitTypeParam = fitTypeDeseq2)
         cat("DESeq2 executed!\n")
         resultTool$samseq <- runSamSeq(countMatrix,
                                  designExperiment,
@@ -138,7 +136,7 @@ runExpression <- function (numberReplics,
     if(printResults){
       i<-1
       for (data in resultTool) {
-        write.csv(data, file = paste0(outDirPath,
+        utils::write.csv(data, file = paste0(outDirPath,
                                       experimentName,
                                       "_",
                                       names(resultTool)[i],

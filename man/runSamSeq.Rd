@@ -14,15 +14,23 @@ runSamSeq(
 \arguments{
 \item{countMatrix}{either a matrix of raw (read) counts.}
 
+\item{designExperiment}{replicate and treatment by samples}
+
 \item{respType}{Problem type: "Quantitative" for a continuous parameter; "Two class unpaired" for two classes with unpaired observations; "Survival" for censored survival outcome; "Multiclass": more than 2 groups; "Two class paired" for two classes with paired observations.}
 
-\item{desingExperiment}{replicate and treatment by samples}
-
-\item{numerPermutations}{Number of permutations used to estimate false discovery rates}
+\item{numberPermutations}{Number of permutations used to estimate false discovery rates}
 }
 \value{
 SAMSeq report in data Frame
 }
 \description{
 Execute SAMSeq gene Expression analysis to count data
+}
+\examples{
+groupNameModel = c("BM","JJ")
+numberReplicsModel = 3
+designExperimentModel <- rep(groupNameModel, each = numberReplicsModel)
+toolResult <- NULL
+toolResult$samseq <- runSamSeq(countMatrix = gse95077,
+                               designExperiment = designExperimentModel)
 }

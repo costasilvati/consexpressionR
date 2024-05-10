@@ -1,4 +1,4 @@
-library(shiny)
+#' @export
 
 consexpressionR <- function(){
   ui <- shiny::fluidPage(
@@ -17,7 +17,7 @@ consexpressionR <- function(){
 
     ),
     shiny::fluidRow(
-      h1("consexpression", span("R", style = "font-weight: 300"),
+      shiny::h1("consexpression", shiny::span("R", style = "font-weight: 300"),
          style = "color: #fff; text-align: center;
         background-color:#27296d;
         padding: 5%;
@@ -69,7 +69,7 @@ consexpressionR <- function(){
                                                                         multiple = FALSE,
                                                                         accept = c("text/csv/tsv",
                                                                                    "text/comma-separated-values,text/plain",".csv")),
-                                                       helpText("Note: while the data view will show only the specified", "number of replics, the summary will still be based","on the full dataset."),
+                                                       shiny::helpText("Note: while the data view will show only the specified", "number of replics, the summary will still be based","on the full dataset."),
                                          )
 
                                        ),
@@ -390,7 +390,7 @@ consexpressionR <- function(){
     expDef_result <- NULL
 
 
-    datasetCount <- eventReactive(input$go, {
+    datasetCount <- shiny::eventReactive(input$go, {
       inFile <- input$tableCountInp
       readCountFile(inFile$datapath, input$sepCharcterInp)
     })
@@ -409,13 +409,11 @@ consexpressionR <- function(){
     #   }
     # })
 
-    cons_res <- eventReactive(input$goDeg, {
+    cons_res <- shiny::eventReactive(input$goDeg, {
       consResult <- runExpression(numberReplics = input$numberReplicsInp,
                                     rDataFrameCount = datasetCount(),
                                     groupName = c(unlist(strsplit(input$groupNameInp, ","))),
                                     experimentName=input$experimentNameInp,
-                                    #outDirPath="consexpression2_results/",
-                                    #printResults=FALSE,
                                     methodNormLimma = input$methNormLimmaInp,
                                     methodAdjPvalueLimma = input$adjPvalueLimma,
                                     numberTopTableLimma = input$topTableLimmaInp,
@@ -436,11 +434,11 @@ consexpressionR <- function(){
       return(consResult)
     })
 
-    output$execResults <- renderPrint({
+    output$execResults <- shiny::renderPrint({
       cons_res()
     })
 
-    deConsList <- eventReactive(input$goConsList, {
+    deConsList <- shiny::eventReactive(input$goConsList, {
       consResult <- cons_res()
       expDef_result <- expressionDefinition(resultTool = consResult,
                                             lfcMinLimma = input$lfcMinLimmaInp,
@@ -471,7 +469,7 @@ consexpressionR <- function(){
       DT::datatable(as.data.frame(deConsList()))
     })
 
-    consensusPlot <- eventReactive(input$goUpsetPlot, {
+    consensusPlot <- shiny::eventReactive(input$goUpsetPlot, {
       consResult <- cons_res()
       expDef_result <- expressionDefinition(resultTool = consResult,
                                             lfcMinLimma = input$lfcMinLimmaInp,
@@ -503,7 +501,5 @@ consexpressionR <- function(){
     output$upsetPlot <- shiny::renderPlot(consensusPlot(), res = 130)
 
   }
-
-  # Run the application
   shiny::shinyApp(ui = ui, server = server)
 }

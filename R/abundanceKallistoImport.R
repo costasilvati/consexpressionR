@@ -1,20 +1,16 @@
 #' Import kallisto abundance to DESeq2 data set
 #'
-#' @param dir path to kallisto results
 #' @param pathReportRuns report from experiment contains columns pop : population,center: local from data,run: name for each run,condition: condition by run (ex.: treatment, treated))
 #' @param pathReportFile parent directory that contains kallisto results organized by directory named like run
-#' @param replics number of biological or technical replicates
 #' @param dirRuns directory that contains kallisto results organized by directory named like run
 #' @param fileKallistoAbundance abundabce.tsv
 #' @param conditionList list by treatments per group
 #'
 #' @return DESeq2 DataSet
-#' @import utils
-#' @import tximport
-#' @import DESeq2
 #' @export
 #'
 #' @examples
+#'
 abundanceKallistoImport <- function(pathReportRuns,
                                     pathReportFile,
                                     dirRuns,

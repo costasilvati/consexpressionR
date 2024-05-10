@@ -102,8 +102,10 @@ list with all analisys expression
 Make expression analysis of 7 tools, and return a list of results by each tool.
 }
 \examples{
-cons_result <- runExpression(numberReplics = 3, groupName = c("BM", "JJ"),
-                              rDataFrameCount = table_count_df,
+library(cqn)
+cons_result <- runExpression(numberReplics = 3,
+                             groupName = c("BM", "JJ"),
+                              rDataFrameCount = gse95077,
                               sepCharacter = ",",
                               experimentName = "test_cons",
                               outDirPath = "." )

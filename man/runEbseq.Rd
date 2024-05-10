@@ -29,3 +29,11 @@ EBSeq report in data Frame fromat
 \description{
 Execute EBSeq gene Expression analysis
 }
+\examples{
+groupNameModel = c("BM","JJ")
+numberReplicsModel = 3
+designExperimentModel <- rep(groupNameModel, each = numberReplicsModel)
+toolResult <- NULL
+toolResult$ebseq <- runEbseq(countMatrix = as.matrix(gse95077),
+                              designExperiment = designExperimentModel)
+}

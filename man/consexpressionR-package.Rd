@@ -11,5 +11,11 @@ Comprehensive five-stage workflow for differential expression (DE) analysis. Exe
 \author{
 \strong{Maintainer}: Juliana Costa-Silva \email{julianacostasilvati@gmail.com} (\href{https://orcid.org/0000-0002-5830-8548}{ORCID})
 
+Authors:
+\itemize{
+  \item David Menotti \email{menottida@gmail.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+  \item Fabricio M. Lopes \email{fabricio@utfpr.edu.br} (\href{https://orcid.org/0000-0002-8025-6422}{ORCID})
+}
+
 }
 \keyword{internal}
