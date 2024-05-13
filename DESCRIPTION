@@ -32,6 +32,7 @@ Imports:
     KnowSeq (>= 1.17.0),
     limma (>= 3.59.3),
     NOISeq (>= 2.47.0),
+    pkgload,
     plotly (>= 4.10.4),
     quantreg,
     samr (>= 3.0),

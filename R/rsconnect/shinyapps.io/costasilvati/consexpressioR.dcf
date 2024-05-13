@@ -1,12 +1,12 @@
-name: consexpressionR
-title: consexpressionR
+name: consexpressioR
+title: consexpressioR
 username: costasilvati
 account: costasilvati
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
-appId: 11965025
-bundleId: 8601796
-url: https://costasilvati.shinyapps.io/consexpressionR/
+appId: 11979015
+bundleId: 8601768
+url: https://costasilvati.shinyapps.io/consexpressioR/
 version: 1
 asMultiple: FALSE
 asStatic: FALSE

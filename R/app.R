@@ -1,5 +1,4 @@
 #' @export
-
 consexpressionR <- function(){
   ui <- shiny::fluidPage(
     shiny::tags$style(
@@ -18,7 +17,7 @@ consexpressionR <- function(){
     ),
     shiny::fluidRow(
       shiny::h1("consexpression", shiny::span("R", style = "font-weight: 300"),
-         style = "color: #fff; text-align: center;
+                style = "color: #fff; text-align: center;
         background-color:#27296d;
         padding: 5%;
         margin-bottom: 2%;"),
@@ -372,6 +371,7 @@ consexpressionR <- function(){
     shiny::fluidRow(
       shiny::column(width = 12,
                     shiny::h2("Details of genes inidcated as DE ", style = "text-align: center;"),
+                    shiny::downloadButton("downloadData", "Download"),
                     shiny::wellPanel(
                       DT::dataTableOutput("tableConsensus")
                     )
@@ -388,7 +388,6 @@ consexpressionR <- function(){
     deByTool <- NULL
     consListFinal <- NULL
     expDef_result <- NULL
-
 
     datasetCount <- shiny::eventReactive(input$go, {
       inFile <- input$tableCountInp
@@ -410,7 +409,9 @@ consexpressionR <- function(){
     # })
 
     cons_res <- shiny::eventReactive(input$goDeg, {
-      consResult <- runExpression(numberReplics = input$numberReplicsInp,
+
+      shiny::withProgress(message = 'Making diffrential expression analysis', value = 0, {
+        consResult <- runExpression(numberReplics = input$numberReplicsInp,
                                     rDataFrameCount = datasetCount(),
                                     groupName = c(unlist(strsplit(input$groupNameInp, ","))),
                                     experimentName=input$experimentNameInp,
@@ -431,6 +432,7 @@ consexpressionR <- function(){
                                     fdrEbseq=input$pValueEbseqInp,
                                     maxRoundEbseq = input$maxRoundEbseqInp,
                                     methodDeResultsEbseq = input$methodEbseqInp)
+      })
       return(consResult)
     })
 
@@ -500,6 +502,19 @@ consexpressionR <- function(){
 
     output$upsetPlot <- shiny::renderPlot(consensusPlot(), res = 130)
 
+    output$downloadData <- downloadHandler(
+      filename = function() {
+        paste(input$tableConsensus, ".csv", sep = "")
+      },
+      content = function(file) {
+        write.csv(datasetInput(), file, row.names = FALSE)
+      }
+    )
   }
   shiny::shinyApp(ui = ui, server = server)
 }
+arquivos <- list.files(path = "R/", pattern = "\\.R$")
+for (arquivo in arquivos) {
+  source(arquivo)
+}
+consexpressionR()
