@@ -22,6 +22,7 @@
 #' @param lcNoiseq Length correction is done by dividing expression by length^lc. By default, lc = 0
 #' @param replicatesNoiseq In this argument, the type of replicates to be used is defined: "technical", "biological" or "no" replicates. By default, "technical" replicates option is chosen.
 #' @param normNoiseq Normalization method t can be one of "rpkm" (default), "uqua" (upper quartile), "tmm" (trimmed mean of M) or "n" (no normalization). Default: "rpkm".
+#' @param condExpNoiseq A vector containing the two conditions to be compared by the differential expression algorithm (needed when the factor contains more than 2 different conditions).
 #' @param respTypeSamseq Problem type: "Quantitative" for a continuous parameter; "Two class unpaired" for two classes with unpaired observations; "Survival" for censored survival outcome; "Multiclass": more than 2 groups; "Two class paired" for two classes with paired observations. Default: "Two class unpaired".
 #' @param npermSamseq Number of permutations used to estimate false discovery rates. Default 100
 #' @param fdrEbseq parameter used in EBTest function: fdr False Discovery Rate cutt off
@@ -30,6 +31,8 @@
 #' @param filterIdKnowseq The attribute used as filter to return the rest of the attributes.
 #' @param notSapiensKnowseq A boolean value that indicates if the user wants the human annotation or another annotation available in BiomaRt. The possible not human dataset can be consulted by calling the following function: biomaRt::listDatasets(useMart("ensembl")).
 #' @param fitTypeDeseq2 either "parametric", "local", "mean", or "glmGamPoi" for the type of fitting of dispersions to the mean intensity
+#' @param controlDeseq2 group os samples that represents control in experiment, used by DESeq2; Default is "".
+#'
 #' @return list with all analisys expression
 #' @export
 #'
@@ -50,6 +53,7 @@ runExpression <- function (numberReplics,
                              outDirPath="consexpression2_results/",
                              printResults=FALSE,
                              fitTypeDeseq2 = "local",
+                             controlDeseq2 = "",
                              kallistoReport = "report.txt",
                              kallistoDir = "kallisto_quant",
                              kallistoSubDir = "expermient_kallisto",
@@ -65,73 +69,127 @@ runExpression <- function (numberReplics,
                              factorNoiseq="Tissue",
                              lcNoiseq = 0,
                              replicatesNoiseq = "technical",
+                             condExpNoiseq = c(""),
                              respTypeSamseq = "Two class unpaired",
                              npermSamseq = 100,
                              fdrEbseq=0.05,
                              maxRoundEbseq = 50,
-                             methodDeResultsEbseq = "robust"
-                             ){
+                             methodDeResultsEbseq = "robust",
+                             deNovoAanalysis = FALSE,
+                             progressShiny = NULL){
     if(!is.null(rDataFrameCount)){
       countMatrix <- as.matrix(rDataFrameCount)
     }else{
       countMatrix <- as.matrix(readCountFile(tableCountPath,sepCharacter))
     }
+    if(!is.null(progressShiny)){
+      progressShiny(detail = "Count matrix")
+    }
     designExperiment <- rep(groupName, each = numberReplics)
-    resultTool <- NULL
-    # resultTool$knowseq <- runKnowSeq(as.matrix(countMatrix),
-    #                                  groupName = groupName,
-    #                                  numberReplic = numberReplics,
-    #                                  filterId = filterIdKnowseq,
-    #                                  notSapiens = notSapiensKnowseq)
-    cat("knowSeq executed!\n")
-    resultTool$edger<-runEdger(countMatrix,
-                          numberReplics,
-                          designExperiment,
-                          methNorm = methodNormEdgeR)
-    cat("edger executed!\n")
+    resultTool <- list()
+    if(!is.null(progressShiny)){
+      progressShiny(detail = "Executing KnowSeq...")
+    }
+    resultTool$knowseq <- NULL
+      tryCatch({
+        resultTool$knowseq <- runKnowSeq(as.matrix(countMatrix),
+                   groupName = groupName,
+                   numberReplic = numberReplics,
+                   filterId = filterIdKnowseq,
+                   notSapiens = notSapiensKnowseq)
+        if(!is.null(resultTool$knowseq)){
+          cat("\n ------------ KnowSeq executed!\n")
+        }else{
+          cat("\n ------------ KnowSeq multiclass not Implemented!\n")
+        }
+
+      }, error = function(e) {
+        message(paste("\n \n ===== ERROR: KnowSeq execution is failed === \n",e,"\n"))
+      })
+    if(!is.null(progressShiny) && (!is.null(var))){
+      progressShiny(detail = "Executing edger...")
+    }
+    resultTool$edger<-attempt::attempt(expr =
+                    runEdger(countMatrix,
+                            numberReplics,
+                            designExperiment,
+                            methNorm = methodNormEdgeR),
+                    msg = "ERROR: edgeR execution is failed",
+                    verbose = TRUE)
+    if(attempt::is_try_error(resultTool$edger)){
+      resultTool$edger <- NULL
+    }else{
+      cat("\n ------------ edger executed!\n")
+    }
+    if(!is.null(progressShiny)){
+      progressShiny(detail = "Executing limma...")
+    }
     resultTool$limma<-runLimma(countMatrix,
                           numberReplics,
                           designExperiment,
                           methodNormLimma,
                           methodAdjPvalueLimma,
                           numberTopTableLimma)
-    cat("limma executed!\n")
+    cat("\n ------------ limma executed!\n")
+    if(!is.null(progressShiny)){
+      progressShiny(detail = "Executing NOISeq...")
+    }
     resultTool$noiseq<-runNoiSeq(countMatrix = countMatrix,
+                                 groups = groupName,
                                  designExperiment= designExperiment,
                                  normParm = normNoiseq,
                                  kParam =kNoiseq,
                                  factorParam=factorNoiseq,
                                  lcParam = lcNoiseq,
-                                 replicatesParam = replicatesNoiseq)
-    cat("NOISeq executed!")
-    resultTool$ebseq <- runEbseq(countMatrix,
+                                 replicatesParam = replicatesNoiseq,
+                                 condExp = condExpNoiseq)
+    cat("\n ------------ NOISeq executed! \n")
+    if(!is.null(progressShiny)){
+      progressShiny(detail = "Executing EBSeq...")
+    }
+    resultTool$ebseq <- runEbseq(as.matrix(countMatrix),
                              designExperiment,
                              fdr = fdrEbseq,
                              maxRound = maxRoundEbseq,
-                             methodDeResults = methodDeResultsEbseq)
-    cat("ebseq executed!\n")
+                             methodDeResults = methodDeResultsEbseq,
+                             groups = groupName)
+    cat("\n ------------ ebseq executed!\n")
+    if(!is.null(progressShiny)){
+      progressShiny(detail = "Executing DESeq2...")
+    }
     # DESeq2 kallisto
     if(typeof(countMatrix) == "double"){
         resultTool$deseq2 <- runDeseq2(countMatrix = countMatrix,
                                        groupName = groupName,
                                        numberReplics = numberReplics,
+                                       controlGroup = controlDeseq2,
                                        designExperiment = designExperiment,
                                        fitTypeParam = fitTypeDeseq2)
-        cat("DESeq2 executed!\n")
+        cat("\n ------------ DESeq2 executed!\n")
         # SAMSeq only count data
         cat("**** SAMSeq run CANCELLED, enabled for count data only.\n")
+        if(!is.null(progressShiny)){
+          progressShiny(detail = "SAMSeq canceled...")
+        }
     }else{
       resultTool$deseq2 <- runDeseq2(countMatrix,
                                      groupName,
                                      numberReplics,
                                      designExperiment,
+                                     controlGroup = controlDeseq2,
                                      fitTypeParam = fitTypeDeseq2)
-        cat("DESeq2 executed!\n")
+        cat("\n ------------ DESeq2 executed!\n")
+        if(!is.null(progressShiny)){
+          progressShiny(detail = "Executing SAMSeq...")
+        }
         resultTool$samseq <- runSamSeq(countMatrix,
                                  designExperiment,
                                  respType = respTypeSamseq,
                                 numberPermutations = npermSamseq)
-        cat("SAMSeq executed!\n")
+        cat("\n ------------ SAMSeq executed!\n")
+        if(!is.null(progressShiny)){
+          progressShiny(detail = "Writting results...")
+        }
     }
     if(printResults){
       i<-1
@@ -150,12 +208,18 @@ runExpression <- function (numberReplics,
         )
         i <- i +1
       }
+      if(!is.null(progressShiny)){
+        sessionShiny.setProgress(9/10)
+      }
       save(resultTool,
            file = paste0(outDirPath,
                          experimentName,
                          "_toolsResult.RData"))
     }
-    cat("DIFERENTIAL EXPRESSION ANALYSIS WAS COMPLETE!")
+    if(!is.null(progressShiny)){
+      progressShiny(detail = "Complete!")
+    }
+    cat("\n ------------ DIFERENTIAL EXPRESSION ANALYSIS WAS COMPLETE!\n")
     return(resultTool)
 }
 

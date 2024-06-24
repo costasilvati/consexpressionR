@@ -23,6 +23,12 @@ consensusList <- function(consexpressionList,
   deTool$nDE <- rowSums(deTool)
   consensus <- deTool$nDE >= threshold
   deCons <- subset(deTool, consensus)
-  limmaList <- consexpressionList$limma[row.names(deCons),, drop= FALSE]
-  return(limmaList)
+  newList <- list()
+  toolNames <- names(consexpressionList)
+  for(i in 1:length(consexpressionList)){
+    frame <- as.data.frame(consexpressionList[[i]])
+    newList[[i]] <- frame[row.names(deCons),, drop= FALSE]
+  }
+  names(newList) <- toolNames
+  return(newList)
 }

@@ -27,11 +27,11 @@ runSamSeq <- function (countMatrix,
                               nperms=numberPermutations)
     samResultTable <- rbind(samResult$siggenes.table$genes.up,
                             samResult$siggenes.table$genes.lo)
-    samScore <- rep(0,
-                    nrow(countMatrix))
+    samScore <- rep(0,nrow(countMatrix))
     samScore[match(samResultTable[,1],
                    rownames(countMatrix))]=as.numeric(samResultTable[,3])
     samFdr = rep(1, nrow(countMatrix))
     samFdr[match(samResultTable[,1], rownames(countMatrix))] = as.numeric(samResultTable[,5])/100
-    return(samResultTable)
+    result<- as.data.frame(samResultTable)
+    return(result)
 }

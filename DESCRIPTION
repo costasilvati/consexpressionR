@@ -19,7 +19,8 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
-Depends: R (>= 2.10)
+Depends: 
+    R (>= 4.4.0)
 Imports: 
     cqn,
     DESeq2 (>= 1.38.3),
@@ -34,10 +35,12 @@ Imports:
     NOISeq (>= 2.47.0),
     pkgload,
     plotly (>= 4.10.4),
-    quantreg,
+    quantreg (>= 5.97),
     samr (>= 3.0),
     shiny (>= 1.8.1.1),
+    shinybusy (>= 0.3.3),
     shinydashboard (>= 0.7.2),
+    shinyjs,
     stringr (>= 1.5.1),
     tximport (>= 1.31.0),
     UpSetR (>= 1.4.0),

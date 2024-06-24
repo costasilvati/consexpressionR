@@ -23,18 +23,22 @@ runKnowSeq <- function(countMatrix,
                        numberReplic,
                        filterId="ensembl_gene_id",
                        notSapiens = FALSE){
-  designExperiment <- rep(groupName, each = numberReplic)
-  geneNames = as.character(row.names(countMatrix))
+  if(length(groupName) > 2){
+    return(NULL)
+  }else{
+    designExperiment <- rep(groupName, each = numberReplic)
+    geneNames = as.character(row.names(countMatrix))
 
-  myAnnotation <- KnowSeq::getGenesAnnotation(values = geneNames,
-                                              filter=filterId,
-                                              notHSapiens = notSapiens)
-  cat("anotation")
-  designExperiment <- rep(groupName, each=numberReplic)
-  expressionMatrix <- KnowSeq::calculateGeneExpressionValues(countsMatrix = countMatrix,
-                                                             annotation = myAnnotation,
-                                                             genesNames = FALSE)
-  knowSeq <- KnowSeq::DEGsExtraction(expressionMatrix,
-                            labels = designExperiment)
-  return(knowSeq$DEG_Results$DEGs_Table)
+    myAnnotation <- KnowSeq::getGenesAnnotation(values = geneNames,
+                                                filter=filterId,
+                                                notHSapiens = notSapiens)
+    designExperiment <- rep(groupName, each=numberReplic)
+    expressionMatrix <- KnowSeq::calculateGeneExpressionValues(countsMatrix = countMatrix,
+                                                               annotation = myAnnotation,
+                                                               genesNames = FALSE)
+    knowSeq <- KnowSeq::DEGsExtraction(expressionMatrix,
+                                       labels = designExperiment,
+                                       multiDegsMethod = "cov")
+    return(knowSeq$DEG_Results$DEGs_Table)
+  }
 }

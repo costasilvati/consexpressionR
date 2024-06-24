@@ -35,7 +35,6 @@ runLimma <- function (countMatrix,
         voom.fitbayes = limma::eBayes(voom.fitlimma)
         voom.pvalues = voom.fitbayes$p.value[, 2]
         voom.adjpvalues = stats::p.adjust(voom.pvalues, method=methodAdjPvalue)
-        # design <- group
         data <- limma::topTable(voom.fitbayes, coef=ncol(designExperiment), number=numberTopTable)
         return(data)
     }

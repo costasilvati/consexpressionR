@@ -1,3 +1,15 @@
+# # app.R
+#
+# # Carregar pacotes necessários
+# library(shiny)
+# library(devtools)  # ou library(remotes)
+#
+# # Instalar pacote do GitHub
+# devtools::install_github("costasilvati/consexpressionR")
+#
+# # Carregar o pacote
+# library(consexpressionR)
+
 #' @export
 consexpressionR <- function(){
   ui <- shiny::fluidPage(
@@ -16,10 +28,10 @@ consexpressionR <- function(){
 
     ),
     shiny::fluidRow(
-      shiny::h1("consexpression", shiny::span("R", style = "font-weight: 300"),
+      shiny::h1("consexpressionR", shiny::span("R", style = "font-weight: 200"),
                 style = "color: #fff; text-align: center;
         background-color:#27296d;
-        padding: 5%;
+        padding: 2%;
         margin-bottom: 2%;"),
     ),
     shiny::fluidRow(
@@ -40,19 +52,39 @@ consexpressionR <- function(){
                                                        shiny::numericInput(inputId = "numberReplicsInp",
                                                                            label="Number of Replics",
                                                                            value= 1,
-                                                                           min = 1,),
+                                                                           min = 1),
                                          ),
                                          shiny::p(shiny::helpText(
                                            "Note: This tool expect the same number of replics in each group of treatment."
                                          )),
                                        ),
+                                      shiny::fluidRow(
+                                         shiny::column(width = 6,
+                                                       shiny::textInput(inputId ="groupNameInp",
+                                                                        label="Treatment Names",
+                                                                        placeholder ="Treat1, Treat2",
+                                                                        value="Control,Treat"),
+                                                       shiny::helpText("Note: Comma separeted list by sample treatment names. First group name was consider treatment (reference) group. Order of groups need be the same in column file"),
+                                         ),
+                                         shiny::column(width = 6,
+                                                       shiny::radioButtons(
+                                                         inputId = "deNovoAanalysisInp",
+                                                         label = "De novo assembly RNA-seq data?",
+                                                         choices = c("Yes" =TRUE, "No" =FALSE),
+                                                         selected = FALSE,
+                                                         inline = TRUE),
+                                                       shiny::conditionalPanel(
+                                                         condition = "input.groupNameInp.split(',').filter(function(e){ return e.trim().length > 0 }).length > 2",
+                                                         shiny::radioButtons(inputId = "condition1Inp", "Select first condition to be compared by the differential expression algorithm:",
+                                                                             choices = c(""),
+                                                                             inline = TRUE),
+                                                         shiny::radioButtons(inputId = "condition2Inp", "Select second condition to be compared by the differential expression algorithm:",
+                                                                             choices = c(""),
+                                                                             inline = TRUE)
+                                                       ),
+                                         )
+                                      ),
 
-
-
-                                       shiny::textInput(inputId ="groupNameInp",
-                                                        label="Treatment Names",
-                                                        placeholder ="Treat1, Treat2"),
-                                       shiny::helpText("Note: Comma separeted list by sample treatment names."),
                                        shiny::h3("Table count file", style="color: #5e63b6;"),
                                        # Input: Selector for choosing dataset ----
                                        shiny::fluidRow(
@@ -115,14 +147,26 @@ consexpressionR <- function(){
                                                                            label = "Number lines in Top Table",
                                                                            value = 1000000),
                                                        shiny::h4("Differential Expression Metrics"),
-                                                       shiny::numericInput(inputId = "lfcMinLimmaInp",
-                                                                           label = "Log Fold Change less or equal to",
-                                                                           value = -2.0,
-                                                                           step = 2),
-                                                       shiny::numericInput(inputId = "lfcMaxLimmaInp",
-                                                                           label = "Log Fold Change greater or equal to",
-                                                                           value = 2.0,
-                                                                           step = 2),
+                                                       shiny::conditionalPanel(
+                                                         condition = "input.groupNameInp.split(',').filter(function(e){ return e.trim().length > 0 }).length > 2",
+                                                         shiny::numericInput(inputId = "FMinLimma",
+                                                                             label = "Minimum F-statistic value",
+                                                                             value = 1.0,
+                                                                             step = 2,
+                                                                             max = 1.0,
+                                                                             min = 0.0),
+                                                       ),
+                                                       shiny::conditionalPanel(
+                                                         condition = "input.groupNameInp.split(',').filter(function(e){ return e.trim().length > 0 }).length <= 2",
+                                                         shiny::numericInput(inputId = "lfcMinLimmaInp",
+                                                                             label = "Log Fold Change less or equal to",
+                                                                             value = -2.0,
+                                                                             step = 2),
+                                                         shiny::numericInput(inputId = "lfcMaxLimmaInp",
+                                                                             label = "Log Fold Change greater or equal to",
+                                                                             value = 2.0,
+                                                                             step = 2),
+                                                       ),
                                                        shiny::numericInput(inputId = "pValueLimmaInp",
                                                                            value = 0.05,
                                                                            label = "Maximum P-value",
@@ -142,6 +186,24 @@ consexpressionR <- function(){
                                                                            label = "Number of Permutations"),
                                                        shiny::h4(""),
                                                        shiny::h4("Differential Expression Metrics"),
+                                                       shiny::conditionalPanel(
+                                                         condition = "input.groupNameInp.split(',').filter(function(e){ return e.trim().length > 0 }).length > 2",
+                                                         shiny::numericInput(inputId = "scoreDSamseqInp",
+                                                                             label = "Score(d)",
+                                                                             value = 0.8,
+                                                                             step = 2),
+                                                       ),
+                                                       shiny::conditionalPanel(
+                                                         condition = "input.groupNameInp.split(',').filter(function(e){ return e.trim().length > 0 }).length <= 2",
+                                                         shiny::numericInput(inputId = "lfcMinLimmaInp",
+                                                                             label = "Log Fold Change less or equal to",
+                                                                             value = -2.0,
+                                                                             step = 2),
+                                                         shiny::numericInput(inputId = "lfcMaxLimmaInp",
+                                                                             label = "Log Fold Change greater or equal to",
+                                                                             value = 2.0,
+                                                                             step = 2),
+                                                       ),
                                                        shiny::numericInput(inputId = "lfcMinSamseqInp",
                                                                            label = "Log Fold Change less or equal to",
                                                                            value = -2.0,
@@ -169,6 +231,10 @@ consexpressionR <- function(){
                                                                           width = NULL
                                                        ), #selectInput
 
+                                                       shiny::selectInput(inputId = "controlDeseq2Inp",
+                                                                          choices = c(""),
+                                                                          label = "Reference level (control sample)"),
+
                                                        shiny::h4("Differential Expression Metrics", class="spacey"),
                                                        shiny::numericInput(inputId = "lfcMinDeseq2Inp",
                                                                            label = "Log Fold Change less or equal to",
@@ -184,18 +250,6 @@ consexpressionR <- function(){
                                                                            max = 1.0,
                                                                            min = 0.0,
                                                                            step = 2),
-
-                                                       #shiny::fileInput("kallistoDirRuns", "Select a .tsv file in kallisto output folder",
-                                                       #                 multiple = FALSE,
-                                                       #                 accept = c(".tsv")),
-                                                       #helpText("Note: select the folder in default output by kallisto"),
-                                                       #shiny::verbatimTextOutput("selectedFolder")
-                                                       # shiny::fileInput("kallistoDirRuns", "Directory that contais kallisto runs.",)
-                                                       # pathDirRuns = ".",
-                                                       # pathReportFile = "report_txi.txt",
-                                                       # subDirRuns = "dir_runs",
-                                                       # fileKallisto = "abundance.tsv"
-                                                       # shiny::helpText("Use the default (selected) settings of the expression analysis methods, or configure manually")
                                      ), #wellPanel DESeq2
                       ),
                       #----- EDGER -------------
@@ -246,7 +300,7 @@ consexpressionR <- function(){
                                                       shiny::selectInput(inputId = "replicatesNoiseqInp",
                                                                          label = "Type of replicates",
                                                                          choices = c("technical", "biological","no"),
-                                                                         selected = "technical",
+                                                                         selected = "biological",
                                                                          width = NULL
                                                       ),
                                                       shiny::numericInput(inputId = "lcNoiseqInp",
@@ -279,9 +333,8 @@ consexpressionR <- function(){
                                                                           width = NULL),
                                                        shiny::radioButtons(
                                                          inputId = "notHumanKnowseq",
-                                                         label = "Not Human",
-                                                         choices = c("TRUE" =TRUE, "FALSE" =FALSE),
-                                                         selected = FALSE),
+                                                         label = "Human",
+                                                         choices = c("FALSE","TRUE")),
                                                        shiny::h4("Differential Expression Metrics", class="spacey-m"),
                                                        shiny::numericInput(inputId = "lfcMinKnowseqInp",
                                                                            label = "Log Fold Change less or equal to",
@@ -336,7 +389,8 @@ consexpressionR <- function(){
     ),
     shiny::fluidRow(
       shiny::column(width = 10, class="center",
-                    shiny::verbatimTextOutput("execResults"))
+                    shinybusy::use_busy_spinner(spin = "fading-circle"),
+                    shiny::textOutput("execResults"))
     ),
     shiny::fluidRow(
       shiny::column(width = 10, class="center",
@@ -371,7 +425,8 @@ consexpressionR <- function(){
     shiny::fluidRow(
       shiny::column(width = 12,
                     shiny::h2("Details of genes inidcated as DE ", style = "text-align: center;"),
-                    shiny::downloadButton("downloadData", "Download"),
+                    shiny::helpText("Lines are genes, columns show values of each method executed in dataset"),
+                    shiny::downloadButton("downloadData", "Download consensus result"),
                     shiny::wellPanel(
                       DT::dataTableOutput("tableConsensus")
                     )
@@ -382,73 +437,133 @@ consexpressionR <- function(){
 
 
   # Define server logic required to draw a histogram
-  server <- function(input, output) {
+  server <- function(input, output, session) {
     options(shiny.maxRequestSize=30*1024^2)
-    consResult <- NULL
+    consResult <- shiny::reactiveValues()
     deByTool <- NULL
-    consListFinal <- NULL
-    expDef_result <- NULL
+    varCondNoiseq <- reactiveValues(cond = c(""))
+    consListFinal <- shiny::reactiveValues()
+    expDef_result <- shiny::reactiveValues()
+
+    groupUpdate <- shiny::eventReactive(input$groupNameInp, {
+      groups = c(unlist(strsplit(input$groupNameInp, ",")))
+      shiny::updateSelectInput(inputId = "controlDeseq2Inp",
+                               choices = groups)
+      if (length(groups) > 2) {
+        shiny::updateRadioButtons(inputId = "condition1Inp",
+                                  choices = groups,
+                                  inline = TRUE)
+        shiny::updateRadioButtons(inputId = "condition2Inp",
+                                  choices = groups,
+                                  inline = TRUE)
+        varCondNoiseq$cond <- c(input$condition1Inp, input$condition2Inp)
+        print(paste("---- condition1Noiseq - ", varCondNoiseq))
+      } else {
+        shiny::updateRadioButtons(inputId = "condition1Inp",
+                                  choices = c(""))
+        shiny::updateRadioButtons(inputId = "condition2Inp",
+                                  choices = c(""))
+        varCondNoiseq$cond <- c("")
+      }
+    })
+
+    observeEvent(input$condition1Inp, {
+      if (input$condition1Inp != "" && input$condition2Inp != "") {
+        varCondNoiseq$cond <- c(input$condition1Inp, input$condition2Inp)
+        print(paste("---- condition1Noiseq - ", varCondNoiseq$cond))
+      }
+    })
+
+    observeEvent(input$condition2Inp, {
+      if (input$condition1Inp != "" && input$condition2Inp != "") {
+        varCondNoiseq$cond <- c(input$condition1Inp, input$condition2Inp)
+        print(paste("---- condition1Noiseq - ", varCondNoiseq$cond))
+      }
+    })
+
+    shiny::observeEvent(input$groupNameInp, {
+      groupUpdate()
+    })
 
     datasetCount <- shiny::eventReactive(input$go, {
       inFile <- input$tableCountInp
-      readCountFile(inFile$datapath, input$sepCharcterInp)
+      readData <- readCountFile(inFile$datapath, input$sepCharcterInp)
+      qtdGroups <- length(c(unlist(strsplit(input$groupNameInp, ","))))
+      informedColumns <- input$numberReplicsInp * qtdGroups
+      colsReadData <- length(colnames(readData))
+      shiny::validate(
+        need(informedColumns == colsReadData,
+             label = paste("ERROR: infromed ",qtdGroups," groups of tretment and ",
+                                             input$numberReplicsInp, "replics. File need be ",
+                                             (input$numberReplicsInp * qtdGroups),
+                                             "columns. But only ",colsReadData, "was founded."))
+      )
+      readData
     })
 
     output$sample <- DT::renderDataTable({
       DT::datatable(datasetCount())
+
     })
 
-    # tentar .zip ou root
-    # output$selectedFolder <- renderText({
-    #   inFile <- input$kallistoDirRuns
-    #   if(is.null(inFile)){
-    #     return(NULL)
-    #   }else{
-    #     dirname(inFile$datapath)
-    #   }
-    # })
-
     cons_res <- shiny::eventReactive(input$goDeg, {
+      progress <- shiny::Progress$new()
+      progress$set(message = "Computing expression", value = 0)
+      on.exit(progress$close())
 
-      shiny::withProgress(message = 'Making diffrential expression analysis', value = 0, {
-        consResult <- runExpression(numberReplics = input$numberReplicsInp,
-                                    rDataFrameCount = datasetCount(),
-                                    groupName = c(unlist(strsplit(input$groupNameInp, ","))),
-                                    experimentName=input$experimentNameInp,
-                                    methodNormLimma = input$methNormLimmaInp,
-                                    methodAdjPvalueLimma = input$adjPvalueLimma,
-                                    numberTopTableLimma = input$topTableLimmaInp,
-                                    respTypeSamseq = input$respTypeSamseqInp,
-                                    npermSamseq = input$npermSamseq,
-                                    fitTypeDeseq2 = input$fitTypeDeseq2Inp,
-                                    methodNormEdgeR = input$methNormEdgerInp,
-                                    normNoiseq = input$methNormNoiseqInp,
-                                    kNoiseq = input$kNoiseqInp,
-                                    factorNoiseq=input$factorNoiseqInp,
-                                    lcNoiseq = input$lcNoiseqInp,
-                                    replicatesNoiseq = input$replicatesNoiseqInp,
-                                    filterIdKnowseq=input$filterKnowseqInp,
-                                    notSapiensKnowseq = as.logical(input$notHumanKnowseq),
-                                    fdrEbseq=input$pValueEbseqInp,
-                                    maxRoundEbseq = input$maxRoundEbseqInp,
-                                    methodDeResultsEbseq = input$methodEbseqInp)
-      })
+      updateProgress <- function(value = NULL, detail = NULL) {
+        if (is.null(value)) {
+          value <- progress$getValue()
+          value <- value + (progress$getMax() - value) / 5
+        }
+        progress$set(value = value, detail = detail)
+      }
+      groupsName = c(unlist(strsplit(input$groupNameInp, ",")));
+      print(paste("---- notHumanKnowseq - ",input$notHumanKnowseq ))
+      consResult$exp <- runExpression(numberReplics = input$numberReplicsInp,
+                                  rDataFrameCount = datasetCount(),
+                                  groupName = groupsName,
+                                  experimentName=input$experimentNameInp,
+                                  methodNormLimma = input$methNormLimmaInp,
+                                  methodAdjPvalueLimma = input$adjPvalueLimma,
+                                  numberTopTableLimma = input$topTableLimmaInp,
+                                  respTypeSamseq = input$respTypeSamseqInp,
+                                  npermSamseq = input$npermSamseq,
+                                  fitTypeDeseq2 = input$fitTypeDeseq2Inp,
+                                  controlDeseq2 = input$controlDeseq2Inp,
+                                  methodNormEdgeR = input$methNormEdgerInp,
+                                  normNoiseq = input$methNormNoiseqInp,
+                                  kNoiseq = input$kNoiseqInp,
+                                  factorNoiseq=input$factorNoiseqInp,
+                                  lcNoiseq = input$lcNoiseqInp,
+                                  replicatesNoiseq = input$replicatesNoiseqInp,
+                                  condExpNoiseq = varCondNoiseq$cond,
+                                  filterIdKnowseq=input$filterKnowseqInp,
+                                  notSapiensKnowseq = as.logical(input$notHumanKnowseq),
+                                  deNovoAanalysis = input$deNovoAanalysisInp,
+                                  fdrEbseq=input$pValueEbseqInp,
+                                  maxRoundEbseq = input$maxRoundEbseqInp,
+                                  methodDeResultsEbseq = input$methodEbseqInp,
+                                  progressShiny=updateProgress)
+
       return(consResult)
     })
 
-    output$execResults <- shiny::renderPrint({
-      cons_res()
+    output$execResults <- shiny::renderText({
+      consResult <- cons_res()
+      print("DIFERENTIAL EXPRESSION ANALYSIS WAS COMPLETE!")
     })
 
-    deConsList <- shiny::eventReactive(input$goConsList, {
-      consResult <- cons_res()
-      expDef_result <- expressionDefinition(resultTool = consResult,
+    consensusPlot <- shiny::eventReactive(input$goUpsetPlot, {
+      expDef_result$df <- expressionDefinition(resultTool = consResult$exp,
+                                               groups = c(unlist(strsplit(input$groupNameInp, ","))),
                                             lfcMinLimma = input$lfcMinLimmaInp,
                                             lfcMaxLimma = input$lfcMaxLimmaInp,
                                             pValueLimma = input$pValueLimmaInp,
                                             lfcMinSamseq = input$lfcMinSamseqInp,
                                             lfcMaxSamseq = input$lfcMaxSamseqInp,
                                             qValueSamseq = input$qValueSamseqInp,
+                                            scoreDSamseq = input$scoreDSamseqInp,
                                             lfcMinDeseq2 = input$lfcMinDeseq2Inp,
                                             lfcMaxDeseq2 = input$lfcMaxDeseq2Inp,
                                             pValueDeseq2 = input$pValueDeseq2Inp,
@@ -460,61 +575,40 @@ consexpressionR <- function(){
                                             lfcMaxKnowseq = input$lfcMaxKnowseqInp,
                                             pValueKnowseq = input$pValueKnowseqInp,
                                             deClassEbseq = input$classDeEbseqInp)
-      deByTool <- listDeByTool(consResult, expDef_result)
-      consListFinal <- consensusList(consexpressionList = consResult,
+      deByTool <- listDeByTool(consResult$exp, expDef_result$df)
+      #deByTool_filtered <- deByTool[, apply(deByTool, 2, function(col) sum(col) != 0)]
+      UpSetR::upset(deByTool,
+                    sets = colnames(deByTool), #(deByTool_filtered),
+                    sets.bar.color = "#56B4E9",
+                    order.by = "freq",
+                    empty.intersections = "off")
+
+    })
+
+    output$upsetPlot <- shiny::renderPlot(consensusPlot(), res = 130)
+
+    deConsList <- shiny::eventReactive(input$goConsList, {
+      deByTool <- listDeByTool(consResult$exp, expDef_result$df)
+      consListFinal$dfList <- consensusList(consexpressionList = consResult$exp,
                                      deTool = deByTool,
                                      threshold = input$thresoldDe)
-      return(consListFinal)
+      return(consListFinal$dfList)
     })
 
     output$tableConsensus <- DT::renderDataTable({
       DT::datatable(as.data.frame(deConsList()))
     })
 
-    consensusPlot <- shiny::eventReactive(input$goUpsetPlot, {
-      consResult <- cons_res()
-      expDef_result <- expressionDefinition(resultTool = consResult,
-                                            lfcMinLimma = input$lfcMinLimmaInp,
-                                            lfcMaxLimma = input$lfcMaxLimmaInp,
-                                            pValueLimma = input$pValueLimmaInp,
-                                            lfcMinSamseq = input$lfcMinSamseqInp,
-                                            lfcMaxSamseq = input$lfcMaxSamseqInp,
-                                            qValueSamseq = input$qValueSamseqInp,
-                                            lfcMinDeseq2 = input$lfcMinDeseq2Inp,
-                                            lfcMaxDeseq2 = input$lfcMaxDeseq2Inp,
-                                            pValueDeseq2 = input$pValueDeseq2Inp,
-                                            lfcMinEdger = input$lfcMinEdgerInp,
-                                            lfcMaxEdger = input$lfcMaxEdgerInp,
-                                            pValueEdger = input$pValueEdgerInp,
-                                            probNoiseq = input$probNoiseqInp,
-                                            lfcMinKnowseq = input$lfcMinKnowseqInp,
-                                            lfcMaxKnowseq = input$lfcMaxKnowseqInp,
-                                            pValueKnowseq = input$pValueKnowseqInp,
-                                            deClassEbseq = input$classDeEbseqInp)
-      deByTool <- listDeByTool(consResult, expDef_result)
-      UpSetR::upset(deByTool,
-                    sets = colnames(deByTool),
-                    sets.bar.color = "#56B4E9",
-                    order.by = "freq",
-                    empty.intersections = "on")
-
-    })
-
-    output$upsetPlot <- shiny::renderPlot(consensusPlot(), res = 130)
-
     output$downloadData <- downloadHandler(
       filename = function() {
         paste(input$tableConsensus, ".csv", sep = "")
       },
       content = function(file) {
-        write.csv(datasetInput(), file, row.names = FALSE)
+        write.csv(consListFinal$dfList, file, row.names = FALSE)
       }
     )
   }
   shiny::shinyApp(ui = ui, server = server)
 }
-arquivos <- list.files(path = "R/", pattern = "\\.R$")
-for (arquivo in arquivos) {
-  source(arquivo)
-}
-consexpressionR()
+
+#consexpressionR::consexpressionR()

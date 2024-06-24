@@ -2,6 +2,7 @@
 "_PACKAGE"
 
 ## usethis namespace: start
+#' @importFrom cqn cqn
 #' @importFrom DT dataTableOutput
 #' @importFrom plotly renderPlotly
 #' @importFrom shiny fileInput
@@ -27,6 +28,8 @@
 #' @importFrom shinydashboard sidebarMenu
 #' @importFrom shinydashboard tabItem
 #' @importFrom shinydashboard tabItems
+#' @importFrom shinyjs disable
+#' @importFrom shinyjs enable
 #' @importFrom UpSetR upset
 ## usethis namespace: end
 NULL
