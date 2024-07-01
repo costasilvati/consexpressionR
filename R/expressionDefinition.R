@@ -41,7 +41,7 @@ expressionDefinition <- function(resultTool,
                                  FLimma = 0.8,
                                  lfcMinSamseq = -2,
                                  lfcMaxSamseq = 2,
-                                 qValueSamseq = 0.8,
+                                 qValueSamseq = 0.05,
                                  lfcMinDeseq2 = -2,
                                  scoreDSamseq = 0.8,
                                  lfcMaxDeseq2 = 2,
@@ -75,9 +75,8 @@ expressionDefinition <- function(resultTool,
                                        ((`Score(d)` >= scoreDSamseq) & (`q-value(%)` <= qValueSamseq)))
       }else{
         deList$samseq <- dplyr::filter(samseqDf,
-                                       ((`Fold Change` >= lfcMinSamseq  & `Fold Change` >= lfcMaxSamseq) & (`q-value(%)` <= qValueSamseq)))
+                                       ((`Fold Change` >= 2.0) | (`Fold Change` <= -2.0)) & `q-value(%)` <= 0.05)
       }
-
       row.names(deList$samseq) <- deList$samseq$`Gene ID`
       consexpressionR::writeResults(deList$samseq,"SAMSeqDE")
     }

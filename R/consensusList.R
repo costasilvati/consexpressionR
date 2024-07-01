@@ -27,7 +27,8 @@ consensusList <- function(consexpressionList,
   toolNames <- names(consexpressionList)
   for(i in 1:length(consexpressionList)){
     frame <- as.data.frame(consexpressionList[[i]])
-    newList[[i]] <- frame[row.names(deCons),, drop= FALSE]
+    itens <- frame[row.names(deCons),, drop= FALSE]
+    newList[[i]] <- itens
   }
   names(newList) <- toolNames
   return(newList)

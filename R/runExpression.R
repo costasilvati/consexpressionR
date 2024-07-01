@@ -87,25 +87,6 @@ runExpression <- function (numberReplics,
     }
     designExperiment <- rep(groupName, each = numberReplics)
     resultTool <- list()
-    if(!is.null(progressShiny)){
-      progressShiny(detail = "Executing KnowSeq...")
-    }
-    resultTool$knowseq <- NULL
-      tryCatch({
-        resultTool$knowseq <- runKnowSeq(as.matrix(countMatrix),
-                   groupName = groupName,
-                   numberReplic = numberReplics,
-                   filterId = filterIdKnowseq,
-                   notSapiens = notSapiensKnowseq)
-        if(!is.null(resultTool$knowseq)){
-          cat("\n ------------ KnowSeq executed!\n")
-        }else{
-          cat("\n ------------ KnowSeq multiclass not Implemented!\n")
-        }
-
-      }, error = function(e) {
-        message(paste("\n \n ===== ERROR: KnowSeq execution is failed === \n",e,"\n"))
-      })
     if(!is.null(progressShiny) && (!is.null(var))){
       progressShiny(detail = "Executing edger...")
     }
@@ -121,6 +102,25 @@ runExpression <- function (numberReplics,
     }else{
       cat("\n ------------ edger executed!\n")
     }
+    if(!is.null(progressShiny)){
+      progressShiny(detail = "Executing KnowSeq...")
+    }
+    resultTool$knowseq <- NULL
+    tryCatch({
+      resultTool$knowseq <- runKnowSeq(as.matrix(countMatrix),
+                                       groupName = groupName,
+                                       numberReplic = numberReplics,
+                                       filterId = filterIdKnowseq,
+                                       notSapiens = notSapiensKnowseq)
+      if(!is.null(resultTool$knowseq)){
+        cat("\n ------------ KnowSeq executed!\n")
+      }else{
+        cat("\n ------------ KnowSeq multiclass not Implemented!\n")
+      }
+
+    }, error = function(e) {
+      message(paste("\n \n ===== ERROR: KnowSeq execution is failed === \n",e,"\n"))
+    })
     if(!is.null(progressShiny)){
       progressShiny(detail = "Executing limma...")
     }

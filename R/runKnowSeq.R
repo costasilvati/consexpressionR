@@ -38,7 +38,8 @@ runKnowSeq <- function(countMatrix,
                                                                genesNames = FALSE)
     knowSeq <- KnowSeq::DEGsExtraction(expressionMatrix,
                                        labels = designExperiment,
-                                       multiDegsMethod = "cov")
+                                       multiDegsMethod = "cov",
+                                       lfc = -20)
     return(knowSeq$DEG_Results$DEGs_Table)
   }
 }

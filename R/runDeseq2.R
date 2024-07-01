@@ -58,7 +58,7 @@ runDeseq2 <- function(countMatrix,
     dds <- DESeq2::DESeq(dds, fitType = fitTypeParam)
   }
 
-  res <- DESeq2::results(dds)
+  res <- DESeq2::results(dds, contrast = c("condiction",groupName))
   resOrdered <- res[order(res$pvalue),]
   dfDeseq2 <- as.data.frame(resOrdered)
   return(dfDeseq2)

@@ -32,6 +32,7 @@ runSamSeq <- function (countMatrix,
                    rownames(countMatrix))]=as.numeric(samResultTable[,3])
     samFdr = rep(1, nrow(countMatrix))
     samFdr[match(samResultTable[,1], rownames(countMatrix))] = as.numeric(samResultTable[,5])/100
+    rownames(samResultTable) <- samResultTable[,1]
     result<- as.data.frame(samResultTable)
     return(result)
 }

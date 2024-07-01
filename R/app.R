@@ -432,6 +432,21 @@ consexpressionR <- function(){
                     )
       ),
     ),
+    shiny::fluidRow(
+      shiny::column(width = 10, class = "center",
+                    shiny::h2("Heat Map of Differential Expressed Genes", style = "text-align: center;"),
+                    shiny::helpText("Based in lines of table count, normalized by log2."),
+                    shiny::div( style= "text-align: center;",
+                                shiny::actionButton(inputId = "goHeatMap",
+                                                    label = "View Heat Map to DE genes by consensus",
+                                                    width = '51%',
+                                                    class= "btn-success" ),
+                    ),
+                      shiny::wellPanel(
+                        plotly::plotlyOutput("heatMapPlot")
+                      )
+                    )
+    )
   ) #fluidPage
 
 
@@ -444,6 +459,7 @@ consexpressionR <- function(){
     varCondNoiseq <- reactiveValues(cond = c(""))
     consListFinal <- shiny::reactiveValues()
     expDef_result <- shiny::reactiveValues()
+    countData <- shiny::reactiveValues()
 
     groupUpdate <- shiny::eventReactive(input$groupNameInp, {
       groups = c(unlist(strsplit(input$groupNameInp, ",")))
@@ -487,10 +503,10 @@ consexpressionR <- function(){
 
     datasetCount <- shiny::eventReactive(input$go, {
       inFile <- input$tableCountInp
-      readData <- readCountFile(inFile$datapath, input$sepCharcterInp)
+      countData$readData <- readCountFile(inFile$datapath, input$sepCharcterInp)
       qtdGroups <- length(c(unlist(strsplit(input$groupNameInp, ","))))
       informedColumns <- input$numberReplicsInp * qtdGroups
-      colsReadData <- length(colnames(readData))
+      colsReadData <- length(colnames(countData$readData))
       shiny::validate(
         need(informedColumns == colsReadData,
              label = paste("ERROR: infromed ",qtdGroups," groups of tretment and ",
@@ -498,7 +514,7 @@ consexpressionR <- function(){
                                              (input$numberReplicsInp * qtdGroups),
                                              "columns. But only ",colsReadData, "was founded."))
       )
-      readData
+      countData$readData
     })
 
     output$sample <- DT::renderDataTable({
@@ -576,13 +592,16 @@ consexpressionR <- function(){
                                             pValueKnowseq = input$pValueKnowseqInp,
                                             deClassEbseq = input$classDeEbseqInp)
       deByTool <- listDeByTool(consResult$exp, expDef_result$df)
-      #deByTool_filtered <- deByTool[, apply(deByTool, 2, function(col) sum(col) != 0)]
-      UpSetR::upset(deByTool,
-                    sets = colnames(deByTool), #(deByTool_filtered),
-                    sets.bar.color = "#56B4E9",
-                    order.by = "freq",
-                    empty.intersections = "off")
-
+      if(length(deByTool > 0)){
+        deByTool_filtered <- deByTool[, apply(deByTool, 2, function(col) sum(col) != 0)]
+        UpSetR::upset(deByTool_filtered,
+                      sets = colnames(deByTool_filtered), #(deByTool_filtered),
+                      sets.bar.color = "#56B4E9",
+                      order.by = "freq",
+                      empty.intersections = "off")
+      }else{
+        print("ERROR: Problems to execute listDeByTool function.")
+      }
     })
 
     output$upsetPlot <- shiny::renderPlot(consensusPlot(), res = 130)
@@ -592,6 +611,11 @@ consexpressionR <- function(){
       consListFinal$dfList <- consensusList(consexpressionList = consResult$exp,
                                      deTool = deByTool,
                                      threshold = input$thresoldDe)
+      if(length(consListFinal$dfList) <= 0){
+        consListFinal$dfList <- paste("No genes identified as differentially expressed by ",
+                                      input$thresoldDe ,
+                                      " methods were found.")
+      }
       return(consListFinal$dfList)
     })
 
@@ -599,7 +623,7 @@ consexpressionR <- function(){
       DT::datatable(as.data.frame(deConsList()))
     })
 
-    output$downloadData <- downloadHandler(
+    output$downloadData <- shiny::downloadHandler(
       filename = function() {
         paste(input$tableConsensus, ".csv", sep = "")
       },
@@ -607,6 +631,29 @@ consexpressionR <- function(){
         write.csv(consListFinal$dfList, file, row.names = FALSE)
       }
     )
+
+    heatPlot <- shiny::eventReactive(input$goHeatMap, {
+      req(input$tableCountInp)
+      deList <- consListFinal$dfList
+      countDf <- countData$readData
+      index <- rownames(countDf) %in% rownames(deList$limma)
+      subsetCountDF <- countDf[index, ]
+      subsetDf <- as.data.frame(subsetCountDF)
+      return(subsetDf)
+    })
+
+    output$heatMapPlot <- plotly::renderPlotly({
+      df <- heatPlot()
+      log_df <- log2(df)
+      p <- plotly::plot_ly(x=colnames(df),
+                           y=rownames(df),
+                           z = as.matrix(df),
+                           type = "heatmap",
+                           # colors = "Blues"
+                           )
+      return(p)
+    })
+
   }
   shiny::shinyApp(ui = ui, server = server)
 }
