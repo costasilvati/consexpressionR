@@ -540,6 +540,7 @@ consexpressionR <- function(){
                                   rDataFrameCount = datasetCount(),
                                   groupName = groupsName,
                                   experimentName=input$experimentNameInp,
+                                  printResults = FALSE,
                                   methodNormLimma = input$methNormLimmaInp,
                                   methodAdjPvalueLimma = input$adjPvalueLimma,
                                   numberTopTableLimma = input$topTableLimmaInp,
