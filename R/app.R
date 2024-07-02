@@ -454,6 +454,7 @@ consexpressionR <- function(){
   # Define server logic required to draw a histogram
   server <- function(input, output, session) {
     options(shiny.maxRequestSize=30*1024^2)
+    options('future.debug' = TRUE)
     consResult <- shiny::reactiveValues()
     deByTool <- NULL
     varCondNoiseq <- reactiveValues(cond = c(""))

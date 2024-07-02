@@ -54,7 +54,8 @@ expressionDefinition <- function(resultTool,
                                  lfcMaxKnowseq = 2,
                                  pValueKnowseq = 0.05,
                                  deClassEbseq = "DE",
-                                 ppThresholdEbseq = 0.8){
+                                 ppThresholdEbseq = 0.8,
+                                 printResults = FALSE){
                                  #, lfcMaxEbseq = 2,
                                  #lfcMinEbseq = -2){
     deList <- NULL
@@ -66,7 +67,6 @@ expressionDefinition <- function(resultTool,
         deList$limma <- dplyr::filter(resultTool$limma,
                                       ((logFC <= lfcMinLimma | logFC >= lfcMaxLimma) & `P.Value` <= pValueLimma))
       }
-      consexpressionR::writeResults(deList$limma,"limmaDE")
     }
     if(!is.null(resultTool$samseq)){ #SAMSeq
       samseqDf <- as.data.frame(resultTool$samseq, row.names = NULL)
@@ -78,35 +78,36 @@ expressionDefinition <- function(resultTool,
                                        ((`Fold Change` >= 2.0) | (`Fold Change` <= -2.0)) & `q-value(%)` <= 0.05)
       }
       row.names(deList$samseq) <- deList$samseq$`Gene ID`
-      consexpressionR::writeResults(deList$samseq,"SAMSeqDE")
     }
     if(!is.null(resultTool$deseq2)){ # DESeq2
       deList$deseq2 <- dplyr::filter(resultTool$deseq2,
                                      ((log2FoldChange <= lfcMinDeseq2  | log2FoldChange >= lfcMaxDeseq2) & (pvalue <= pValueDeseq2)))
-      consexpressionR::writeResults(deList$deseq2,"DESeq2DE")
     }
     if(!is.null(resultTool$edger)){ # edger
       deList$edger <- dplyr::filter(resultTool$edger,
                                     ((logFC <= lfcMinEdger  | logFC >= lfcMaxEdger) & `PValue` <= pValueEdger))
-      consexpressionR::writeResults(deList$edger,"edgerDE")
     }
     if(!is.null(resultTool$noiseq)){ # NOISeq
       deList$noiseq <- dplyr::filter(resultTool$noiseq,
                                      (prob >=probNoiseq))
-      consexpressionR::writeResults(deList$noiseq,
-                                    "NOISeqDE")
     }
     if(!is.null(resultTool$knowseq)){ # knowseq
       deList$knowseq <- dplyr::filter(resultTool$knowseq,
                                       ((logFC <= lfcMinKnowseq  | logFC >= lfcMaxKnowseq) & `P.Value` <= pValueKnowseq))
-      consexpressionR::writeResults(deList$knowseq,"knowseqDE")
     }
     if(!is.null(resultTool$ebseq)){ # ebseq
       ebseqDf <- as.data.frame(resultTool$ebseq)
       deList$ebseq <- dplyr::filter(ebseqDf,
                                       resultTool$ebseq == deClassEbseq)
-      consexpressionR::writeResults(deList$ebseq,
-                                      "EBSeqDE")
+    }
+
+    if(printResults){
+      tools <- names(deList)
+      i <- 1
+      for (deData in deList) {
+        consexpressionR::writeResults(deData,paste0(tools[i], "DE"))
+        i <- i + 1
+      }
     }
     return(deList)
 }
