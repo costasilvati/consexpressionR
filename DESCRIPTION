@@ -22,6 +22,7 @@ RoxygenNote: 7.3.1
 Depends: 
     R (>= 4.4.0)
 Imports: 
+    attempt,
     cqn,
     DESeq2 (>= 1.38.3),
     dplyr (>= 1.1.4),

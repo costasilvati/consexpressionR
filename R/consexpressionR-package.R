@@ -2,6 +2,7 @@
 "_PACKAGE"
 
 ## usethis namespace: start
+#' @importFrom attempt is_try_error
 #' @importFrom cqn cqn
 #' @importFrom DT dataTableOutput
 #' @importFrom plotly renderPlotly
