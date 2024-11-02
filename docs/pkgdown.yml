@@ -1,7 +1,11 @@
-pandoc: 3.1.11
+pandoc: '3.2'
 pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   consexpressionR-vignette: consexpressionR-vignette.html
-last_built: 2024-05-10T12:05Z
+  my-vignette: my-vignette.html
+last_built: 2024-11-02T14:01Z
+urls:
+  reference: https://costasilvati.github.io/consexpressionR/reference
+  article: https://costasilvati.github.io/consexpressionR/articles
 

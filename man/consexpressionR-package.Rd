@@ -13,7 +13,7 @@ Comprehensive five-stage workflow for differential expression (DE) analysis. Exe
 
 Authors:
 \itemize{
-  \item David Menotti \email{menottida@gmail.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+  \item David Menotti \email{menottid@gmail.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
   \item Fabricio M. Lopes \email{fabricio@utfpr.edu.br} (\href{https://orcid.org/0000-0002-8025-6422}{ORCID})
 }
 

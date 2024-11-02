@@ -8,8 +8,10 @@ runEbseq(
   countMatrix,
   designExperiment,
   fdr = 0.05,
+  ppThreshold = 0.8,
   maxRound = 50,
-  methodDeResults = "robust"
+  methodDeResults = "robust",
+  groups = c("")
 )
 }
 \arguments{
@@ -19,9 +21,13 @@ runEbseq(
 
 \item{fdr}{parameter used in EBTest function: fdr False Discovery Rate cutt off}
 
+\item{ppThreshold}{posterior Probability Threshold}
+
 \item{maxRound}{parameter used in EBTest function: Number of iterations. The default value is 50.}
 
 \item{methodDeResults}{parameter used in GetDEResults function: "robust" or "classic". Using the "robust" option, EBSeq is more robust to genes with outliers and genes with extremely small variances. Using the "classic" option, the results will be more comparable to those obtained by using the GetPPMat() function from earlier version (<= 1.7.0) of EBSeq}
+
+\item{groups}{text, name of samples or treatment}
 }
 \value{
 EBSeq report in data Frame fromat

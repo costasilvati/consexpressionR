@@ -6,13 +6,16 @@
 \usage{
 expressionDefinition(
   resultTool,
+  groups = c(""),
   lfcMinLimma = -2,
   lfcMaxLimma = 2,
   pValueLimma = 0.05,
+  FLimma = 0.8,
   lfcMinSamseq = -2,
   lfcMaxSamseq = 2,
-  qValueSamseq = 0.8,
+  qValueSamseq = 0.05,
   lfcMinDeseq2 = -2,
+  scoreDSamseq = 0.8,
   lfcMaxDeseq2 = 2,
   pValueDeseq2 = 0.05,
   lfcMinEdger = -2,
@@ -22,17 +25,23 @@ expressionDefinition(
   lfcMinKnowseq = -2,
   lfcMaxKnowseq = 2,
   pValueKnowseq = 0.05,
-  deClassEbseq = "DE"
+  deClassEbseq = "DE",
+  ppThresholdEbseq = 0.8,
+  printResults = FALSE
 )
 }
 \arguments{
 \item{resultTool}{table results by consexpressionR function}
+
+\item{groups}{text, name of samples or treatment}
 
 \item{lfcMinLimma}{minimum value to consider of log Fold Change (default: -2).}
 
 \item{lfcMaxLimma}{maximum value to consider of log Fold Change (default: 2)}
 
 \item{pValueLimma}{minimum P-Value to consider (default: 0.05)}
+
+\item{FLimma}{The F statistics is used to test the null hypotheses of all groups have the same median of expression}
 
 \item{lfcMinSamseq}{minimum value to consider of log Fold Change (default: -2).}
 
@@ -41,6 +50,8 @@ expressionDefinition(
 \item{qValueSamseq}{q-value is a measure of the statistical significance of the difference in expression between the compared groups, taking the problem of multiple comparisons into account (default: 0.8)}
 
 \item{lfcMinDeseq2}{minimum value to consider of log Fold Change (default: -2).}
+
+\item{scoreDSamseq}{statistic used to evaluate the significance of each gene in multi class analysis}
 
 \item{lfcMaxDeseq2}{maximum value to consider of log Fold Change (default: 2)}
 
@@ -61,6 +72,10 @@ expressionDefinition(
 \item{pValueKnowseq}{minimum P-Value to consider (default: 0.05)}
 
 \item{deClassEbseq}{name of class to consider by EBSeq (default: "DE")}
+
+\item{ppThresholdEbseq}{description}
+
+\item{printResults}{logical variable: TRUE print report by each tool, FALSE print only consensus result}
 }
 \description{
 Define who genes are deferentially expressed by method

@@ -5,10 +5,11 @@
 #' @param lfcMinLimma minimum value to consider of log Fold Change (default: -2).
 #' @param lfcMaxLimma maximum value to consider of log Fold Change (default: 2)
 #' @param pValueLimma minimum P-Value to consider (default: 0.05)
+#' @param FLimma The F statistics is used to test the null hypotheses of all groups have the same median of expression
 #' @param lfcMinSamseq minimum value to consider of log Fold Change (default: -2).
 #' @param lfcMaxSamseq maximum value to consider of log Fold Change (default: 2)
 #' @param qValueSamseq q-value is a measure of the statistical significance of the difference in expression between the compared groups, taking the problem of multiple comparisons into account (default: 0.8)
-#' @param scoreDSamseq statistic used to evaluate the significance of each gene in multiclass analysis
+#' @param scoreDSamseq statistic used to evaluate the significance of each gene in multi class analysis
 #' @param lfcMinDeseq2 minimum value to consider of log Fold Change (default: -2).
 #' @param lfcMaxDeseq2 maximum value to consider of log Fold Change (default: 2)
 #' @param pValueDeseq2 minimum P-Value to consider (default: 0.05)
@@ -21,8 +22,7 @@
 #' @param pValueKnowseq minimum P-Value to consider (default: 0.05)
 #' @param deClassEbseq name of class to consider by EBSeq (default: "DE")
 #' @param ppThresholdEbseq description
-# @param lfcMinEbseq minimum value to consider of log Fold Change (default: -2).
-# @param lfcMaxEbseq maximum value to consider of log Fold Change (default: 2)
+#' @param printResults logical variable: TRUE print report by each tool, FALSE print only consensus result
 #' @export
 #' @examples
 #' library(cqn)
