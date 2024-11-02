@@ -3,7 +3,7 @@
 #' @importFrom utils read.csv
 #' @param numberReplics number of replicate (technical or biological) by sample
 #' @param groupName text, name of samples or treatment
-#' @param tableCountPath path to csv file that contains count data or abundance data (local)
+#' @param tableCountPath path to file csv that contains cout data or abundance data (local)
 #' @param sepCharacter character used to split csv data, can be comma or tab
 #' @param rDataFrameCount RData object with table count, where line name is gene name, and name column is treat name
 #' @param experimentName text, name of experiment
@@ -12,6 +12,10 @@
 #' @param methodAdjPvalueLimma correction method, a character string. Can be abbreviated (limma)
 #' @param numberTopTableLimma maximum number of genes to list (limma)
 #' @param printResults logical variable: TRUE print report by each tool, FALSE print only consensus result
+#' @param kallistoReport path to kallisto report file _quant
+#' @param kallistoDir name of kallistto results
+#' @param kallistoSubDir name of directory in kallisto results
+#' @param kallistoOut path to kallisto .tsv file
 #' @param methodNormEdgeR normalization method to be used in edgeR::calcNormFactors(), default: "TMM"
 #' @param kNoiseq Counts equal to 0 are replaced by k. By default, k = 0.5
 #' @param factorNoiseq A string indicating the name of factor whose levels are the conditions to be compared.
@@ -27,11 +31,9 @@
 #' @param filterIdKnowseq The attribute used as filter to return the rest of the attributes.
 #' @param notSapiensKnowseq A boolean value that indicates if the user wants the human annotation or another annotation available in BiomaRt. The possible not human dataset can be consulted by calling the following function: biomaRt::listDatasets(useMart("ensembl")).
 #' @param fitTypeDeseq2 either "parametric", "local", "mean", or "glmGamPoi" for the type of fitting of dispersions to the mean intensity
-#' @param controlDeseq2 group of samples that represents control in experiment, used by DESeq2; Default is "".
-#' @param deNovoAanalysis boolean value (TRUE if dataset don`t have a reference genome)
-#' @param progressShiny shiny app element, used to show execution progress
+#' @param controlDeseq2 group os samples that represents control in experiment, used by DESeq2; Default is "".
 #'
-#' @return list with all analysis expression
+#' @return list with all analisys expression
 #' @export
 #'
 #' @examples
@@ -52,6 +54,10 @@ runExpression <- function (numberReplics,
                              printResults=FALSE,
                              fitTypeDeseq2 = "local",
                              controlDeseq2 = "",
+                             kallistoReport = "report.txt",
+                             kallistoDir = "kallisto_quant",
+                             kallistoSubDir = "expermient_kallisto",
+                             kallistoOut = "abundance.tsv",
                              methodNormLimma = "TMM",
                              methodAdjPvalueLimma = "BH",
                              numberTopTableLimma = 1000000,
@@ -101,20 +107,17 @@ runExpression <- function (numberReplics,
     }
     resultTool$knowseq <- NULL
     tryCatch({
-      if(deNovoAanalysis){
-        cat("\n ------------ KnowSeq is not running to deNovo analysis!\n")
+      resultTool$knowseq <- runKnowSeq(as.matrix(countMatrix),
+                                       groupName = groupName,
+                                       numberReplic = numberReplics,
+                                       filterId = filterIdKnowseq,
+                                       notSapiens = notSapiensKnowseq)
+      if(!is.null(resultTool$knowseq)){
+        cat("\n ------------ KnowSeq executed!\n")
       }else{
-        resultTool$knowseq <- runKnowSeq(as.matrix(countMatrix),
-                                         groupName = groupName,
-                                         numberReplic = numberReplics,
-                                         filterId = filterIdKnowseq,
-                                         notSapiens = notSapiensKnowseq)
-        if(!is.null(resultTool$knowseq)){
-          cat("\n ------------ KnowSeq executed!\n")
-        }else{
-          cat("\n ------------ KnowSeq multiclass not Implemented!\n")
-        }
+        cat("\n ------------ KnowSeq multiclass not Implemented!\n")
       }
+
     }, error = function(e) {
       message(paste("\n \n ===== ERROR: KnowSeq execution is failed === \n",e,"\n"))
     })
@@ -156,8 +159,13 @@ runExpression <- function (numberReplics,
     }
     # DESeq2 kallisto
     if(typeof(countMatrix) == "double"){
-        resultTool$deseq2 <- NULL
-        cat("\n ------------ DESeq2 run CANCELLED, enabled for count data only.\n")
+        resultTool$deseq2 <- runDeseq2(countMatrix = countMatrix,
+                                       groupName = groupName,
+                                       numberReplics = numberReplics,
+                                       controlGroup = controlDeseq2,
+                                       designExperiment = designExperiment,
+                                       fitTypeParam = fitTypeDeseq2)
+        cat("\n ------------ DESeq2 executed!\n")
         # SAMSeq only count data
         cat("**** SAMSeq run CANCELLED, enabled for count data only.\n")
         if(!is.null(progressShiny)){

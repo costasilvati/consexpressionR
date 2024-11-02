@@ -1,5 +1,5 @@
 ---
-title: "consexpressionR"
+title: "consexpressionR-vignette"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{consexpressionR-vignette}
@@ -7,43 +7,13 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-R package consexpressionR is an R package for differential expression analysis of count or quantification data. With just one count or quantification file, the user can obtain a list of genes indicated as differentially expressed by 5 or more methods. With a user-friendly graphical interface, it can be used in a web browser, where the user can parameterize all 7 expression analysis methodologies. The differential expression analysis is performed with the methods edgeR, DeSeq2, SAMSeq, KnowSeq, EBSeq, limma, and NOISeq. The results of each tool can be written in .csv files. Visualization is carried out through a radarPlot, containing the genes thatwere considered as differentially expressed by 5 or more methods. You can see pkgdown in action at <https://costasilvati.shinyapps.io/consexpressionRapp/>. Learn more in `vignette("consexpressionR")`.
-
-## Installation
-
-```{r setup}
-library(devtools)
-install_github("costasilvati/consexpressionR")
-library(consexpressionR)
-# shinyApp running in localhost
-consexpressionR()
-```
-
-```{r, echo = FALSE}
+```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/"
+  comment = "#>"
 )
 ```
 
-<!--
-# pkgdown <img src="man/figures/logo.png" align="right" alt="" width="120" />
--->
-
-<!-- badges: start -->
-
-[![CRAN Status]()](){.pkgdown-release} [![R-CMD-check](https://github.com/r-lib/pkgdown/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-lib/pkgdown/actions/workflows/R-CMD-check.yaml){.pkgdown-devel} [![Codecov test coverage](https://codecov.io/gh/r-lib/pkgdown/branch/main/graph/badge.svg)](https://app.codecov.io/gh/r-lib/pkgdown?branch=main)
-
-<!-- badges: end -->
-
-::: consexpressionR-release
-```{r, eval = FALSE}
-# Install released version from github
-library(devtools)
-install_github("costasilvati/consexpressionR")
+```{r setup}
 library(consexpressionR)
-# shinyApp running in localhost
-consexpressionR()
 ```
-:::

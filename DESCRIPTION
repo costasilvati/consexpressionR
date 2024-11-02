@@ -6,7 +6,7 @@ Authors@R: c(person("Juliana", "Costa-Silva",
             role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-5830-8548")),
   person("David", "Menotti", 
-            email="menottid@gmail.com", 
+            email="menottida@gmail.com", 
             role = "aut",
             comment = c(ORCID = "YOUR-ORCID-ID")),
     person("Fabricio", "M. Lopes",
@@ -42,15 +42,12 @@ Imports:
     shinybusy (>= 0.3.3),
     shinydashboard (>= 0.7.2),
     shinyjs,
-    stats,
     stringr (>= 1.5.1),
     tximport (>= 1.31.0),
     UpSetR (>= 1.4.0),
     utils (>= 4.2.2)
 Suggests: 
-    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 File: data/gse95077.csv
 LazyData: true
-VignetteBuilder: knitr
