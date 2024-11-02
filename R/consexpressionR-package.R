@@ -31,6 +31,9 @@
 #' @importFrom shinydashboard tabItems
 #' @importFrom shinyjs disable
 #' @importFrom shinyjs enable
+#' @importFrom stats relevel
+#' @importFrom stats var
 #' @importFrom UpSetR upset
+#' @importFrom utils write.csv
 ## usethis namespace: end
 NULL

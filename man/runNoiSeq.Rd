@@ -7,17 +7,21 @@
 runNoiSeq(
   countMatrix,
   designExperiment,
+  groups = c(""),
   normParm = "rpkm",
   kParam = 0.5,
-  factorParam = "Tissue",
+  factorParam = c("Tissue"),
   lcParam = 0,
-  replicatesParam = "technical"
+  replicatesParam = "technical",
+  condExp = c("")
 )
 }
 \arguments{
 \item{countMatrix}{either a matrix of raw (read) counts.}
 
-\item{designExperiment}{replicate and treatment by samples}
+\item{designExperiment}{replicate and treatment by samples.}
+
+\item{groups}{text list separated by comma, name of samples or treatment.}
 
 \item{normParm}{Normalization method t can be one of "rpkm" (default), "uqua" (upper quartile), "tmm" (trimmed mean of M) or "n" (no normalization).}
 
@@ -28,6 +32,8 @@ runNoiSeq(
 \item{lcParam}{Length correction is done by dividing expression by length^lc. By default, lc = 0}
 
 \item{replicatesParam}{In this argument, the type of replicates to be used is defined: "technical", "biological" or "no" replicates. By default, "technical" replicates option is chosen.}
+
+\item{condExp}{A vector containing the two conditions to be compared by the differential expression algorithm (needed when the factor contains more than 2 different conditions).}
 }
 \value{
 A data.frame with output of noiseqOut@results

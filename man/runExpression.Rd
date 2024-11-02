@@ -14,10 +14,7 @@ runExpression(
   outDirPath = "consexpression2_results/",
   printResults = FALSE,
   fitTypeDeseq2 = "local",
-  kallistoReport = "report.txt",
-  kallistoDir = "kallisto_quant",
-  kallistoSubDir = "expermient_kallisto",
-  kallistoOut = "abundance.tsv",
+  controlDeseq2 = "",
   methodNormLimma = "TMM",
   methodAdjPvalueLimma = "BH",
   numberTopTableLimma = 1e+06,
@@ -29,11 +26,14 @@ runExpression(
   factorNoiseq = "Tissue",
   lcNoiseq = 0,
   replicatesNoiseq = "technical",
+  condExpNoiseq = c(""),
   respTypeSamseq = "Two class unpaired",
   npermSamseq = 100,
   fdrEbseq = 0.05,
   maxRoundEbseq = 50,
-  methodDeResultsEbseq = "robust"
+  methodDeResultsEbseq = "robust",
+  deNovoAanalysis = FALSE,
+  progressShiny = NULL
 )
 }
 \arguments{
@@ -41,7 +41,7 @@ runExpression(
 
 \item{groupName}{text, name of samples or treatment}
 
-\item{tableCountPath}{path to file csv that contains cout data or abundance data (local)}
+\item{tableCountPath}{path to csv file that contains count data or abundance data (local)}
 
 \item{sepCharacter}{character used to split csv data, can be comma or tab}
 
@@ -55,13 +55,7 @@ runExpression(
 
 \item{fitTypeDeseq2}{either "parametric", "local", "mean", or "glmGamPoi" for the type of fitting of dispersions to the mean intensity}
 
-\item{kallistoReport}{path to kallisto report file _quant}
-
-\item{kallistoDir}{name of kallistto results}
-
-\item{kallistoSubDir}{name of directory in kallisto results}
-
-\item{kallistoOut}{path to kallisto .tsv file}
+\item{controlDeseq2}{group of samples that represents control in experiment, used by DESeq2; Default is "".}
 
 \item{methodNormLimma}{normalization method to be used (limma)}
 
@@ -85,6 +79,8 @@ runExpression(
 
 \item{replicatesNoiseq}{In this argument, the type of replicates to be used is defined: "technical", "biological" or "no" replicates. By default, "technical" replicates option is chosen.}
 
+\item{condExpNoiseq}{A vector containing the two conditions to be compared by the differential expression algorithm (needed when the factor contains more than 2 different conditions).}
+
 \item{respTypeSamseq}{Problem type: "Quantitative" for a continuous parameter; "Two class unpaired" for two classes with unpaired observations; "Survival" for censored survival outcome; "Multiclass": more than 2 groups; "Two class paired" for two classes with paired observations. Default: "Two class unpaired".}
 
 \item{npermSamseq}{Number of permutations used to estimate false discovery rates. Default 100}
@@ -94,9 +90,13 @@ runExpression(
 \item{maxRoundEbseq}{parameter used in EBTest function: Number of iterations. The default value is 50.}
 
 \item{methodDeResultsEbseq}{parameter used in GetDEResults function: "robust" or "classic". Using the "robust" option, EBSeq is more robust to genes with outliers and genes with extremely small variances. Using the "classic" option, the results will be more comparable to those obtained by using the GetPPMat() function from earlier version (<= 1.7.0) of EBSeq}
+
+\item{deNovoAanalysis}{boolean value (TRUE if dataset don`t have a reference genome)}
+
+\item{progressShiny}{shiny app element, used to show execution progress}
 }
 \value{
-list with all analisys expression
+list with all analysis expression
 }
 \description{
 Make expression analysis of 7 tools, and return a list of results by each tool.

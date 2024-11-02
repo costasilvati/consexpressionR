@@ -1,81 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/404.html</loc>
   </url>
   <url>
-    <loc>/LICENSE-text.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>/LICENSE.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/LICENSE.html</loc>
   </url>
   <url>
-    <loc>/articles/consexpressionR-vignette.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/articles/consexpressionR-vignette.html</loc>
   </url>
   <url>
-    <loc>/articles/index.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/articles/index.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/articles/my-vignette.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/authors.html</loc>
   </url>
   <url>
-    <loc>/reference/abundanceKallistoImport.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/index.html</loc>
   </url>
   <url>
-    <loc>/reference/consensusList.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/reference/abundanceKallistoImport.html</loc>
   </url>
   <url>
-    <loc>/reference/consexpressionR-package.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/reference/consensusList.html</loc>
   </url>
   <url>
-    <loc>/reference/createNameFileOutput.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/reference/consexpressionR-package.html</loc>
   </url>
   <url>
-    <loc>/reference/expressionDefinition.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/reference/createNameFileOutput.html</loc>
   </url>
   <url>
-    <loc>/reference/gse95077.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/reference/expressionDefinition.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/reference/gse95077.html</loc>
   </url>
   <url>
-    <loc>/reference/listDeByTool.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/readCountFile.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/reference/listDeByTool.html</loc>
   </url>
   <url>
-    <loc>/reference/runDeseq2.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/reference/readCountFile.html</loc>
   </url>
   <url>
-    <loc>/reference/runEbseq.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/reference/runDeseq2.html</loc>
   </url>
   <url>
-    <loc>/reference/runEdger.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/reference/runEbseq.html</loc>
   </url>
   <url>
-    <loc>/reference/runExpression.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/reference/runEdger.html</loc>
   </url>
   <url>
-    <loc>/reference/runKnowSeq.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/reference/runExpression.html</loc>
   </url>
   <url>
-    <loc>/reference/runLimma.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/reference/runKnowSeq.html</loc>
   </url>
   <url>
-    <loc>/reference/runNoiSeq.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/reference/runLimma.html</loc>
   </url>
   <url>
-    <loc>/reference/runSamSeq.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/reference/runNoiSeq.html</loc>
   </url>
   <url>
-    <loc>/reference/upSetPlotTools.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/reference/runSamSeq.html</loc>
   </url>
   <url>
-    <loc>/reference/writeResults.html</loc>
+    <loc>https://costasilvati.github.io/consexpressionR/reference/upSetPlotTools.html</loc>
+  </url>
+  <url>
+    <loc>https://costasilvati.github.io/consexpressionR/reference/writeResults.html</loc>
   </url>
 </urlset>
