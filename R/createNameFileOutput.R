@@ -11,8 +11,7 @@
 #' print(nameFile)
 createNameFileOutput <- function (outDirPath=".",
                                   execName="exec"){
-  if(stringr::str_ends(outDirPath,'/',
-                       negate = TRUE)){
+  if(stringr::str_ends(outDirPath,'/',negate = TRUE)){
     outDirPath <- paste(outDirPath, '/',
                         sep = "")
   }

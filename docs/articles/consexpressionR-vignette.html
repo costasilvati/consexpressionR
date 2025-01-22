@@ -99,50 +99,77 @@ Learn more in <code>vignette("consexpressionR")</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"costasilvati/consexpressionR"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Downloading GitHub repo costasilvati/consexpressionR@HEAD</span></span></code></pre>
-<pre><code><span><span class="co">## colorspace  (2.1-0   -&gt; 2.1-1  ) [CRAN]</span></span>
-<span><span class="co">## glue        (1.7.0   -&gt; 1.8.0  ) [CRAN]</span></span>
-<span><span class="co">## Rcpp        (1.0.12  -&gt; 1.0.13 ) [CRAN]</span></span>
-<span><span class="co">## gtable      (0.3.5   -&gt; 0.3.6  ) [CRAN]</span></span>
-<span><span class="co">## withr       (3.0.0   -&gt; 3.0.2  ) [CRAN]</span></span>
-<span><span class="co">## fs          (1.6.4   -&gt; 1.6.5  ) [CRAN]</span></span>
-<span><span class="co">## digest      (0.6.36  -&gt; 0.6.37 ) [CRAN]</span></span>
-<span><span class="co">## bslib       (0.7.0   -&gt; 0.8.0  ) [CRAN]</span></span>
-<span><span class="co">## commonmark  (1.9.1   -&gt; 1.9.2  ) [CRAN]</span></span>
-<span><span class="co">## jsonlite    (1.8.8   -&gt; 1.8.9  ) [CRAN]</span></span>
-<span><span class="co">## tinytex     (0.51    -&gt; 0.54   ) [CRAN]</span></span>
-<span><span class="co">## xfun        (0.45    -&gt; 0.49   ) [CRAN]</span></span>
-<span><span class="co">## evaluate    (0.24.0  -&gt; 1.0.1  ) [CRAN]</span></span>
-<span><span class="co">## yaml        (2.3.8   -&gt; 2.3.10 ) [CRAN]</span></span>
-<span><span class="co">## rmarkdown   (2.27    -&gt; 2.28   ) [CRAN]</span></span>
-<span><span class="co">## knitr       (1.47    -&gt; 1.48   ) [CRAN]</span></span>
-<span><span class="co">## shiny       (1.8.1.1 -&gt; 1.9.1  ) [CRAN]</span></span>
-<span><span class="co">## cpp11       (0.4.7   -&gt; 0.5.0  ) [CRAN]</span></span>
-<span><span class="co">## sys         (3.4.2   -&gt; 3.4.3  ) [CRAN]</span></span>
-<span><span class="co">## askpass     (1.2.0   -&gt; 1.2.1  ) [CRAN]</span></span>
-<span><span class="co">## openssl     (2.2.0   -&gt; 2.2.2  ) [CRAN]</span></span>
-<span><span class="co">## curl        (5.2.1   -&gt; 5.2.3  ) [CRAN]</span></span>
-<span><span class="co">## ps          (1.7.6   -&gt; 1.8.1  ) [CRAN]</span></span>
-<span><span class="co">## openxlsx    (4.2.5.2 -&gt; 4.2.7.1) [CRAN]</span></span>
-<span><span class="co">## matrixStats (1.3.0   -&gt; 1.4.1  ) [CRAN]</span></span>
-<span><span class="co">## SparseM     (1.84    -&gt; 1.84-2 ) [CRAN]</span></span>
-<span><span class="co">## data.table  (1.15.4  -&gt; 1.16.2 ) [CRAN]</span></span>
-<span><span class="co">## pkgbuild    (1.4.4   -&gt; 1.4.5  ) [CRAN]</span></span>
-<span><span class="co">## quantreg    (5.98    -&gt; 5.99   ) [CRAN]</span></span></code></pre>
+<pre><code><span><span class="co">## colorspace  (2.1-0   -&gt; 2.1-1   ) [CRAN]</span></span>
+<span><span class="co">## glue        (1.7.0   -&gt; 1.8.0   ) [CRAN]</span></span>
+<span><span class="co">## Rcpp        (1.0.12  -&gt; 1.0.13-1) [CRAN]</span></span>
+<span><span class="co">## gtable      (0.3.5   -&gt; 0.3.6   ) [CRAN]</span></span>
+<span><span class="co">## withr       (3.0.0   -&gt; 3.0.2   ) [CRAN]</span></span>
+<span><span class="co">## fs          (1.6.4   -&gt; 1.6.5   ) [CRAN]</span></span>
+<span><span class="co">## digest      (0.6.36  -&gt; 0.6.37  ) [CRAN]</span></span>
+<span><span class="co">## bslib       (0.7.0   -&gt; 0.8.0   ) [CRAN]</span></span>
+<span><span class="co">## commonmark  (1.9.1   -&gt; 1.9.2   ) [CRAN]</span></span>
+<span><span class="co">## jsonlite    (1.8.8   -&gt; 1.8.9   ) [CRAN]</span></span>
+<span><span class="co">## tinytex     (0.51    -&gt; 0.54    ) [CRAN]</span></span>
+<span><span class="co">## xfun        (0.45    -&gt; 0.49    ) [CRAN]</span></span>
+<span><span class="co">## evaluate    (0.24.0  -&gt; 1.0.1   ) [CRAN]</span></span>
+<span><span class="co">## yaml        (2.3.8   -&gt; 2.3.10  ) [CRAN]</span></span>
+<span><span class="co">## rmarkdown   (2.27    -&gt; 2.29    ) [CRAN]</span></span>
+<span><span class="co">## knitr       (1.47    -&gt; 1.48    ) [CRAN]</span></span>
+<span><span class="co">## shiny       (1.8.1.1 -&gt; 1.9.1   ) [CRAN]</span></span>
+<span><span class="co">## cpp11       (0.4.7   -&gt; 0.5.0   ) [CRAN]</span></span>
+<span><span class="co">## sys         (3.4.2   -&gt; 3.4.3   ) [CRAN]</span></span>
+<span><span class="co">## askpass     (1.2.0   -&gt; 1.2.1   ) [CRAN]</span></span>
+<span><span class="co">## openssl     (2.2.0   -&gt; 2.2.2   ) [CRAN]</span></span>
+<span><span class="co">## curl        (5.2.1   -&gt; 6.0.0   ) [CRAN]</span></span>
+<span><span class="co">## ps          (1.7.6   -&gt; 1.8.1   ) [CRAN]</span></span>
+<span><span class="co">## openxlsx    (4.2.5.2 -&gt; 4.2.7.1 ) [CRAN]</span></span>
+<span><span class="co">## matrixStats (1.3.0   -&gt; 1.4.1   ) [CRAN]</span></span>
+<span><span class="co">## SparseM     (1.84    -&gt; 1.84-2  ) [CRAN]</span></span>
+<span><span class="co">## data.table  (1.15.4  -&gt; 1.16.2  ) [CRAN]</span></span>
+<span><span class="co">## pkgbuild    (1.4.4   -&gt; 1.4.5   ) [CRAN]</span></span>
+<span><span class="co">## quantreg    (5.98    -&gt; 5.99    ) [CRAN]</span></span></code></pre>
 <pre><code><span><span class="co">## Skipping 9 packages not available: impute, tximport, NOISeq, limma, KnowSeq, edgeR, EBSeq, DESeq2, cqn</span></span></code></pre>
 <pre><code><span><span class="co">## Installing 29 packages: colorspace, glue, Rcpp, gtable, withr, fs, digest, bslib, commonmark, jsonlite, tinytex, xfun, evaluate, yaml, rmarkdown, knitr, shiny, cpp11, sys, askpass, openssl, curl, ps, openxlsx, matrixStats, SparseM, data.table, pkgbuild, quantreg</span></span></code></pre>
-<pre><code><span><span class="co">## Installing packages into '/private/var/folders/rj/jt89gqr101vbpb1489h4zs280000gn/T/Rtmpp6kIKS/temp_libpath44236b787f4'</span></span>
+<pre><code><span><span class="co">## Installing packages into '/private/var/folders/rj/jt89gqr101vbpb1489h4zs280000gn/T/Rtmp2tVVgI/temp_libpath8dd5493548f'</span></span>
 <span><span class="co">## (as 'lib' is unspecified)</span></span></code></pre>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## The downloaded binary packages are in</span></span>
-<span><span class="co">##  /var/folders/rj/jt89gqr101vbpb1489h4zs280000gn/T//Rtmp4SNnWQ/downloaded_packages</span></span>
+<span><span class="co">##  /var/folders/rj/jt89gqr101vbpb1489h4zs280000gn/T//RtmpYtw3Io/downloaded_packages</span></span>
 <span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="color: #00BBBB;">R CMD build</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────────</span></span></span>
-<span><span class="co">## * checking for file ‘/private/var/folders/rj/jt89gqr101vbpb1489h4zs280000gn/T/Rtmp4SNnWQ/remotesed84a2521b/costasilvati-consexpressionR-571e622/DESCRIPTION’ ... OK</span></span>
+<span><span class="co">## * checking for file ‘/private/var/folders/rj/jt89gqr101vbpb1489h4zs280000gn/T/RtmpYtw3Io/remotes9f648d8a6b8/costasilvati-consexpressionR-6cf86f2/DESCRIPTION’ ... OK</span></span>
 <span><span class="co">## * preparing ‘consexpressionR’:</span></span>
 <span><span class="co">## * checking DESCRIPTION meta-information ... OK</span></span>
 <span><span class="co">## * checking for LF line-endings in source and make files and shell scripts</span></span>
 <span><span class="co">## * checking for empty or unneeded directories</span></span>
-<span><span class="co">## * building ‘consexpressionR_0.0.0.9000.tar.gz’</span></span></code></pre>
-<pre><code><span><span class="co">## Installing package into '/private/var/folders/rj/jt89gqr101vbpb1489h4zs280000gn/T/Rtmpp6kIKS/temp_libpath44236b787f4'</span></span>
+<span><span class="co">## * building ‘consexpressionR_0.0.0.9000.tar.gz’</span></span>
+<span><span class="co">## Warning in utils::tar(filepath, pkgname, compression = compression, compression_level = 9L,  :</span></span>
+<span><span class="co">##   storing paths of more than 100 bytes is not portable:</span></span>
+<span><span class="co">##   ‘consexpressionR/docs/deps/bootstrap-5.3.1/fonts/memtYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWqW106F15M.woff2’</span></span>
+<span><span class="co">## Warning in utils::tar(filepath, pkgname, compression = compression, compression_level = 9L,  :</span></span>
+<span><span class="co">##   storing paths of more than 100 bytes is not portable:</span></span>
+<span><span class="co">##   ‘consexpressionR/docs/deps/bootstrap-5.3.1/fonts/memtYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWqWt06F15M.woff2’</span></span>
+<span><span class="co">## Warning in utils::tar(filepath, pkgname, compression = compression, compression_level = 9L,  :</span></span>
+<span><span class="co">##   storing paths of more than 100 bytes is not portable:</span></span>
+<span><span class="co">##   ‘consexpressionR/docs/deps/bootstrap-5.3.1/fonts/memtYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWqWtE6F15M.woff2’</span></span>
+<span><span class="co">## Warning in utils::tar(filepath, pkgname, compression = compression, compression_level = 9L,  :</span></span>
+<span><span class="co">##   storing paths of more than 100 bytes is not portable:</span></span>
+<span><span class="co">##   ‘consexpressionR/docs/deps/bootstrap-5.3.1/fonts/memtYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWqWtU6F15M.woff2’</span></span>
+<span><span class="co">## Warning in utils::tar(filepath, pkgname, compression = compression, compression_level = 9L,  :</span></span>
+<span><span class="co">##   storing paths of more than 100 bytes is not portable:</span></span>
+<span><span class="co">##   ‘consexpressionR/docs/deps/bootstrap-5.3.1/fonts/memtYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWqWtk6F15M.woff2’</span></span>
+<span><span class="co">## Warning in utils::tar(filepath, pkgname, compression = compression, compression_level = 9L,  :</span></span>
+<span><span class="co">##   storing paths of more than 100 bytes is not portable:</span></span>
+<span><span class="co">##   ‘consexpressionR/docs/deps/bootstrap-5.3.1/fonts/memtYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWqWu06F15M.woff2’</span></span>
+<span><span class="co">## Warning in utils::tar(filepath, pkgname, compression = compression, compression_level = 9L,  :</span></span>
+<span><span class="co">##   storing paths of more than 100 bytes is not portable:</span></span>
+<span><span class="co">##   ‘consexpressionR/docs/deps/bootstrap-5.3.1/fonts/memtYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWqWuk6F15M.woff2’</span></span>
+<span><span class="co">## Warning in utils::tar(filepath, pkgname, compression = compression, compression_level = 9L,  :</span></span>
+<span><span class="co">##   storing paths of more than 100 bytes is not portable:</span></span>
+<span><span class="co">##   ‘consexpressionR/docs/deps/bootstrap-5.3.1/fonts/memtYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWqWvU6F15M.woff2’</span></span>
+<span><span class="co">## Warning in utils::tar(filepath, pkgname, compression = compression, compression_level = 9L,  :</span></span>
+<span><span class="co">##   storing paths of more than 100 bytes is not portable:</span></span>
+<span><span class="co">##   ‘consexpressionR/docs/deps/bootstrap-5.3.1/fonts/memtYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWqWxU6F15M.woff2’</span></span></code></pre>
+<pre><code><span><span class="co">## Installing package into '/private/var/folders/rj/jt89gqr101vbpb1489h4zs280000gn/T/Rtmp2tVVgI/temp_libpath8dd5493548f'</span></span>
 <span><span class="co">## (as 'lib' is unspecified)</span></span></code></pre>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">consexpressionR</span><span class="op">)</span></span>

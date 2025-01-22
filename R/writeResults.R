@@ -18,8 +18,8 @@ writeResults <- function(data,
     out <- createNameFileOutput(".",
                                 execName=toolName)
     write.table(data,
-                       out,
-                       sep=sepCharacter,
-                       quote = FALSE)
+                file = out,
+                sep=sepCharacter,
+                quote = FALSE)
   }
 }

@@ -17,8 +17,10 @@
 #'                               outDirPath = "." )
 #' expDef_result <- expressionDefinition(resultTool = cons_result)
 #' deByTool <- listDeByTool(cons_result, expDef_result)
-listDeByTool <- function(consexpressionList, deList){
-  deTool <- data.frame(matrix(0, ncol = length(consexpressionList),
+listDeByTool <- function(consexpressionList,
+                         deList){
+  deTool <- data.frame(matrix(0,
+                              ncol = length(consexpressionList),
                               nrow = nrow(consexpressionList[[2]])))
   colnames(deTool) <- names(consexpressionList)
   row.names(deTool) <- row.names(consexpressionList[[2]])

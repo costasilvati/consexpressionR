@@ -2,9 +2,9 @@
 title: "consexpressionR"
 output: default
 vignette: >
-  %\VignetteIndexEntry{consexpressionR-vignette}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+  \VignetteIndexEntry{consexpressionR-vignette}
+  \VignetteEngine{knitr::rmarkdown}
+  \VignetteEncoding{UTF-8}
 ---
 
 # consexpressionR
