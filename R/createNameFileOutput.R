@@ -11,13 +11,14 @@
 #' print(nameFile)
 createNameFileOutput <- function (outDirPath=".",
                                   execName="exec"){
-  if(stringr::str_ends(outDirPath,'/',negate = TRUE)){
+  if(!substr(outDirPath, nchar(outDirPath), nchar(outDirPath)) == "/"){
     outDirPath <- paste(outDirPath, '/',
                         sep = "")
   }
-  outputFileName <- paste(outDirPath,
+  outputFileName <- paste0(outDirPath,
                           'consexpression2_',
-                          execName, '.csv',
-                          sep = "")
+                          execName,
+                          format(Sys.time(), "%d%m%Y_%H%M%S"),
+                          '.csv')
   return(outputFileName)
 }

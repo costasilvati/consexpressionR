@@ -48,7 +48,7 @@ runExpression <- function (numberReplics,
                              sepCharacter=",",
                              rDataFrameCount = NULL,
                              experimentName="genericExperiment",
-                             outDirPath="consexpression2_results/",
+                             outDirPath="../../consexpression2_results/",
                              printResults=FALSE,
                              fitTypeDeseq2 = "local",
                              controlDeseq2 = "",
@@ -84,18 +84,10 @@ runExpression <- function (numberReplics,
     if(!is.null(progressShiny) && (!is.null(var))){
       progressShiny(detail = "Executing edger...")
     }
-    resultTool$edger<-attempt::attempt(expr =
-                    runEdger(countMatrix,
-                            numberReplics,
-                            designExperiment,
-                            methNorm = methodNormEdgeR),
-                    msg = "ERROR: edgeR execution is failed",
-                    verbose = TRUE)
-    if(attempt::is_try_error(resultTool$edger)){
-      resultTool$edger <- NULL
-    }else{
-      cat("\n ------------ edger executed!\n")
-    }
+    resultTool$edger <- runEdger(countMatrix,
+                                 numberReplics,
+                                 designExperiment,
+                                 methNorm = methodNormEdgeR)
     if(!is.null(progressShiny)){
       progressShiny(detail = "Executing KnowSeq...")
     }
@@ -121,36 +113,49 @@ runExpression <- function (numberReplics,
     if(!is.null(progressShiny)){
       progressShiny(detail = "Executing limma...")
     }
-    resultTool$limma<-runLimma(countMatrix,
-                          numberReplics,
-                          designExperiment,
-                          methodNormLimma,
-                          methodAdjPvalueLimma,
-                          numberTopTableLimma)
-    cat("\n ------------ limma executed!\n")
+    tryCatch({
+      resultTool$limma<-runLimma(countMatrix,
+                            numberReplics,
+                            designExperiment,
+                            methodNormLimma,
+                            methodAdjPvalueLimma,
+                            numberTopTableLimma)
+      cat("\n ------------ limma executed!\n")
+    }, error = function(e) {
+      message(paste("\n \n ===== ERROR: limma execution is failed === \n",e,"\n"))
+    })
+
     if(!is.null(progressShiny)){
       progressShiny(detail = "Executing NOISeq...")
     }
-    resultTool$noiseq<-runNoiSeq(countMatrix = countMatrix,
-                                 groups = groupName,
-                                 designExperiment= designExperiment,
-                                 normParm = normNoiseq,
-                                 kParam =kNoiseq,
-                                 factorParam=factorNoiseq,
-                                 lcParam = lcNoiseq,
-                                 replicatesParam = replicatesNoiseq,
-                                 condExp = condExpNoiseq)
-    cat("\n ------------ NOISeq executed! \n")
+    tryCatch({
+      resultTool$noiseq<-runNoiSeq(countMatrix = countMatrix,
+                                   groups = groupName,
+                                   designExperiment= designExperiment,
+                                   normParm = normNoiseq,
+                                   kParam =kNoiseq,
+                                   factorParam=factorNoiseq,
+                                   lcParam = lcNoiseq,
+                                   replicatesParam = replicatesNoiseq,
+                                   condExp = condExpNoiseq)
+      cat("\n ------------ NOISeq executed! \n")
+    }, error = function(e) {
+      message(paste("\n \n ===== ERROR: NOISeq execution is failed === \n",e,"\n"))
+    })
     if(!is.null(progressShiny)){
       progressShiny(detail = "Executing EBSeq...")
     }
-    resultTool$ebseq <- runEbseq(as.matrix(countMatrix),
-                             designExperiment,
-                             fdr = fdrEbseq,
-                             maxRound = maxRoundEbseq,
-                             methodDeResults = methodDeResultsEbseq,
-                             groups = groupName)
-    cat("\n ------------ ebseq executed!\n")
+    tryCatch({
+      resultTool$ebseq <- runEbseq(as.matrix(countMatrix),
+                               designExperiment,
+                               fdr = fdrEbseq,
+                               maxRound = maxRoundEbseq,
+                               methodDeResults = methodDeResultsEbseq,
+                               groups = groupName)
+      cat("\n ------------ EBSeq executed!\n")
+    }, error = function(e) {
+      message(paste("\n \n ===== ERROR: EBSeq execution is failed === \n",e,"\n"))
+    })
     if(!is.null(progressShiny)){
       progressShiny(detail = "Executing DESeq2...")
     }
@@ -164,49 +169,64 @@ runExpression <- function (numberReplics,
           progressShiny(detail = "SAMSeq canceled...")
         }
     }else{
-      resultTool$deseq2 <- runDeseq2(countMatrix,
-                                     groupName,
-                                     numberReplics,
-                                     designExperiment,
-                                     controlGroup = controlDeseq2,
-                                     fitTypeParam = fitTypeDeseq2)
-        cat("\n ------------ DESeq2 executed!\n")
+      tryCatch({
+        resultTool$deseq2 <- runDeseq2(countMatrix,
+                                       groupName,
+                                       numberReplics,
+                                       designExperiment,
+                                       controlGroup = controlDeseq2,
+                                       fitTypeParam = fitTypeDeseq2)
+          cat("\n ------------ DESeq2 executed!\n")
+      }, error = function(e) {
+        message(paste("\n \n ===== ERROR: DESeq2 execution is failed === \n",e,"\n"))
+      })
         if(!is.null(progressShiny)){
           progressShiny(detail = "Executing SAMSeq...")
         }
+      tryCatch({
         resultTool$samseq <- runSamSeq(countMatrix,
                                  designExperiment,
                                  respType = respTypeSamseq,
                                 numberPermutations = npermSamseq)
         cat("\n ------------ SAMSeq executed!\n")
-        if(!is.null(progressShiny)){
+      }, error = function(e) {
+        message(paste("\n \n ===== ERROR: SAMSeq execution is failed === \n",e,"\n"))
+      })
+      if(!is.null(progressShiny)){
           progressShiny(detail = "Writting results...")
-        }
+      }
     }
     if(printResults){
       i<-1
-      for (data in resultTool) {
-        utils::write.csv(data, file = paste0(outDirPath,
-                                      experimentName,
-                                      "_",
-                                      names(resultTool)[i],
-                                      ".csv")
-                  )
-        save(data, file = paste0(outDirPath,
-                                      experimentName,
-                                      "_",
-                                      names(resultTool)[i],
-                                      ".RData")
-        )
-        i <- i +1
-      }
+      tryCatch({
+        for (data in resultTool) {
+          utils::write.csv(data, file = paste0(outDirPath,
+                                        experimentName,
+                                        "_",
+                                        names(resultTool)[i],
+                                        ".csv")
+                    )
+          save(data, file = paste0(outDirPath,
+                                        experimentName,
+                                        "_",
+                                        names(resultTool)[i],
+                                        ".RData")
+          )
+          i <- i +1
+        }
+        resultTool <- frameAllGenes(resultTool, countMatrix)
+
+        save(resultTool,
+             file = paste0(outDirPath,
+                           experimentName,
+                           "_toolsResult.RData"))
+      }, error = function(e) {
+        message(paste("\n \n ===== ERROR: WRITE FILES execution is failed === \n",e,"\n"))
+      })
       if(!is.null(progressShiny)){
         sessionShiny.setProgress(9/10)
       }
-      save(resultTool,
-           file = paste0(outDirPath,
-                         experimentName,
-                         "_toolsResult.RData"))
+
     }
     if(!is.null(progressShiny)){
       progressShiny(detail = "Complete!")

@@ -27,7 +27,8 @@ expressionDefinition(
   pValueKnowseq = 0.05,
   deClassEbseq = "DE",
   ppThresholdEbseq = 0.8,
-  printResults = FALSE
+  printResults = FALSE,
+  pathOutput = "."
 )
 }
 \arguments{
@@ -76,6 +77,9 @@ expressionDefinition(
 \item{ppThresholdEbseq}{description}
 
 \item{printResults}{logical variable: TRUE print report by each tool, FALSE print only consensus result}
+
+\item{pathOutput}{path to write output, need be a directory (default: ".")
+#'}
 }
 \description{
 Define who genes are deferentially expressed by method

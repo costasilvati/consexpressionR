@@ -23,6 +23,8 @@
 #' @param deClassEbseq name of class to consider by EBSeq (default: "DE")
 #' @param ppThresholdEbseq description
 #' @param printResults logical variable: TRUE print report by each tool, FALSE print only consensus result
+#' @param pathOutput path to write output, need be a directory (default: ".")
+#' #'
 #' @export
 #' @examples
 #' library(cqn)
@@ -55,57 +57,60 @@ expressionDefinition <- function(resultTool,
                                  pValueKnowseq = 0.05,
                                  deClassEbseq = "DE",
                                  ppThresholdEbseq = 0.8,
-                                 printResults = FALSE){
+                                 printResults = FALSE,
+                                 pathOutput = "."){
                                  #, lfcMaxEbseq = 2,
                                  #lfcMinEbseq = -2){
     deList <- NULL
+
+    if(!is.null(resultTool$edger)){ # edger
+      deList$edger <- subset(resultTool$edger,
+                             (logFC <= lfcMinEdger  | logFC >= lfcMaxEdger) & PValue <= pValueEdger)
+    }
+    if(!is.null(resultTool$knowseq) && length(resultTool$knowseq) > 0){ # knowseq
+      deList$knowseq <- subset(resultTool$knowseq,
+                               (`logFC` <= lfcMinKnowseq  | `logFC` >= lfcMaxKnowseq) & `P.Value` <= pValueKnowseq)
+    }
     if(!is.null(resultTool$limma)){ #limma
       if(length(groups) > 2){
-        deList$limma <- dplyr::filter(resultTool$limma,
-                                      ((F >= FLimma) & `P.Value` <= pValueLimma))
+        deList$limma <- subset(resultTool$limma,
+                               (F >= FLimma) & (P.Value <= pValueLimma))
       }else{
-        deList$limma <- dplyr::filter(resultTool$limma,
-                                      ((logFC <= lfcMinLimma | logFC >= lfcMaxLimma) & `P.Value` <= pValueLimma))
+        deList$limma <- subset(resultTool$limma,
+                               (`logFC` <= lfcMinLimma) | (`logFC` >= lfcMaxLimma) & (P.Value <= pValueLimma))
       }
+    }
+    if(!is.null(resultTool$noiseq)){ # NOISeq
+      deList$noiseq <- subset(resultTool$noiseq,
+                              (prob >=probNoiseq))
+    }
+
+    if(!is.null(resultTool$ebseq)){ # ebseq
+      ebseqDf <- as.data.frame(resultTool$ebseq)
+      deList$ebseq <- subset(ebseqDf, resultTool$ebseq == deClassEbseq)
+    }
+    if(!is.null(resultTool$deseq2)){ # DESeq2
+      deList$deseq2 <- subset(resultTool$deseq2,
+                              (log2FoldChange <= lfcMinDeseq2  | log2FoldChange >= lfcMaxDeseq2) & (pvalue <= pValueDeseq2))
     }
     if(!is.null(resultTool$samseq)){ #SAMSeq
       samseqDf <- as.data.frame(resultTool$samseq, row.names = NULL)
       if(length(groups) > 2){
-        deList$samseq <- dplyr::filter(samseqDf,
-                                       ((`Score(d)` >= scoreDSamseq) & (`q-value(%)` <= qValueSamseq)))
+        deList$samseq <- subset(samseqDf,
+                              (`Score(d)` >= scoreDSamseq) & (`q-value(%)` <= qValueSamseq))
       }else{
-        deList$samseq <- dplyr::filter(samseqDf,
-                                       ((`Fold Change` >= 2.0) | (`Fold Change` <= -2.0)) & `q-value(%)` <= 0.05)
+        deList$samseq <- subset(samseqDf,
+                                (`Fold Change` >= lfcMaxSamseq | `Fold Change` <= lfcMinLimma) & `q-value(%)` <= qValueSamseq)
       }
       row.names(deList$samseq) <- deList$samseq$`Gene ID`
     }
-    if(!is.null(resultTool$deseq2)){ # DESeq2
-      deList$deseq2 <- dplyr::filter(resultTool$deseq2,
-                                     ((log2FoldChange <= lfcMinDeseq2  | log2FoldChange >= lfcMaxDeseq2) & (pvalue <= pValueDeseq2)))
-    }
-    if(!is.null(resultTool$edger)){ # edger
-      deList$edger <- dplyr::filter(resultTool$edger,
-                                    ((logFC <= lfcMinEdger  | logFC >= lfcMaxEdger) & `PValue` <= pValueEdger))
-    }
-    if(!is.null(resultTool$noiseq)){ # NOISeq
-      deList$noiseq <- dplyr::filter(resultTool$noiseq,
-                                     (prob >=probNoiseq))
-    }
-    if(!is.null(resultTool$knowseq)){ # knowseq
-      deList$knowseq <- dplyr::filter(resultTool$knowseq,
-                                      ((logFC <= lfcMinKnowseq  | logFC >= lfcMaxKnowseq) & `P.Value` <= pValueKnowseq))
-    }
-    if(!is.null(resultTool$ebseq)){ # ebseq
-      ebseqDf <- as.data.frame(resultTool$ebseq)
-      deList$ebseq <- dplyr::filter(ebseqDf,
-                                      resultTool$ebseq == deClassEbseq)
-    }
-
     if(printResults){
       tools <- names(deList)
       i <- 1
       for (deData in deList) {
-        consexpressionR::writeResults(deData,paste0(tools[i], "DE"))
+        consexpressionR::writeResults(data = deData,
+                                      toolName=paste0(tools[i],"_DE_"),
+                                      pathOutput = pathOutput)
         i <- i + 1
       }
     }

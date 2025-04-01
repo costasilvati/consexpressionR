@@ -22,35 +22,32 @@ RoxygenNote: 7.3.1
 Depends: 
     R (>= 4.4.0)
 Imports: 
-    attempt,
     cqn,
     DESeq2 (>= 1.38.3),
-    dplyr (>= 1.1.4),
-    DT (>= 0.32),
     EBSeq (>= 2.1.0),
     edgeR (>= 4.1.17),
-    grDevices (>= 4.4.0),
-    knitr (>= 1.45),
     KnowSeq (>= 1.17.0),
     limma (>= 3.59.3),
     NOISeq (>= 2.47.0),
-    pkgload,
-    plotly (>= 4.10.4),
-    quantreg (>= 5.97),
     samr (>= 3.0),
-    shiny (>= 1.8.1.1),
-    shinybusy (>= 0.3.3),
-    shinydashboard (>= 0.7.2),
-    shinyjs,
     stats,
-    stringr (>= 1.5.1),
-    tximport (>= 1.31.0),
-    UpSetR (>= 1.4.0),
-    utils (>= 4.2.2)
+    attempt,
+    DT,
+    utils (>= 4.2.2),
+    shiny,
+    shinydashboard,
+    shinyjs,
+    plotly,
+    UpSetR
 Suggests: 
+    shinybusy,
+    grDevices,
+    knitr,
     rmarkdown,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    devtools
 Config/testthat/edition: 3
 File: data/gse95077.csv
 LazyData: true
 VignetteBuilder: knitr
+biocViews: Workflow, GeneExpressionWorkflow, BasicWorkflow

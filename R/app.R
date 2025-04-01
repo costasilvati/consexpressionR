@@ -593,7 +593,11 @@ consexpressionR <- function(){
                                             lfcMaxKnowseq = input$lfcMaxKnowseqInp,
                                             pValueKnowseq = input$pValueKnowseqInp,
                                             deClassEbseq = input$classDeEbseqInp)
-      deByTool <- listDeByTool(consResult$exp, expDef_result$df)
+      m <- as.matrix(consResult$exp)
+      deByTool <- listDeByTool(consexpressionList = consResult$exp,
+                               geneNames = row.names(m),
+                               deList = expDef_result$df)
+
       if(length(deByTool > 0)){
         deByTool_filtered <- deByTool[, apply(deByTool, 2, function(col) sum(col) != 0)]
         UpSetR::upset(deByTool_filtered,
@@ -609,7 +613,8 @@ consexpressionR <- function(){
     output$upsetPlot <- shiny::renderPlot(consensusPlot(), res = 130)
 
     deConsList <- shiny::eventReactive(input$goConsList, {
-      deByTool <- listDeByTool(consResult$exp, expDef_result$df)
+      deByTool <- listDeByTool(consResult$exp, row.names(m),expDef_result$df)
+      remove(m)
       consListFinal$dfList <- consensusList(consexpressionList = consResult$exp,
                                      deTool = deByTool,
                                      threshold = input$thresoldDe)

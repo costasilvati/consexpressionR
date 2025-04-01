@@ -4,6 +4,7 @@
 #' @param data table or data.frame dataset
 #' @param toolName text with file name
 #' @param sepCharacter character to separe data columns
+#' @param pathOutput path to write output, need be a directory (default: ".")
 #'
 #' @return void
 #' @export
@@ -13,9 +14,10 @@
 #' writeResults(data = df, toolName = "test")
 writeResults <- function(data,
                          toolName="toolDE_x",
-                         sepCharacter="\t"){
+                         sepCharacter="\t",
+                         pathOutput = "."){
   if(!is.null(data)){
-    out <- createNameFileOutput(".",
+    out <- createNameFileOutput(pathOutput,
                                 execName=toolName)
     write.table(data,
                 file = out,

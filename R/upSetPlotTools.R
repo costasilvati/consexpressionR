@@ -9,18 +9,18 @@
 #' @export
 #'
 #' @examples
-#' library(cqn)
 #' cons_result <- runExpression(numberReplics = 3, groupName = c("BM", "JJ"),
 #'                               rDataFrameCount = gse95077,
 #'                               sepCharacter = ",",
 #'                               experimentName = "test_cons",
 #'                               outDirPath = "." )
 #' expDef_result <- expressionDefinition(resultTool = cons_result)
-#' deByTool <- listDeByTool(cons_result, expDef_result)
+#' m <- as.matrix(gse95077)
+#' deByTool <- listDeByTool(cons_result, row.names(m),expDef_result)
 #' upSetPlotData <- upSetPlotTools(df = deByTool,
 #'                                 condition = "Control_vs_Treat",
 #'                                 pathOut = ".",
-#'                                 writeData = TRUE)
+#'                                 writeData = FALSE)
 upSetPlotTools <- function(df,
                           condition = "condition_default",
                           pathOut = ".",
@@ -32,7 +32,7 @@ upSetPlotTools <- function(df,
                                order.by = "freq",
                                empty.intersections = "on")
 
-  df$`number of methods` <- rowSums(df)
+  df$number_of_methods <- rowSums(df)
   if(writeData){
     grDevices::pdf(paste0(pathOut,"upset_plot_",condition,".pdf"),
                    width = 10,
@@ -43,7 +43,7 @@ upSetPlotTools <- function(df,
     utils::write.csv(df,
                    file = paste0(pathOut,"upset_plot_", condition,".csv"))
   }else{
-    UpSetR::upset(df,
+    UpSetR::upset(as.data.frame(df),
                   sets = colnames(df),
                   sets.bar.color = "#56B4E9",
                   order.by = "freq",

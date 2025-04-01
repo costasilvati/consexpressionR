@@ -4,18 +4,18 @@
 #' @param deTool data.frame. Output of 'deByTool' function
 #' @param threshold integer. Number of tool was consider a gene as DE to filter (default: 5)
 #'
-#' @return data.frame with DE genes and values of limma analysis
+#' @return data.frame with DE genes and values analysis
 #' @export
 #'
 #' @examples
-#' library(cqn)
 #' cons_result <- runExpression(numberReplics = 3, groupName = c("BM", "JJ"),
 #'                               rDataFrameCount = gse95077,
 #'                               sepCharacter = ",",
 #'                               experimentName = "test_cons",
 #'                               outDirPath = "." )
 #' expDef_result <- expressionDefinition(resultTool = cons_result)
-#' deByTool <- listDeByTool(cons_result, expDef_result)
+#' m <- as.matrix(cons_result)
+#' deByTool <- listDeByTool(cons_result, row.names(m),expDef_result)
 #' consList <- consensusList(cons_result,deByTool)
 consensusList <- function(consexpressionList,
                           deTool,

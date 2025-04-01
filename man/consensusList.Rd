@@ -14,19 +14,19 @@ consensusList(consexpressionList, deTool, threshold = 5)
 \item{threshold}{integer. Number of tool was consider a gene as DE to filter (default: 5)}
 }
 \value{
-data.frame with DE genes and values of limma analysis
+data.frame with DE genes and values analysis
 }
 \description{
 consensusList: make a list of genes was consider DE by threshold tools
 }
 \examples{
-library(cqn)
 cons_result <- runExpression(numberReplics = 3, groupName = c("BM", "JJ"),
                               rDataFrameCount = gse95077,
                               sepCharacter = ",",
                               experimentName = "test_cons",
                               outDirPath = "." )
 expDef_result <- expressionDefinition(resultTool = cons_result)
-deByTool <- listDeByTool(cons_result, expDef_result)
+m <- as.matrix(cons_result)
+deByTool <- listDeByTool(cons_result, row.names(m),expDef_result)
 consList <- consensusList(cons_result,deByTool)
 }

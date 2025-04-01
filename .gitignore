@@ -17,3 +17,5 @@
 *.Rproj
 ._*
 inst/doc
+/doc/
+/Meta/

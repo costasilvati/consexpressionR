@@ -4,7 +4,12 @@
 \alias{writeResults}
 \title{Write a table or data.frame in defined output file}
 \usage{
-writeResults(data, toolName = "toolDE_x", sepCharacter = "\\t")
+writeResults(
+  data,
+  toolName = "toolDE_x",
+  sepCharacter = "\\t",
+  pathOutput = "."
+)
 }
 \arguments{
 \item{data}{table or data.frame dataset}
@@ -12,6 +17,8 @@ writeResults(data, toolName = "toolDE_x", sepCharacter = "\\t")
 \item{toolName}{text with file name}
 
 \item{sepCharacter}{character to separe data columns}
+
+\item{pathOutput}{path to write output, need be a directory (default: ".")}
 }
 \value{
 void

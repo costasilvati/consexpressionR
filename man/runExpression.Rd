@@ -11,7 +11,7 @@ runExpression(
   sepCharacter = ",",
   rDataFrameCount = NULL,
   experimentName = "genericExperiment",
-  outDirPath = "consexpression2_results/",
+  outDirPath = "../../consexpression2_results/",
   printResults = FALSE,
   fitTypeDeseq2 = "local",
   controlDeseq2 = "",

@@ -1,0 +1,12 @@
+citEntry(entry="article",
+         title = "consexpressionR: an R package for consensus differential gene expression analysis",
+         author = personList( as.person("Juliana Costa-Silva"),
+                              as.person("David Menotti"),
+                              as.person("Fabricio M. Lopes")),
+         year = 2025,
+         journal = "arxiv",
+         doi = "10.48550/arXiv.2503.21546",
+         textVersion =
+         paste("Costa-Silva, J., Menotti, D., Lopes, M. F.",
+               "consexpressionR: an R package for consensus differential gene expression analysis",
+               "arxiv (2025)") )
