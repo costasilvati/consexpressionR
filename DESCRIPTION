@@ -8,7 +8,7 @@ Authors@R: c(person("Juliana", "Costa-Silva",
   person("David", "Menotti", 
             email="menottid@gmail.com", 
             role = "aut",
-            comment = c(ORCID = "YOUR-ORCID-ID")),
+            comment = c(ORCID = "0000-0003-2430-2030")),
     person("Fabricio", "M. Lopes",
            email="fabricio@utfpr.edu.br",
            role = "aut",
@@ -18,7 +18,7 @@ Description: Comprehensive five-stage workflow for differential expression (DE) 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Depends: 
     R (>= 4.4.0)
 Imports: 
@@ -48,6 +48,7 @@ Suggests:
     devtools
 Config/testthat/edition: 3
 File: data/gse95077.csv
-LazyData: true
 VignetteBuilder: knitr
 biocViews: Workflow, GeneExpressionWorkflow, BasicWorkflow
+Author: Juliana Costa-Silva <julianacostasilvati@gmail.com>
+Maintainer: Juliana Costa-Silva <julianacostasilvati@gmail.com>

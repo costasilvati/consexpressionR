@@ -31,6 +31,7 @@ groupNameModel = c("BM","JJ")
 numberReplicsModel = 3
 designExperimentModel <- rep(groupNameModel, each = numberReplicsModel)
 toolResult <- NULL
-toolResult$samseq <- runSamSeq(countMatrix = gse95077,
+m <- as.matrix(gse95077)
+toolResult$samseq <- runSamSeq(countMatrix = m,
                                designExperiment = designExperimentModel)
 }

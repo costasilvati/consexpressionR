@@ -15,7 +15,8 @@
 #' numberReplicsModel = 3
 #' designExperimentModel <- rep(groupNameModel, each = numberReplicsModel)
 #' toolResult <- NULL
-#' toolResult$ebseq <- runEbseq(countMatrix = as.matrix(gse95077),
+#' m <- as.matrix(gse95077)
+#' toolResult$ebseq <- runEbseq(countMatrix = m,
 #'                               designExperiment = designExperimentModel)
 runEbseq <- function(countMatrix,
                      designExperiment,

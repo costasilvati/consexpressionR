@@ -18,7 +18,8 @@
 #' numberReplicsModel = 3
 #' designExperimentModel <- rep(groupNameModel, each = numberReplicsModel)
 #' toolResult <- NULL
-#' toolResult$noiseq <- runNoiSeq(countMatrix = gse95077,
+#' m <- as.matrix(gse95077)
+#' toolResult$noiseq <- runNoiSeq(countMatrix = m,
 #'                                designExperiment = designExperimentModel)
 runNoiSeq <- function (countMatrix,
                        designExperiment,

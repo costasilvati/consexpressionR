@@ -27,10 +27,10 @@
 #' #'
 #' @export
 #' @examples
-#' library(cqn)
+#' m <- as.matrix(gse95077)
 #' cons_result <- runExpression(numberReplics = 3,
 #'                               groupName = c("BM", "JJ"),
-#'                               rDataFrameCount = gse95077,
+#'                               rDataFrameCount = m,
 #'                               sepCharacter = ",",
 #'                               experimentName = "test_cons",
 #'                               outDirPath = "." )

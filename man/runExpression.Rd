@@ -7,7 +7,7 @@
 runExpression(
   numberReplics,
   groupName,
-  tableCountPath,
+  tableCountPath = "data/gse95077.csv",
   sepCharacter = ",",
   rDataFrameCount = NULL,
   experimentName = "genericExperiment",
@@ -102,10 +102,10 @@ list with all analysis expression
 Make expression analysis of 7 tools, and return a list of results by each tool.
 }
 \examples{
-library(cqn)
+m <- as.matrix(gse95077)
 cons_result <- runExpression(numberReplics = 3,
                              groupName = c("BM", "JJ"),
-                              rDataFrameCount = gse95077,
+                              rDataFrameCount = m,
                               sepCharacter = ",",
                               experimentName = "test_cons",
                               outDirPath = "." )

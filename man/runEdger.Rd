@@ -26,7 +26,8 @@ groupNameModel = c("BM","JJ")
 numberReplicsModel = 3
 designExperimentModel <- rep(groupNameModel, each = numberReplicsModel)
 toolResult <- NULL
-toolResult$edger <- runEdger(countMatrix = gse95077,
+m <- as.matrix(gse95077)
+toolResult$edger <- runEdger(countMatrix = m,
                                numberReplics = numberReplicsModel,
                                desingExperiment = designExperimentModel )
 }

@@ -10,13 +10,13 @@
 #' @export
 #'
 #' @examples
+#' m <- as.matrix(gse95077)
 #' cons_result <- runExpression(numberReplics = 3, groupName = c("BM", "JJ"),
-#'                               rDataFrameCount = gse95077,
+#'                               rDataFrameCount = m,
 #'                               sepCharacter = ",",
 #'                               experimentName = "test_cons",
 #'                               outDirPath = "." )
 #' expDef_result <- expressionDefinition(resultTool = cons_result)
-#' m <- as.matrix(gse95077)
 #' deByTool <- listDeByTool(consexpressionList = cons_result,
 #'                          geneNames = row.names(m),
 #'                          deList = expDef_result)

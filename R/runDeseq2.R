@@ -15,7 +15,8 @@
 #' groupNameModel = c("BM","JJ")
 #' numberReplicsModel = 3
 #' toolResult <- NULL
-#' toolResult$deseq2 <- runDeseq2(countMatrix = gse95077,
+#' m <- as.matrix(gse95077)
+#' toolResult$deseq2 <- runDeseq2(countMatrix = m,
 #'                                groupName = groupNameModel,
 #'                                numberReplics = numberReplicsModel,
 #'                                fitTypeParam = "local")

@@ -15,7 +15,8 @@
 #' numberReplicsModel = 3
 #' designExperimentModel <- rep(groupNameModel, each = numberReplicsModel)
 #' toolResult <- NULL
-#' toolResult$limma <- runLimma(countMatrix = gse95077,
+#' m <- as.matrix(gse95077)
+#' toolResult$limma <- runLimma(countMatrix = m,
 #'                              numberReplics = numberReplicsModel,
 #'                              designExperiment = designExperimentModel)
 runLimma <- function (countMatrix,

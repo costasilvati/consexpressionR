@@ -498,7 +498,7 @@ consexpressionR <- function(){
       }
     })
 
-    shiny::observeEvent(input$groupNameInp, {
+    observeEvent(input$groupNameInp, {
       groupUpdate()
     })
 

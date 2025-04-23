@@ -31,11 +31,11 @@ Execute knowSeq differential Expression analyse
 }
 \examples{
 \dontrun{
-library(cqn)
 groupNameModel = c("BM","JJ")
 numberReplicsModel = 3
 toolResult <- NULL
-toolResult$knowSeq <- runKnowSeq(countMatrix = gse95077,
+m <- as.matrix(gse95077)
+toolResult$knowSeq <- runKnowSeq(countMatrix = m,
                                groupName = groupNameModel,
                                numberReplic = numberReplicsModel)
                                }
