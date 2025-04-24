@@ -2,9 +2,7 @@
 title: "consexpressionR"
 output: default
 vignette: >
-  \VignetteIndexEntry{consexpressionR-vignette}
-  \VignetteEngine{knitr::rmarkdown}
-  \VignetteEncoding{UTF-8}
+
 ---
 
 # consexpressionR
@@ -27,14 +25,21 @@ Learn more in `vignette("consexpressionR")`.
 library(devtools)
 install_github("costasilvati/consexpressionR")
 library(consexpressionR)
-# shinyApp running in localhost
-consexpressionR()
 ```
 :::
 
 ## Usage - shiny app
 
 To run shiny aplication and view consexpressionR in your browser:
+``` r
+# Install released version from github
+library(devtools)
+install_github("costasilvati/consexpressionR")
+library(consexpressionR)
+# shinyApp running in localhost
+consexpressionR()
+```
+
 
 ``` r
 library(consexpressionR)
