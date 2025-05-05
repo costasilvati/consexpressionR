@@ -85,12 +85,15 @@ expressionDefinition(
 Define who genes are deferentially expressed by method
 }
 \examples{
-m <- as.matrix(gse95077)
+data(gse95077)
+treats = c("BM", "JJ")
 cons_result <- runExpression(numberReplics = 3,
-                              groupName = c("BM", "JJ"),
-                              rDataFrameCount = m,
+                              groupName = treats,
+                              rDataFrameCount = gse95077,
                               sepCharacter = ",",
                               experimentName = "test_cons",
+                              controlDeseq2 = "BM",
+                              contrastDeseq2 = "JJ",
                               outDirPath = "." )
-expDef_result <- expressionDefinition(resultTool = cons_result)
+expDef_result <- expressionDefinition(resultTool = cons_result, groups = treats)
 }

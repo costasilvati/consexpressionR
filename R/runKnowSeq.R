@@ -1,6 +1,6 @@
 #' Execute knowSeq differential Expression analyse
 #'
-#' @param countMatrix original table count or abundance data
+#' @param count original table count or abundance data
 #' @param groupName replicate and treatment by samples
 #' @param numberReplic number of replicate (technical or biological) by sample
 #' @param filterId The attribute used as filter to return the rest of the attributes.
@@ -10,15 +10,14 @@
 #'
 #' @examples
 #' \dontrun{
-#' groupNameModel = c("BM","JJ")
-#' numberReplicsModel = 3
+#' data(gse95077)
+#' treats = c("BM", "JJ")
 #' toolResult <- NULL
-#' m <- as.matrix(gse95077)
-#' toolResult$knowSeq <- runKnowSeq(countMatrix = m,
-#'                                groupName = groupNameModel,
-#'                                numberReplic = numberReplicsModel)
-#'                                }
-runKnowSeq <- function(countMatrix,
+#' toolResult$knowSeq <- runKnowSeq(count = gse95077,
+#'                                groupName = treats,
+#'                                numberReplic = 3)
+#'  }
+runKnowSeq <- function(count,
                        groupName,
                        numberReplic,
                        filterId="ensembl_gene_id",
@@ -27,13 +26,14 @@ runKnowSeq <- function(countMatrix,
     return(NULL)
   }else{
     designExperiment <- rep(groupName, each = numberReplic)
-    geneNames = as.character(row.names(countMatrix))
+    geneNames = as.character(row.names(count))
 
     myAnnotation <- KnowSeq::getGenesAnnotation(values = geneNames,
                                                 filter=filterId,
                                                 notHSapiens = notSapiens)
     designExperiment <- rep(groupName, each=numberReplic)
-    expressionMatrix <- KnowSeq::calculateGeneExpressionValues(countsMatrix = countMatrix,
+    m <- as.matrix(count)
+    expressionMatrix <- KnowSeq::calculateGeneExpressionValues(countsMatrix = m,
                                                                annotation = myAnnotation,
                                                                genesNames = FALSE)
     knowSeq <- KnowSeq::DEGsExtraction(expressionMatrix,

@@ -22,12 +22,12 @@ edgeR report in data Frame
 Execute edgeR expression Analisys
 }
 \examples{
-groupNameModel = c("BM","JJ")
+data(gse95077)
+treats = c("BM", "JJ")
 numberReplicsModel = 3
-designExperimentModel <- rep(groupNameModel, each = numberReplicsModel)
+designExperimentModel <- rep(treats, each = numberReplicsModel)
 toolResult <- NULL
-m <- as.matrix(gse95077)
-toolResult$edger <- runEdger(countMatrix = m,
+toolResult$edger <- runEdger(countMatrix = gse95077,
                                numberReplics = numberReplicsModel,
                                desingExperiment = designExperimentModel )
 }

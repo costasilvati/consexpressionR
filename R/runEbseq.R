@@ -11,13 +11,13 @@
 #' @export
 #'
 #' @examples
-#' groupNameModel = c("BM","JJ")
-#' numberReplicsModel = 3
-#' designExperimentModel <- rep(groupNameModel, each = numberReplicsModel)
+#' data(gse95077)
+#' treats = c("BM", "JJ")
+#' designExperimentModel <- rep(treats, each = 3)
 #' toolResult <- NULL
-#' m <- as.matrix(gse95077)
-#' toolResult$ebseq <- runEbseq(countMatrix = m,
-#'                               designExperiment = designExperimentModel)
+#' toolResult$ebseq <- runEbseq(countMatrix = gse95077,
+#'                               designExperiment = designExperimentModel,
+#'                               groups = treats)
 runEbseq <- function(countMatrix,
                      designExperiment,
                      fdr=0.05,

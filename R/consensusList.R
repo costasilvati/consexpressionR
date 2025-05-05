@@ -8,16 +8,19 @@
 #' @export
 #'
 #' @examples
-#' m <- as.matrix(gse95077)
-#' cons_result <- runExpression(numberReplics = 3,
-#'                               groupName = c("BM", "JJ"),
-#'                               rDataFrameCount = m,
-#'                               sepCharacter = ",",
-#'                               experimentName = "test_cons",
-#'                               outDirPath = "." )
-#' expDef_result <- expressionDefinition(resultTool = cons_result)
+#' data(gse95077)
+#' treats <- c("BM", "JJ")
+#' cons_result <- runExpression(numberReplics = 3,groupName = treats,
+#'                             rDataFrameCount = gse95077,
+#'                             sepCharacter = ",",
+#'                             experimentName = "test_cons",
+#'                             controlDeseq2 = "BM",
+#'                             contrastDeseq2 = "JJ",
+#'                             outDirPath = ".")
+#' expDef_result <- expressionDefinition(resultTool = cons_result,
+#'                                       groups = treats)
 #' deByTool <- listDeByTool(consexpressionList = cons_result,
-#'                          geneNames = row.names(m),
+#'                          geneNames = row.names(gse95077),
 #'                          deList = expDef_result)
 #' consList <- consensusList(cons_result,deByTool)
 consensusList <- function(consexpressionList,

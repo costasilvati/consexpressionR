@@ -9,21 +9,21 @@ runDeseq2(
   countMatrix,
   groupName,
   numberReplics,
-  designExperiment,
-  controlGroup = "",
+  controlGroup,
+  contrastGroup,
   fitTypeParam = "local"
 )
 }
 \arguments{
 \item{countMatrix}{original table count or abundance data}
 
-\item{groupName}{text, name of samples or treatment}
+\item{groupName}{list of text, name of samples or treatment}
 
 \item{numberReplics}{number of replicate (technical or biological) by sample}
 
-\item{designExperiment}{replic and treatment by samples}
+\item{controlGroup}{specific reference level used as control (this name should be in groupName List)}
 
-\item{controlGroup}{specific reference level}
+\item{contrastGroup}{specific reference level that you need compare (this name should be in groupName List)}
 
 \item{fitTypeParam}{either "parametric", "local", "mean", or "glmGamPoi" for the type of fitting of dispersions to the mean intensity}
 }
@@ -38,9 +38,11 @@ is configured to read only kallisto files, and count data
 groupNameModel = c("BM","JJ")
 numberReplicsModel = 3
 toolResult <- NULL
-m <- as.matrix(gse95077)
-toolResult$deseq2 <- runDeseq2(countMatrix = m,
+data(gse95077)
+toolResult$deseq2 <- runDeseq2(countMatrix = gse95077,
                                groupName = groupNameModel,
                                numberReplics = numberReplicsModel,
+                               controlGroup = "BM",
+                               contrastGroup = "JJ",
                                fitTypeParam = "local")
 }

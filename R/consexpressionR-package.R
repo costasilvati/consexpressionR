@@ -5,6 +5,7 @@
 #' @importFrom attempt is_try_error
 #' @importFrom cqn cqn
 #' @importFrom DT dataTableOutput
+#' @importFrom mclust mclustBIC
 #' @importFrom plotly renderPlotly
 #' @importFrom shiny fileInput
 #' @importFrom shiny fluidRow

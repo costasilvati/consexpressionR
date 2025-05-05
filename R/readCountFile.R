@@ -8,7 +8,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' df <- readCountFile(tableCountPath="data/gse95077.csv",
+#' df <- readCountFile(tableCountPath="./data/gse95077.csv",
 #'                     split=",")
 #' }
 readCountFile <- function(tableCountPath="data/table_count_df.csv",

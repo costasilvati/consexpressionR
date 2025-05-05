@@ -15,6 +15,7 @@ runExpression(
   printResults = FALSE,
   fitTypeDeseq2 = "local",
   controlDeseq2 = "",
+  contrastDeseq2 = "",
   methodNormLimma = "TMM",
   methodAdjPvalueLimma = "BH",
   numberTopTableLimma = 1e+06,
@@ -56,6 +57,8 @@ runExpression(
 \item{fitTypeDeseq2}{either "parametric", "local", "mean", or "glmGamPoi" for the type of fitting of dispersions to the mean intensity}
 
 \item{controlDeseq2}{group of samples that represents control in experiment, used by DESeq2; Default is "".}
+
+\item{contrastDeseq2}{specific reference level that you need compare (this name should be in groupName List)}
 
 \item{methodNormLimma}{normalization method to be used (limma)}
 
@@ -102,11 +105,15 @@ list with all analysis expression
 Make expression analysis of 7 tools, and return a list of results by each tool.
 }
 \examples{
-m <- as.matrix(gse95077)
+data(gse95077)
+treats = c("BM", "JJ")
 cons_result <- runExpression(numberReplics = 3,
-                             groupName = c("BM", "JJ"),
-                              rDataFrameCount = m,
+                              groupName = treats,
+                              rDataFrameCount = gse95077,
                               sepCharacter = ",",
                               experimentName = "test_cons",
+                              controlDeseq2 = "BM",
+                              contrastDeseq2 = "JJ",
                               outDirPath = "." )
+expDef_result <- expressionDefinition(resultTool = cons_result, groups = treats)
 }

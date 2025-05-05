@@ -10,4 +10,5 @@ utils::globalVariables(c("Fold Change",
                          "q-value(%)",
                          "reactiveValues",
                          "req",
-                         "sessionShiny"))
+                         "sessionShiny",
+                         "progressShiny"))

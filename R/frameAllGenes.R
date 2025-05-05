@@ -11,12 +11,15 @@
 #' @export
 #'
 #' @examples
-#' library(cqn)
+#' data(gse95077)
+#' treats = c("BM", "JJ")
 #' cons_result <- runExpression(numberReplics = 3,
-#'                              groupName = c("BM", "JJ"),
+#'                              groupName = treats,
 #'                               rDataFrameCount = gse95077,
 #'                               sepCharacter = ",",
 #'                               experimentName = "test_cons",
+#'                               controlDeseq2 = "BM",
+#'                               contrastDeseq2 = "JJ",
 #'                               outDirPath = "." )
 #' cons_rseult2 <- frameAllGenes(cons_list = cons_result,
 #'                               countMatrix=gse95077)

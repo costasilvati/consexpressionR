@@ -28,6 +28,7 @@
 #' @param notSapiensKnowseq A boolean value that indicates if the user wants the human annotation or another annotation available in BiomaRt. The possible not human dataset can be consulted by calling the following function: biomaRt::listDatasets(useMart("ensembl")).
 #' @param fitTypeDeseq2 either "parametric", "local", "mean", or "glmGamPoi" for the type of fitting of dispersions to the mean intensity
 #' @param controlDeseq2 group of samples that represents control in experiment, used by DESeq2; Default is "".
+#' @param contrastDeseq2 specific reference level that you need compare (this name should be in groupName List)
 #' @param deNovoAanalysis boolean value (TRUE if dataset don`t have a reference genome)
 #' @param progressShiny shiny app element, used to show execution progress
 #'
@@ -35,13 +36,17 @@
 #' @export
 #'
 #' @examples
-#' m <- as.matrix(gse95077)
+#' data(gse95077)
+#' treats = c("BM", "JJ")
 #' cons_result <- runExpression(numberReplics = 3,
-#'                              groupName = c("BM", "JJ"),
-#'                               rDataFrameCount = m,
+#'                               groupName = treats,
+#'                               rDataFrameCount = gse95077,
 #'                               sepCharacter = ",",
 #'                               experimentName = "test_cons",
+#'                               controlDeseq2 = "BM",
+#'                               contrastDeseq2 = "JJ",
 #'                               outDirPath = "." )
+#' expDef_result <- expressionDefinition(resultTool = cons_result, groups = treats)
 runExpression <- function (numberReplics,
                              groupName,
                              tableCountPath = "data/gse95077.csv",
@@ -52,6 +57,7 @@ runExpression <- function (numberReplics,
                              printResults=FALSE,
                              fitTypeDeseq2 = "local",
                              controlDeseq2 = "",
+                             contrastDeseq2 = "",
                              methodNormLimma = "TMM",
                              methodAdjPvalueLimma = "BH",
                              numberTopTableLimma = 1000000,
@@ -96,7 +102,7 @@ runExpression <- function (numberReplics,
       if(deNovoAanalysis){
         cat("\n ------------ KnowSeq is not running to deNovo analysis!\n")
       }else{
-        resultTool$knowseq <- runKnowSeq(as.matrix(countMatrix),
+        resultTool$knowseq <- runKnowSeq(count = countMatrix,
                                          groupName = groupName,
                                          numberReplic = numberReplics,
                                          filterId = filterIdKnowseq,
@@ -173,8 +179,8 @@ runExpression <- function (numberReplics,
         resultTool$deseq2 <- runDeseq2(countMatrix,
                                        groupName,
                                        numberReplics,
-                                       designExperiment,
                                        controlGroup = controlDeseq2,
+                                       contrastGroup = contrastDeseq2,
                                        fitTypeParam = fitTypeDeseq2)
           cat("\n ------------ DESeq2 executed!\n")
       }, error = function(e) {
@@ -223,9 +229,9 @@ runExpression <- function (numberReplics,
       }, error = function(e) {
         message(paste("\n \n ===== ERROR: WRITE FILES execution is failed === \n",e,"\n"))
       })
-      if(!is.null(progressShiny)){
-        sessionShiny.setProgress(9/10)
-      }
+      # if(!is.null(progressShiny)){
+      #   sessionShiny.setProgress(9/10)
+      # }
 
     }
     if(!is.null(progressShiny)){

@@ -19,5 +19,4 @@ Build a file output name
 }
 \examples{
 nameFile <- createNameFileOutput (outDirPath = "data/", execName = "expermient1")
-print(nameFile)
 }

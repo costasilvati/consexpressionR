@@ -8,7 +8,6 @@
 #'
 #' @examples
 #' nameFile <- createNameFileOutput (outDirPath = "data/", execName = "expermient1")
-#' print(nameFile)
 createNameFileOutput <- function (outDirPath=".",
                                   execName="exec"){
   if(!substr(outDirPath, nchar(outDirPath), nchar(outDirPath)) == "/"){

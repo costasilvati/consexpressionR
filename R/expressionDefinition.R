@@ -26,15 +26,19 @@
 #' @param pathOutput path to write output, need be a directory (default: ".")
 #' #'
 #' @export
+#'
 #' @examples
-#' m <- as.matrix(gse95077)
+#' data(gse95077)
+#' treats = c("BM", "JJ")
 #' cons_result <- runExpression(numberReplics = 3,
-#'                               groupName = c("BM", "JJ"),
-#'                               rDataFrameCount = m,
+#'                               groupName = treats,
+#'                               rDataFrameCount = gse95077,
 #'                               sepCharacter = ",",
 #'                               experimentName = "test_cons",
+#'                               controlDeseq2 = "BM",
+#'                               contrastDeseq2 = "JJ",
 #'                               outDirPath = "." )
-#' expDef_result <- expressionDefinition(resultTool = cons_result)
+#' expDef_result <- expressionDefinition(resultTool = cons_result, groups = treats)
 expressionDefinition <- function(resultTool,
                                  groups = c(""),
                                  lfcMinLimma = -2,
@@ -65,7 +69,7 @@ expressionDefinition <- function(resultTool,
 
     if(!is.null(resultTool$edger)){ # edger
       deList$edger <- subset(resultTool$edger,
-                             (logFC <= lfcMinEdger  | logFC >= lfcMaxEdger) & PValue <= pValueEdger)
+                             (logFC <= lfcMinEdger  | `logFC` >= lfcMaxEdger) & `PValue` <= pValueEdger)
     }
     if(!is.null(resultTool$knowseq) && length(resultTool$knowseq) > 0){ # knowseq
       deList$knowseq <- subset(resultTool$knowseq,
@@ -74,7 +78,7 @@ expressionDefinition <- function(resultTool,
     if(!is.null(resultTool$limma)){ #limma
       if(length(groups) > 2){
         deList$limma <- subset(resultTool$limma,
-                               (F >= FLimma) & (P.Value <= pValueLimma))
+                               (`F` >= FLimma) & (`P.Value` <= pValueLimma))
       }else{
         deList$limma <- subset(resultTool$limma,
                                (`logFC` <= lfcMinLimma) | (`logFC` >= lfcMaxLimma) & (P.Value <= pValueLimma))
@@ -91,7 +95,7 @@ expressionDefinition <- function(resultTool,
     }
     if(!is.null(resultTool$deseq2)){ # DESeq2
       deList$deseq2 <- subset(resultTool$deseq2,
-                              (log2FoldChange <= lfcMinDeseq2  | log2FoldChange >= lfcMaxDeseq2) & (pvalue <= pValueDeseq2))
+                              (`log2FoldChange` <= lfcMinDeseq2  | `log2FoldChange` >= lfcMaxDeseq2) & (pvalue <= pValueDeseq2))
     }
     if(!is.null(resultTool$samseq)){ #SAMSeq
       samseqDf <- as.data.frame(resultTool$samseq, row.names = NULL)

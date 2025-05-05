@@ -9,13 +9,11 @@
 #' @export
 #'
 #' @examples
-#' groupNameModel = c("BM","JJ")
-#' numberReplicsModel = 3
-#' designExperimentModel <- rep(groupNameModel, each = numberReplicsModel)
+#' data(gse95077)
+#' treats = c("BM", "JJ")
 #' toolResult <- NULL
-#' m <- as.matrix(gse95077)
-#' toolResult$samseq <- runSamSeq(countMatrix = m,
-#'                                designExperiment = designExperimentModel)
+#' toolResult$samseq <- runSamSeq(countMatrix = gse95077,
+#'                                designExperiment = rep(treats, each = 3))
 runSamSeq <- function (countMatrix,
                        designExperiment,
                        respType="Two class unpaired",

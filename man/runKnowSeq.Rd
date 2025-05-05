@@ -5,7 +5,7 @@
 \title{Execute knowSeq differential Expression analyse}
 \usage{
 runKnowSeq(
-  countMatrix,
+  count,
   groupName,
   numberReplic,
   filterId = "ensembl_gene_id",
@@ -13,7 +13,7 @@ runKnowSeq(
 )
 }
 \arguments{
-\item{countMatrix}{original table count or abundance data}
+\item{count}{original table count or abundance data}
 
 \item{groupName}{replicate and treatment by samples}
 
@@ -31,12 +31,11 @@ Execute knowSeq differential Expression analyse
 }
 \examples{
 \dontrun{
-groupNameModel = c("BM","JJ")
-numberReplicsModel = 3
+data(gse95077)
+treats = c("BM", "JJ")
 toolResult <- NULL
-m <- as.matrix(gse95077)
-toolResult$knowSeq <- runKnowSeq(countMatrix = m,
-                               groupName = groupNameModel,
-                               numberReplic = numberReplicsModel)
-                               }
+toolResult$knowSeq <- runKnowSeq(count = gse95077,
+                               groupName = treats,
+                               numberReplic = 3)
+ }
 }

@@ -9,12 +9,12 @@
 #' @export
 #'
 #' @examples
-#' groupNameModel = c("BM","JJ")
+#' data(gse95077)
+#' treats = c("BM", "JJ")
 #' numberReplicsModel = 3
-#' designExperimentModel <- rep(groupNameModel, each = numberReplicsModel)
+#' designExperimentModel <- rep(treats, each = numberReplicsModel)
 #' toolResult <- NULL
-#' m <- as.matrix(gse95077)
-#' toolResult$edger <- runEdger(countMatrix = m,
+#' toolResult$edger <- runEdger(countMatrix = gse95077,
 #'                                numberReplics = numberReplicsModel,
 #'                                desingExperiment = designExperimentModel )
 runEdger <- function (countMatrix,
@@ -22,9 +22,10 @@ runEdger <- function (countMatrix,
                       desingExperiment,
                       methNorm = "TMM"){
     group <- c(desingExperiment)
-    y.dge <- edgeR::DGEList(counts = countMatrix, group = group)
+    m = as.matrix(countMatrix)
+    y.dge <- edgeR::DGEList(counts = m, group = group)
     if (numberReplics < 1){
-        print('Replicates not found by edgeR. EdgeR should be executed manual form.')
+        print('Replicates not found by edgeR. EdgeR wasn`t executed.')
     }else if(numberReplics == 1){
         bcv <- 0.2
         y.et <- edgeR::exactTest(y.dge, dispersion = bcv^2)

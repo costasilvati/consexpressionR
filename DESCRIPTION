@@ -37,8 +37,9 @@ Imports:
     shiny,
     shinydashboard,
     shinyjs,
-    plotly,
-    UpSetR
+    plotly (>= 4.10.4),
+    UpSetR (>= 1.4.0),
+    mclust (>= 6.1.1)
 Suggests: 
     shinybusy,
     grDevices,
@@ -49,6 +50,7 @@ Suggests:
 Config/testthat/edition: 3
 File: data/gse95077.csv
 VignetteBuilder: knitr
-biocViews: Workflow, GeneExpressionWorkflow, BasicWorkflow
+biocViews: Software, BiologicalQuestion, DifferentialExpression
 Author: Juliana Costa-Silva <julianacostasilvati@gmail.com>
 Maintainer: Juliana Costa-Silva <julianacostasilvati@gmail.com>
+URL: https://costasilvati.github.io/consexpressionR/

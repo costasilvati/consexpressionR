@@ -19,7 +19,7 @@ Read table count File and creates a matrix from the given content file.
 }
 \examples{
 \dontrun{
-df <- readCountFile(tableCountPath="data/gse95077.csv",
+df <- readCountFile(tableCountPath="./data/gse95077.csv",
                     split=",")
 }
 }
