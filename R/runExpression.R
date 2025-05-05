@@ -38,208 +38,108 @@
 #' @examples
 #' data(gse95077)
 #' treats = c("BM", "JJ")
-#' cons_result <- runExpression(numberReplics = 3,
-#'                               groupName = treats,
-#'                               rDataFrameCount = gse95077,
-#'                               sepCharacter = ",",
-#'                               experimentName = "test_cons",
-#'                               controlDeseq2 = "BM",
-#'                               contrastDeseq2 = "JJ",
-#'                               outDirPath = "." )
+#' cons_result <- runExpression(numberReplics = 3, groupName = treats, rDataFrameCount = gse95077,
+#'                               sepCharacter = ",", experimentName = "test_cons", controlDeseq2 = "BM",
+#'                               contrastDeseq2 = "JJ", outDirPath = "." )
 #' expDef_result <- expressionDefinition(resultTool = cons_result, groups = treats)
-runExpression <- function (numberReplics,
-                             groupName,
-                             tableCountPath = "data/gse95077.csv",
-                             sepCharacter=",",
-                             rDataFrameCount = NULL,
-                             experimentName="genericExperiment",
-                             outDirPath="../../consexpression2_results/",
-                             printResults=FALSE,
-                             fitTypeDeseq2 = "local",
-                             controlDeseq2 = "",
-                             contrastDeseq2 = "",
-                             methodNormLimma = "TMM",
-                             methodAdjPvalueLimma = "BH",
-                             numberTopTableLimma = 1000000,
-                             filterIdKnowseq="ensembl_gene_id",
-                             notSapiensKnowseq = FALSE,
-                             methodNormEdgeR = "TMM",
-                             normNoiseq = "rpkm",
-                             kNoiseq = 0.5,
-                             factorNoiseq="Tissue",
-                             lcNoiseq = 0,
-                             replicatesNoiseq = "technical",
-                             condExpNoiseq = c(""),
-                             respTypeSamseq = "Two class unpaired",
-                             npermSamseq = 100,
-                             fdrEbseq=0.05,
-                             maxRoundEbseq = 50,
-                             methodDeResultsEbseq = "robust",
-                             deNovoAanalysis = FALSE,
-                             progressShiny = NULL){
+runExpression <- function (numberReplics, groupName, tableCountPath = "data/gse95077.csv",
+                             sepCharacter=",", rDataFrameCount = NULL, experimentName="genericExperiment",
+                             outDirPath="../../consexpression2_results/", printResults=FALSE,
+                             fitTypeDeseq2 = "local", controlDeseq2 = "", contrastDeseq2 = "",
+                             methodNormLimma = "TMM", methodAdjPvalueLimma = "BH",
+                             numberTopTableLimma = 1000000, filterIdKnowseq="ensembl_gene_id",
+                             notSapiensKnowseq = FALSE, methodNormEdgeR = "TMM", normNoiseq = "rpkm",
+                             kNoiseq = 0.5, factorNoiseq="Tissue", lcNoiseq = 0,
+                             replicatesNoiseq = "technical", condExpNoiseq = c(""),
+                             respTypeSamseq = "Two class unpaired",  npermSamseq = 100,
+                             fdrEbseq=0.05, maxRoundEbseq = 50, methodDeResultsEbseq = "robust",
+                             deNovoAanalysis = FALSE, progressShiny = NULL){
     if(!is.null(rDataFrameCount)){
       countMatrix <- as.matrix(rDataFrameCount)
-    }else{
-      countMatrix <- as.matrix(readCountFile(tableCountPath,sepCharacter))
-    }
-    if(!is.null(progressShiny)){
-      progressShiny(detail = "Count matrix")
-    }
+    }else{ countMatrix <- as.matrix(readCountFile(tableCountPath,sepCharacter))}
+    if(!is.null(progressShiny)){ progressShiny(detail = "Count matrix") }
     designExperiment <- rep(groupName, each = numberReplics)
     resultTool <- list()
-    if(!is.null(progressShiny) && (!is.null(var))){
-      progressShiny(detail = "Executing edger...")
-    }
-    resultTool$edger <- runEdger(countMatrix,
-                                 numberReplics,
-                                 designExperiment,
-                                 methNorm = methodNormEdgeR)
-    if(!is.null(progressShiny)){
-      progressShiny(detail = "Executing KnowSeq...")
-    }
+    if(!is.null(progressShiny) && (!is.null(var))){ progressShiny(detail = "Executing edger...") }
+    resultTool$edger <- runEdger(countMatrix, numberReplics, designExperiment, methNorm = methodNormEdgeR)
+    if(!is.null(progressShiny)){ progressShiny(detail = "Executing KnowSeq...") }
     resultTool$knowseq <- NULL
     tryCatch({
       if(deNovoAanalysis){
         cat("\n ------------ KnowSeq is not running to deNovo analysis!\n")
       }else{
-        resultTool$knowseq <- runKnowSeq(count = countMatrix,
-                                         groupName = groupName,
-                                         numberReplic = numberReplics,
-                                         filterId = filterIdKnowseq,
-                                         notSapiens = notSapiensKnowseq)
+        resultTool$knowseq <- runKnowSeq(count = countMatrix, groupName = groupName, numberReplic = numberReplics,
+                                         filterId = filterIdKnowseq, notSapiens = notSapiensKnowseq)
         if(!is.null(resultTool$knowseq)){
           cat("\n ------------ KnowSeq executed!\n")
-        }else{
-          cat("\n ------------ KnowSeq multiclass not Implemented!\n")
-        }
+        }else{ cat("\n ------------ KnowSeq multiclass not Implemented!\n") }
       }
     }, error = function(e) {
       message(paste("\n \n ===== ERROR: KnowSeq execution is failed === \n",e,"\n"))
     })
-    if(!is.null(progressShiny)){
-      progressShiny(detail = "Executing limma...")
-    }
+    if(!is.null(progressShiny)){ progressShiny(detail = "Executing limma...") }
     tryCatch({
-      resultTool$limma<-runLimma(countMatrix,
-                            numberReplics,
-                            designExperiment,
-                            methodNormLimma,
-                            methodAdjPvalueLimma,
-                            numberTopTableLimma)
+      resultTool$limma<-runLimma(countMatrix, numberReplics, designExperiment,
+                            methodNormLimma, methodAdjPvalueLimma, numberTopTableLimma)
       cat("\n ------------ limma executed!\n")
     }, error = function(e) {
       message(paste("\n \n ===== ERROR: limma execution is failed === \n",e,"\n"))
     })
-
-    if(!is.null(progressShiny)){
-      progressShiny(detail = "Executing NOISeq...")
-    }
+    if(!is.null(progressShiny)){ progressShiny(detail = "Executing NOISeq...") }
     tryCatch({
-      resultTool$noiseq<-runNoiSeq(countMatrix = countMatrix,
-                                   groups = groupName,
-                                   designExperiment= designExperiment,
-                                   normParm = normNoiseq,
-                                   kParam =kNoiseq,
-                                   factorParam=factorNoiseq,
-                                   lcParam = lcNoiseq,
-                                   replicatesParam = replicatesNoiseq,
-                                   condExp = condExpNoiseq)
+      resultTool$noiseq<-runNoiSeq(countMatrix = countMatrix, groups = groupName, designExperiment= designExperiment,
+                                   normParm = normNoiseq, kParam =kNoiseq, factorParam=factorNoiseq,
+                                   lcParam = lcNoiseq, replicatesParam = replicatesNoiseq, condExp = condExpNoiseq)
       cat("\n ------------ NOISeq executed! \n")
     }, error = function(e) {
       message(paste("\n \n ===== ERROR: NOISeq execution is failed === \n",e,"\n"))
     })
-    if(!is.null(progressShiny)){
-      progressShiny(detail = "Executing EBSeq...")
-    }
+    if(!is.null(progressShiny)){progressShiny(detail = "Executing EBSeq...")}
     tryCatch({
-      resultTool$ebseq <- runEbseq(as.matrix(countMatrix),
-                               designExperiment,
-                               fdr = fdrEbseq,
-                               maxRound = maxRoundEbseq,
-                               methodDeResults = methodDeResultsEbseq,
-                               groups = groupName)
+      resultTool$ebseq <- runEbseq(as.matrix(countMatrix), designExperiment, fdr = fdrEbseq,
+                               maxRound = maxRoundEbseq, methodDeResults = methodDeResultsEbseq, groups = groupName)
       cat("\n ------------ EBSeq executed!\n")
     }, error = function(e) {
       message(paste("\n \n ===== ERROR: EBSeq execution is failed === \n",e,"\n"))
     })
-    if(!is.null(progressShiny)){
-      progressShiny(detail = "Executing DESeq2...")
-    }
-    # DESeq2 kallisto
+    if(!is.null(progressShiny)){progressShiny(detail = "Executing DESeq2...")}
     if(typeof(countMatrix) == "double"){
         resultTool$deseq2 <- NULL
         cat("\n ------------ DESeq2 run CANCELLED, enabled for count data only.\n")
-        # SAMSeq only count data
         cat("**** SAMSeq run CANCELLED, enabled for count data only.\n")
-        if(!is.null(progressShiny)){
-          progressShiny(detail = "SAMSeq canceled...")
-        }
+        if(!is.null(progressShiny)){ progressShiny(detail = "SAMSeq canceled...") }
     }else{
       tryCatch({
-        resultTool$deseq2 <- runDeseq2(countMatrix,
-                                       groupName,
-                                       numberReplics,
-                                       controlGroup = controlDeseq2,
-                                       contrastGroup = contrastDeseq2,
-                                       fitTypeParam = fitTypeDeseq2)
+        resultTool$deseq2 <- runDeseq2(countMatrix, groupName, numberReplics, controlGroup = controlDeseq2,
+                                       contrastGroup = contrastDeseq2, fitTypeParam = fitTypeDeseq2)
           cat("\n ------------ DESeq2 executed!\n")
       }, error = function(e) {
         message(paste("\n \n ===== ERROR: DESeq2 execution is failed === \n",e,"\n"))
       })
-        if(!is.null(progressShiny)){
-          progressShiny(detail = "Executing SAMSeq...")
-        }
+      if(!is.null(progressShiny)){ progressShiny(detail = "Executing SAMSeq...") }
       tryCatch({
-        resultTool$samseq <- runSamSeq(countMatrix,
-                                 designExperiment,
-                                 respType = respTypeSamseq,
-                                numberPermutations = npermSamseq)
+        resultTool$samseq <- runSamSeq(countMatrix, designExperiment, respType = respTypeSamseq, numberPermutations = npermSamseq)
         cat("\n ------------ SAMSeq executed!\n")
       }, error = function(e) {
         message(paste("\n \n ===== ERROR: SAMSeq execution is failed === \n",e,"\n"))
       })
-      if(!is.null(progressShiny)){
-          progressShiny(detail = "Writting results...")
-      }
+      if(!is.null(progressShiny)){ progressShiny(detail = "Writting results...")}
     }
     if(printResults){
       i<-1
       tryCatch({
         for (data in resultTool) {
-          utils::write.csv(data, file = paste0(outDirPath,
-                                        experimentName,
-                                        "_",
-                                        names(resultTool)[i],
-                                        ".csv")
-                    )
-          save(data, file = paste0(outDirPath,
-                                        experimentName,
-                                        "_",
-                                        names(resultTool)[i],
-                                        ".RData")
-          )
+          utils::write.csv(data, file = paste0(outDirPath, experimentName, "_", names(resultTool)[i], ".csv"))
+          save(data, file = paste0(outDirPath, experimentName, "_", names(resultTool)[i], ".RData"))
           i <- i +1
         }
         resultTool <- frameAllGenes(resultTool, countMatrix)
-
-        save(resultTool,
-             file = paste0(outDirPath,
-                           experimentName,
-                           "_toolsResult.RData"))
+        save(resultTool, file = paste0(outDirPath, experimentName, "_toolsResult.RData"))
       }, error = function(e) {
         message(paste("\n \n ===== ERROR: WRITE FILES execution is failed === \n",e,"\n"))
       })
-      # if(!is.null(progressShiny)){
-      #   sessionShiny.setProgress(9/10)
-      # }
-
     }
-    if(!is.null(progressShiny)){
-      progressShiny(detail = "Complete!")
-    }
+    if(!is.null(progressShiny)){ progressShiny(detail = "Complete!") }
     cat("\n ------------ DIFERENTIAL EXPRESSION ANALYSIS WAS COMPLETE!\n")
     return(resultTool)
 }
-
-#' SRA010153_consexpression2 <- consexpression2(numberReplics = 7, groupName = c("UHR", "Brain"), tableCountPath = "data/SRA010153_filtred.csv", sepCharacter = ",", experimentName = "SRA010153", outDirPath = "/Volumes/SD128/consexpression2_testesOutput/SRA010153/")
-#' GSE95077_consexpression2 <- consexpression2(numberReplics = 3, groupName = c("BM", "JJ"), tableCountPath = "data/GSE95077_filtred.csv", sepCharacter = ",", experimentName = "GSE95077", outDirPath = "/Volumes/SD128/consexpression2_testesOutput/GSE95077/", printResults = TRUE)

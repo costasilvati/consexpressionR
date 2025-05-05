@@ -13,31 +13,20 @@
 #' @examples
 #' data(gse95077)
 #' treats = c("BM", "JJ")
-#' cons_result <- runExpression(numberReplics = 3,
-#'                              groupName = treats,
-#'                               rDataFrameCount = gse95077,
-#'                               sepCharacter = ",",
-#'                               experimentName = "test_cons",
-#'                               controlDeseq2 = "BM",
-#'                               contrastDeseq2 = "JJ",
-#'                               outDirPath = "." )
-#' cons_rseult2 <- frameAllGenes(cons_list = cons_result,
-#'                               countMatrix=gse95077)
-frameAllGenes <- function(cons_list,
-                          countMatrix){
+#' cons_result <- runExpression(numberReplics = 3,groupName = treats,rDataFrameCount = gse95077,
+#'                               sepCharacter = ",",experimentName = "test_cons",
+#'                               controlDeseq2 = "BM",contrastDeseq2 = "JJ",outDirPath = "." )
+#' cons_rseult2 <- frameAllGenes(cons_list = cons_result,countMatrix=gse95077)
+frameAllGenes <- function(cons_list,countMatrix){
   newList <- list()
   tools <- names(cons_list)
   i <- 1
   for (tool_exp in cons_list) {
     result_frame <- as.data.frame(tool_exp)
     result_frame$gene_id <- rownames(result_frame)
-
     countMatrix_df <- as.data.frame(countMatrix)
     countMatrix_df$gene_id <- rownames(countMatrix_df)
-    result <- merge(countMatrix_df,
-                    result_frame,
-                    by = "gene_id",
-                    all.x = TRUE)
+    result <- merge(countMatrix_df,result_frame,by = "gene_id",all.x = TRUE)
     rownames(result) <- result$gene_id
     countMatrix_df$gene_id <- NULL
     result <- result[, !names(result) %in% names(countMatrix_df)]

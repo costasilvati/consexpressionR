@@ -14,15 +14,8 @@
 #' data(gse95077)
 #' treats = c("BM", "JJ")
 #' toolResult <- NULL
-#' toolResult$limma <- runLimma(countMatrix = gse95077,
-#'                              numberReplics = 3,
-#'                              designExperiment = rep(treats, each = 3))
-runLimma <- function (countMatrix,
-                      numberReplics,
-                      designExperiment,
-                      methodNorm = "TMM",
-                      methodAdjPvalue = "BH",
-                      numberTopTable = 1000000){
+#' toolResult$limma <- runLimma(countMatrix = gse95077, numberReplics = 3, designExperiment = rep(treats, each = 3))
+runLimma <- function (countMatrix, numberReplics, designExperiment, methodNorm = "TMM", methodAdjPvalue = "BH", numberTopTable = 1000000){
     if (numberReplics <= 1){
         print('ERROR: limma-voom require more than one replics.')
     }else {

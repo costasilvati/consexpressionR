@@ -1,6 +1,6 @@
 Package: consexpressionR
 Title: Differential Expression Analysis using consensus of 7 methods
-Version: 0.0.0.9000
+Version: 1.0.0.0
 Authors@R: c(person("Juliana", "Costa-Silva",
             email="julianacostasilvati@gmail.com", 
             role = c("aut", "cre"),
@@ -20,7 +20,7 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Depends: 
-    R (>= 4.4.0)
+    R (>= 4.5.0)
 Imports: 
     cqn,
     DESeq2 (>= 1.38.3),
@@ -50,7 +50,7 @@ Suggests:
 Config/testthat/edition: 3
 File: data/gse95077.csv
 VignetteBuilder: knitr
-biocViews: Software, BiologicalQuestion, DifferentialExpression
-Author: Juliana Costa-Silva <julianacostasilvati@gmail.com>
+biocViews: Software, BiologicalQuestion, DifferentialExpression, GeneExpression
 Maintainer: Juliana Costa-Silva <julianacostasilvati@gmail.com>
 URL: https://costasilvati.github.io/consexpressionR/
+BugReports: https://github.com/costasilvati/consexpressionR/issues

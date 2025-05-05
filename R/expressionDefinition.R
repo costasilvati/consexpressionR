@@ -39,72 +39,44 @@
 #'                               contrastDeseq2 = "JJ",
 #'                               outDirPath = "." )
 #' expDef_result <- expressionDefinition(resultTool = cons_result, groups = treats)
-expressionDefinition <- function(resultTool,
-                                 groups = c(""),
-                                 lfcMinLimma = -2,
-                                 lfcMaxLimma = 2,
-                                 pValueLimma = 0.05,
-                                 FLimma = 0.8,
-                                 lfcMinSamseq = -2,
-                                 lfcMaxSamseq = 2,
-                                 qValueSamseq = 0.05,
-                                 lfcMinDeseq2 = -2,
-                                 scoreDSamseq = 0.8,
-                                 lfcMaxDeseq2 = 2,
-                                 pValueDeseq2 = 0.05,
-                                 lfcMinEdger = -2,
-                                 lfcMaxEdger = 2,
-                                 pValueEdger = 0.05,
-                                 probNoiseq = 0.8,
-                                 lfcMinKnowseq = -2,
-                                 lfcMaxKnowseq = 2,
-                                 pValueKnowseq = 0.05,
-                                 deClassEbseq = "DE",
-                                 ppThresholdEbseq = 0.8,
-                                 printResults = FALSE,
-                                 pathOutput = "."){
-                                 #, lfcMaxEbseq = 2,
-                                 #lfcMinEbseq = -2){
+expressionDefinition <- function(resultTool,groups = c(""),
+                                 lfcMinLimma = -2,lfcMaxLimma = 2,pValueLimma = 0.05,FLimma = 0.8,
+                                 lfcMinSamseq = -2,lfcMaxSamseq = 2,qValueSamseq = 0.05,scoreDSamseq = 0.8,
+                                 lfcMinDeseq2 = -2,lfcMaxDeseq2 = 2,pValueDeseq2 = 0.05,
+                                 lfcMinEdger = -2, lfcMaxEdger = 2, pValueEdger = 0.05,
+                                 probNoiseq = 0.8,lfcMinKnowseq = -2,pValueKnowseq = 0.05,
+                                 deClassEbseq = "DE", ppThresholdEbseq = 0.8,
+                                 printResults = FALSE,pathOutput = "."){#, lfcMaxEbseq = 2, #lfcMinEbseq = -2){
     deList <- NULL
-
     if(!is.null(resultTool$edger)){ # edger
-      deList$edger <- subset(resultTool$edger,
-                             (logFC <= lfcMinEdger  | `logFC` >= lfcMaxEdger) & `PValue` <= pValueEdger)
+      deList$edger <- subset(resultTool$edger,(logFC <= lfcMinEdger  | `logFC` >= lfcMaxEdger) & `PValue` <= pValueEdger)
     }
     if(!is.null(resultTool$knowseq) && length(resultTool$knowseq) > 0){ # knowseq
-      deList$knowseq <- subset(resultTool$knowseq,
-                               (`logFC` <= lfcMinKnowseq  | `logFC` >= lfcMaxKnowseq) & `P.Value` <= pValueKnowseq)
+      deList$knowseq <- subset(resultTool$knowseq,(`logFC` <= lfcMinKnowseq  | `logFC` >= lfcMaxKnowseq) & `P.Value` <= pValueKnowseq)
     }
     if(!is.null(resultTool$limma)){ #limma
       if(length(groups) > 2){
-        deList$limma <- subset(resultTool$limma,
-                               (`F` >= FLimma) & (`P.Value` <= pValueLimma))
+        deList$limma <- subset(resultTool$limma,(`F` >= FLimma) & (`P.Value` <= pValueLimma))
       }else{
-        deList$limma <- subset(resultTool$limma,
-                               (`logFC` <= lfcMinLimma) | (`logFC` >= lfcMaxLimma) & (P.Value <= pValueLimma))
+        deList$limma <- subset(resultTool$limma,(`logFC` <= lfcMinLimma) | (`logFC` >= lfcMaxLimma) & (P.Value <= pValueLimma))
       }
     }
     if(!is.null(resultTool$noiseq)){ # NOISeq
-      deList$noiseq <- subset(resultTool$noiseq,
-                              (prob >=probNoiseq))
+      deList$noiseq <- subset(resultTool$noiseq,(prob >=probNoiseq))
     }
-
     if(!is.null(resultTool$ebseq)){ # ebseq
       ebseqDf <- as.data.frame(resultTool$ebseq)
       deList$ebseq <- subset(ebseqDf, resultTool$ebseq == deClassEbseq)
     }
     if(!is.null(resultTool$deseq2)){ # DESeq2
-      deList$deseq2 <- subset(resultTool$deseq2,
-                              (`log2FoldChange` <= lfcMinDeseq2  | `log2FoldChange` >= lfcMaxDeseq2) & (pvalue <= pValueDeseq2))
+      deList$deseq2 <- subset(resultTool$deseq2,(`log2FoldChange` <= lfcMinDeseq2  | `log2FoldChange` >= lfcMaxDeseq2) & (pvalue <= pValueDeseq2))
     }
     if(!is.null(resultTool$samseq)){ #SAMSeq
       samseqDf <- as.data.frame(resultTool$samseq, row.names = NULL)
       if(length(groups) > 2){
-        deList$samseq <- subset(samseqDf,
-                              (`Score(d)` >= scoreDSamseq) & (`q-value(%)` <= qValueSamseq))
+        deList$samseq <- subset(samseqDf,(`Score(d)` >= scoreDSamseq) & (`q-value(%)` <= qValueSamseq))
       }else{
-        deList$samseq <- subset(samseqDf,
-                                (`Fold Change` >= lfcMaxSamseq | `Fold Change` <= lfcMinLimma) & `q-value(%)` <= qValueSamseq)
+        deList$samseq <- subset(samseqDf, (`Fold Change` >= lfcMaxSamseq | `Fold Change` <= lfcMinLimma) & `q-value(%)` <= qValueSamseq)
       }
       row.names(deList$samseq) <- deList$samseq$`Gene ID`
     }
@@ -112,9 +84,7 @@ expressionDefinition <- function(resultTool,
       tools <- names(deList)
       i <- 1
       for (deData in deList) {
-        consexpressionR::writeResults(data = deData,
-                                      toolName=paste0(tools[i],"_DE_"),
-                                      pathOutput = pathOutput)
+        consexpressionR::writeResults(data = deData, toolName=paste0(tools[i],"_DE_"), pathOutput = pathOutput)
         i <- i + 1
       }
     }

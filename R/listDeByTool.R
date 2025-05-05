@@ -12,21 +12,12 @@
 #' @examples
 #' data(gse95077)
 #' treats = c("BM", "JJ")
-#' cons_result <- runExpression(numberReplics = 3, groupName = treats,
-#'                               rDataFrameCount = gse95077,
-#'                               sepCharacter = ",",
-#'                               experimentName = "test_cons",
-#'                               outDirPath = "." )
+#' cons_result <- runExpression(numberReplics = 3, groupName = treats,rDataFrameCount = gse95077,
+#'                               sepCharacter = ",",experimentName = "test_cons",outDirPath = "." )
 #' expDef_result <- expressionDefinition(resultTool = cons_result, groups = treats)
-#' deByTool <- listDeByTool(consexpressionList = cons_result,
-#'                          geneNames = row.names(gse95077),
-#'                          deList = expDef_result)
-listDeByTool <- function(consexpressionList,
-                         geneNames,
-                         deList){
-  deTool <- data.frame(matrix(0,
-                              ncol = length(consexpressionList),
-                              nrow = length(geneNames)))
+#' deByTool <- listDeByTool(consexpressionList = cons_result,geneNames = row.names(gse95077),deList = expDef_result)
+listDeByTool <- function(consexpressionList,geneNames,deList){
+  deTool <- data.frame(matrix(0,ncol = length(consexpressionList),nrow = length(geneNames)))
   colnames(deTool) <- names(consexpressionList)
   row.names(deTool) <- geneNames
   toolNames <- names(consexpressionList)

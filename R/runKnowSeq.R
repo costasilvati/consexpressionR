@@ -13,33 +13,20 @@
 #' data(gse95077)
 #' treats = c("BM", "JJ")
 #' toolResult <- NULL
-#' toolResult$knowSeq <- runKnowSeq(count = gse95077,
-#'                                groupName = treats,
-#'                                numberReplic = 3)
+#' toolResult$knowSeq <- runKnowSeq(count = gse95077,  groupName = treats, numberReplic = 3)
 #'  }
-runKnowSeq <- function(count,
-                       groupName,
-                       numberReplic,
-                       filterId="ensembl_gene_id",
-                       notSapiens = FALSE){
+runKnowSeq <- function(count, groupName, numberReplic, filterId="ensembl_gene_id", notSapiens = FALSE){
   if(length(groupName) > 2){
     return(NULL)
   }else{
     designExperiment <- rep(groupName, each = numberReplic)
     geneNames = as.character(row.names(count))
 
-    myAnnotation <- KnowSeq::getGenesAnnotation(values = geneNames,
-                                                filter=filterId,
-                                                notHSapiens = notSapiens)
+    myAnnotation <- KnowSeq::getGenesAnnotation(values = geneNames, filter=filterId, notHSapiens = notSapiens)
     designExperiment <- rep(groupName, each=numberReplic)
     m <- as.matrix(count)
-    expressionMatrix <- KnowSeq::calculateGeneExpressionValues(countsMatrix = m,
-                                                               annotation = myAnnotation,
-                                                               genesNames = FALSE)
-    knowSeq <- KnowSeq::DEGsExtraction(expressionMatrix,
-                                       labels = designExperiment,
-                                       multiDegsMethod = "cov",
-                                       lfc = -20)
+    expressionMatrix <- KnowSeq::calculateGeneExpressionValues(countsMatrix = m, annotation = myAnnotation, genesNames = FALSE)
+    knowSeq <- KnowSeq::DEGsExtraction(expressionMatrix, labels = designExperiment, multiDegsMethod = "cov", lfc = -20)
     return(knowSeq$DEG_Results$DEGs_Table)
   }
 }

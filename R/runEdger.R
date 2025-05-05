@@ -14,13 +14,9 @@
 #' numberReplicsModel = 3
 #' designExperimentModel <- rep(treats, each = numberReplicsModel)
 #' toolResult <- NULL
-#' toolResult$edger <- runEdger(countMatrix = gse95077,
-#'                                numberReplics = numberReplicsModel,
-#'                                desingExperiment = designExperimentModel )
-runEdger <- function (countMatrix,
-                      numberReplics,
-                      desingExperiment,
-                      methNorm = "TMM"){
+#' toolResult$edger <- runEdger(countMatrix = gse95077, numberReplics = numberReplicsModel,
+#'                                desingExperiment = designExperimentModel)
+runEdger <- function (countMatrix, numberReplics,desingExperiment, methNorm = "TMM"){
     group <- c(desingExperiment)
     m = as.matrix(countMatrix)
     y.dge <- edgeR::DGEList(counts = m, group = group)

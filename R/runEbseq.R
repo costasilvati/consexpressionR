@@ -15,24 +15,13 @@
 #' treats = c("BM", "JJ")
 #' designExperimentModel <- rep(treats, each = 3)
 #' toolResult <- NULL
-#' toolResult$ebseq <- runEbseq(countMatrix = gse95077,
-#'                               designExperiment = designExperimentModel,
-#'                               groups = treats)
-runEbseq <- function(countMatrix,
-                     designExperiment,
-                     fdr=0.05,
-                     ppThreshold = 0.8,
-                     maxRound = 50,
-                     methodDeResults = "robust",
-                     groups = c("")){
+#' toolResult$ebseq <- runEbseq(countMatrix = gse95077,designExperiment = designExperimentModel,groups = treats)
+runEbseq <- function(countMatrix,designExperiment,fdr=0.05,ppThreshold = 0.8,maxRound = 50,
+                     methodDeResults = "robust",groups = c("")){
   sizes<- EBSeq::MedianNorm(countMatrix)
   if(length(groups) > 2){
     cond <- as.factor(designExperiment)
-    ebseqOutMultiTest <- EBSeq::EBMultiTest(Data = as.matrix(countMatrix),
-                                  Conditions = cond,
-                                  sizeFactors = sizes,
-                                  maxround = maxRound)
-
+    ebseqOutMultiTest <- EBSeq::EBMultiTest(Data = as.matrix(countMatrix),Conditions = cond,sizeFactors = sizes,maxround = maxRound)
     ebseqOutMultiPP <- EBSeq::GetMultiPP(ebseqOutMultiTest)
     linhas_selecionadas <- apply(ebseqOutMultiPP$PP, 1, function(row) any(row >= ppThreshold))
     ebseqOutMultiPP$difExp <- ifelse(linhas_selecionadas, "DE", "EE")
@@ -40,9 +29,7 @@ runEbseq <- function(countMatrix,
     colnames(result)[ncol(result)] <- "DEFound"
     return(result)
   }else{
-    ebOut<-EBSeq::EBTest(Data=as.matrix(countMatrix),
-                         Conditions=as.factor(designExperiment),
-                         sizeFactors=sizes, maxround = maxRound)
+    ebOut<-EBSeq::EBTest(Data=as.matrix(countMatrix),Conditions=as.factor(designExperiment),sizeFactors=sizes, maxround = maxRound)
     ebOutResult <- EBSeq::GetDEResults(ebOut,FDR=fdr)
     result <- as.data.frame(ebOutResult$Status)
     colnames(result)[ncol(result)] <- "DEFound"
