@@ -463,7 +463,7 @@ consexpressionR <- function(){
     countData <- shiny::reactiveValues()
 
     groupUpdate <- shiny::eventReactive(input$groupNameInp, {
-      groups = c(unlist(strsplit(input$groupNameInp, ",")))
+      groups <- c(unlist(strsplit(input$groupNameInp, ",")))
       shiny::updateSelectInput(inputId = "controlDeseq2Inp",
                                choices = groups)
       if (length(groups) > 2) {
@@ -474,7 +474,7 @@ consexpressionR <- function(){
                                   choices = groups,
                                   inline = TRUE)
         varCondNoiseq$cond <- c(input$condition1Inp, input$condition2Inp)
-        print(paste("---- condition1Noiseq - ", varCondNoiseq))
+        message(paste("---- condition1Noiseq - ", varCondNoiseq))
       } else {
         shiny::updateRadioButtons(inputId = "condition1Inp",
                                   choices = c(""))
@@ -487,14 +487,14 @@ consexpressionR <- function(){
     observeEvent(input$condition1Inp, {
       if (input$condition1Inp != "" && input$condition2Inp != "") {
         varCondNoiseq$cond <- c(input$condition1Inp, input$condition2Inp)
-        print(paste("---- condition1Noiseq - ", varCondNoiseq$cond))
+        message(paste("---- condition1Noiseq - ", varCondNoiseq$cond))
       }
     })
 
     observeEvent(input$condition2Inp, {
       if (input$condition1Inp != "" && input$condition2Inp != "") {
         varCondNoiseq$cond <- c(input$condition1Inp, input$condition2Inp)
-        print(paste("---- condition1Noiseq - ", varCondNoiseq$cond))
+        message(paste("---- condition1Noiseq - ", varCondNoiseq$cond))
       }
     })
 
@@ -535,8 +535,8 @@ consexpressionR <- function(){
         }
         progress$set(value = value, detail = detail)
       }
-      groupsName = c(unlist(strsplit(input$groupNameInp, ",")));
-      print(paste("---- notHumanKnowseq - ",input$notHumanKnowseq ))
+      groupsName <- c(unlist(strsplit(input$groupNameInp, ",")));
+      message(paste("---- notHumanKnowseq - ",input$notHumanKnowseq ))
       consResult$exp <- runExpression(numberReplics = input$numberReplicsInp,
                                   rDataFrameCount = datasetCount(),
                                   groupName = groupsName,
@@ -569,7 +569,7 @@ consexpressionR <- function(){
 
     output$execResults <- shiny::renderText({
       consResult <- cons_res()
-      print("DIFERENTIAL EXPRESSION ANALYSIS WAS COMPLETE!")
+      message("DIFERENTIAL EXPRESSION ANALYSIS WAS COMPLETE!")
     })
 
     consensusPlot <- shiny::eventReactive(input$goUpsetPlot, {
@@ -592,7 +592,8 @@ consexpressionR <- function(){
                                             lfcMinKnowseq = input$lfcMinKnowseqInp,
                                             lfcMaxKnowseq = input$lfcMaxKnowseqInp,
                                             pValueKnowseq = input$pValueKnowseqInp,
-                                            deClassEbseq = input$classDeEbseqInp)
+                                            deClassEbseq = input$classDeEbseqInp
+                                            )
       m <- as.matrix(consResult$exp)
       deByTool <- listDeByTool(consexpressionList = consResult$exp,
                                geneNames = row.names(m),
@@ -606,7 +607,7 @@ consexpressionR <- function(){
                       order.by = "freq",
                       empty.intersections = "off")
       }else{
-        print("ERROR: Problems to execute listDeByTool function.")
+        message("ERROR: Problems to execute listDeByTool function.")
       }
     })
 

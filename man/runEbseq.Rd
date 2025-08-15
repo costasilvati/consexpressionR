@@ -40,7 +40,5 @@ data(gse95077)
 treats = c("BM", "JJ")
 designExperimentModel <- rep(treats, each = 3)
 toolResult <- NULL
-toolResult$ebseq <- runEbseq(countMatrix = gse95077,
-                              designExperiment = designExperimentModel,
-                              groups = treats)
+toolResult$ebseq <- runEbseq(countMatrix = gse95077,designExperiment = designExperimentModel,groups = treats)
 }

@@ -2,37 +2,30 @@
 % Please edit documentation in R/consensusList.R
 \name{consensusList}
 \alias{consensusList}
-\title{consensusList: make a list of genes was consider DE by threshold tools}
+\title{consensusList: make a list of genes considered DE by at least 'threshold' tools}
 \usage{
 consensusList(consexpressionList, deTool, threshold = 5)
 }
 \arguments{
-\item{consexpressionList}{list. Output by 'consexpressionR' function}
+\item{consexpressionList}{An \code{ExpressionResultSet} object containing the results from each analysis method.}
 
-\item{deTool}{data.frame. Output of 'deByTool' function}
+\item{deTool}{data.frame. Output of 'listDeByTool' function}
 
-\item{threshold}{integer. Number of tool was consider a gene as DE to filter (default: 5)}
+\item{threshold}{Integer. Minimum number of tools that must agree on a gene being DE (default: 5)}
 }
 \value{
-data.frame with DE genes and values analysis
+An \code{ExpressionResultSet} object with the consensus slot populated
 }
 \description{
-consensusList: make a list of genes was consider DE by threshold tools
+consensusList: make a list of genes considered DE by at least 'threshold' tools
 }
 \examples{
 data(gse95077)
 treats <- c("BM", "JJ")
-cons_result <- runExpression(numberReplics = 3,groupName = treats,
-                            rDataFrameCount = gse95077,
-                            sepCharacter = ",",
-                            experimentName = "test_cons",
-                            controlDeseq2 = "BM",
-                            contrastDeseq2 = "JJ",
-                            outDirPath = ".")
-expDef_result <- expressionDefinition(resultTool = cons_result,
-                                      groups = treats)
-deByTool <- listDeByTool(consexpressionList = cons_result,
-                         geneNames = row.names(gse95077),
-                         deList = expDef_result)
-consList <- consensusList(cons_result,deByTool)
+cons_result <- runExpression(numberReplics = 3, groupName = treats, rDataFrameCount = gse95077, controlDeseq2 = "BM", contrastDeseq2 = "JJ" )
+expDef_result <- expressionDefinition(resultTool = cons_result, groups = treats)
+deByTool <- listDeByTool(cons_result, row.names(gse95077), expDef_result)
+cons_result <- consensusList(cons_result, deByTool)
+
+summary(cons_result)
 }

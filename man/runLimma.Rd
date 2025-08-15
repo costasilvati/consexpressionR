@@ -36,7 +36,5 @@ Execute edgeR expression Analisys
 data(gse95077)
 treats = c("BM", "JJ")
 toolResult <- NULL
-toolResult$limma <- runLimma(countMatrix = gse95077,
-                             numberReplics = 3,
-                             designExperiment = rep(treats, each = 3))
+toolResult$limma <- runLimma(countMatrix = gse95077, numberReplics = 3, designExperiment = rep(treats, each = 3))
 }

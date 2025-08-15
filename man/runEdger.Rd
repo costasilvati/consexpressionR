@@ -27,7 +27,6 @@ treats = c("BM", "JJ")
 numberReplicsModel = 3
 designExperimentModel <- rep(treats, each = numberReplicsModel)
 toolResult <- NULL
-toolResult$edger <- runEdger(countMatrix = gse95077,
-                               numberReplics = numberReplicsModel,
-                               desingExperiment = designExperimentModel )
+toolResult$edger <- runEdger(countMatrix = gse95077, numberReplics = numberReplicsModel,
+                               desingExperiment = designExperimentModel)
 }

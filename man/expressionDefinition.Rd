@@ -2,7 +2,7 @@
 % Please edit documentation in R/expressionDefinition.R
 \name{expressionDefinition}
 \alias{expressionDefinition}
-\title{Define who genes are deferentially expressed by method}
+\title{Identify DE genes by method-specific thresholds}
 \usage{
 expressionDefinition(
   resultTool,
@@ -14,16 +14,16 @@ expressionDefinition(
   lfcMinSamseq = -2,
   lfcMaxSamseq = 2,
   qValueSamseq = 0.05,
-  lfcMinDeseq2 = -2,
   scoreDSamseq = 0.8,
+  lfcMinDeseq2 = -2,
   lfcMaxDeseq2 = 2,
   pValueDeseq2 = 0.05,
   lfcMinEdger = -2,
   lfcMaxEdger = 2,
   pValueEdger = 0.05,
   probNoiseq = 0.8,
-  lfcMinKnowseq = -2,
   lfcMaxKnowseq = 2,
+  lfcMinKnowseq = -2,
   pValueKnowseq = 0.05,
   deClassEbseq = "DE",
   ppThresholdEbseq = 0.8,
@@ -32,68 +32,26 @@ expressionDefinition(
 )
 }
 \arguments{
-\item{resultTool}{table results by consexpressionR function}
+\item{resultTool}{An \code{ExpressionResultSet} object.}
 
-\item{groups}{text, name of samples or treatment}
+\item{groups}{Character vector of group names or conditions.}
 
-\item{lfcMinLimma}{minimum value to consider of log Fold Change (default: -2).}
+\item{lfcMinLimma, ..., ppThresholdEbseq}{Numeric thresholds used per method (see details).}
 
-\item{lfcMaxLimma}{maximum value to consider of log Fold Change (default: 2)}
+\item{printResults}{Logical. Whether to write results to disk.}
 
-\item{pValueLimma}{minimum P-Value to consider (default: 0.05)}
-
-\item{FLimma}{The F statistics is used to test the null hypotheses of all groups have the same median of expression}
-
-\item{lfcMinSamseq}{minimum value to consider of log Fold Change (default: -2).}
-
-\item{lfcMaxSamseq}{maximum value to consider of log Fold Change (default: 2)}
-
-\item{qValueSamseq}{q-value is a measure of the statistical significance of the difference in expression between the compared groups, taking the problem of multiple comparisons into account (default: 0.8)}
-
-\item{lfcMinDeseq2}{minimum value to consider of log Fold Change (default: -2).}
-
-\item{scoreDSamseq}{statistic used to evaluate the significance of each gene in multi class analysis}
-
-\item{lfcMaxDeseq2}{maximum value to consider of log Fold Change (default: 2)}
-
-\item{pValueDeseq2}{minimum P-Value to consider (default: 0.05)}
-
-\item{lfcMinEdger}{minimum value to consider of log Fold Change (default: -2).}
-
-\item{lfcMaxEdger}{maximum value to consider of log Fold Change (default: 2)}
-
-\item{pValueEdger}{minimum P-Value to consider (default: 0.05)}
-
-\item{probNoiseq}{floating point, minimum probability that a read count comes from a real gene expression peak, rather than background noiseq (default: 0.95)}
-
-\item{lfcMinKnowseq}{minimum value to consider of log Fold Change (default: -2).}
-
-\item{lfcMaxKnowseq}{maximum value to consider of log Fold Change (default: 2)}
-
-\item{pValueKnowseq}{minimum P-Value to consider (default: 0.05)}
-
-\item{deClassEbseq}{name of class to consider by EBSeq (default: "DE")}
-
-\item{ppThresholdEbseq}{description}
-
-\item{printResults}{logical variable: TRUE print report by each tool, FALSE print only consensus result}
-
-\item{pathOutput}{path to write output, need be a directory (default: ".")
-#'}
+\item{pathOutput}{Character. Directory path to save result tables.}
+}
+\value{
+A list of data.frames with DE genes per method.
 }
 \description{
-Define who genes are deferentially expressed by method
+Applies specific filtering rules to each expression method result in the
+ExpressionResultSet object and returns the DE genes per tool.
 }
 \examples{
 data(gse95077)
-treats = c("BM", "JJ")
-cons_result <- runExpression(numberReplics = 3,
-                              groupName = treats,
-                              rDataFrameCount = gse95077,
-                              sepCharacter = ",",
-                              experimentName = "test_cons",
-                              controlDeseq2 = "BM",
-                              contrastDeseq2 = "JJ",
-                              outDirPath = "." )
-expDef_result <- expressionDefinition(resultTool = cons_result, groups = treats)
+treats <- c("BM", "JJ")
+res <- runExpression(numberReplics = 3, groupName = treats, rDataFrameCount = gse95077, controlDeseq2 = "BM", contrastDeseq2 = "JJ" )
+expDef <- expressionDefinition(resultTool = res, groups = treats)
 }

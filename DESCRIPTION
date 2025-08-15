@@ -22,6 +22,7 @@ RoxygenNote: 7.3.2
 Depends: 
     R (>= 4.5.0)
 Imports: 
+    mclust,
     cqn,
     DESeq2 (>= 1.38.3),
     EBSeq (>= 2.1.0),
@@ -38,8 +39,7 @@ Imports:
     shinydashboard,
     shinyjs,
     plotly (>= 4.10.4),
-    UpSetR (>= 1.4.0),
-    mclust (>= 6.1.1)
+    UpSetR (>= 1.4.0)
 Suggests: 
     shinybusy,
     grDevices,
@@ -50,7 +50,8 @@ Suggests:
 Config/testthat/edition: 3
 File: data/gse95077.csv
 VignetteBuilder: knitr
-biocViews: Software, BiologicalQuestion, DifferentialExpression, GeneExpression
+biocViews: Workflow, GeneExpressionWorkflow
 Maintainer: Juliana Costa-Silva <julianacostasilvati@gmail.com>
 URL: https://costasilvati.github.io/consexpressionR/
 BugReports: https://github.com/costasilvati/consexpressionR/issues
+LazyData: true

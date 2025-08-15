@@ -18,8 +18,10 @@ content of file in matrix R format
 Read table count File and creates a matrix from the given content file.
 }
 \examples{
-\dontrun{
-df <- readCountFile(tableCountPath="./data/gse95077.csv",
-                    split=",")
+\donttest{
+txt <- "gene,sample1,sample2\nGeneA,10,20\nGeneB,5,15"
+con <- textConnection(txt)
+mat <- readCountFile(tableCountPath = con, split = ",")
+close(con)
 }
 }

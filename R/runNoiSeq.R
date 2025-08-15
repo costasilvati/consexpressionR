@@ -20,18 +20,18 @@
 #' toolResult$noiseq <- runNoiSeq(countMatrix = gse95077, designExperiment = rep(treats, each = 3))
 runNoiSeq <- function (countMatrix, designExperiment, groups = c(""), normParm = "rpkm", kParam = 0.5,
                        factorParam=c("Tissue"), lcParam = 0, replicatesParam = "technical", condExp = c("")){
-  myfactors = data.frame(Tissue=c(designExperiment))
+  myfactors <- data.frame(Tissue=c(designExperiment))
   mydata <- NOISeq::readData(data=countMatrix, factors=myfactors)
   if(length(groups) > 2 && length(condExp) == 2){
     if(all(condExp %in% groups)){
-      mynoiseq = NOISeq::noiseq(mydata, norm = normParm,k= kParam, factor=factorParam,
+      mynoiseq <- NOISeq::noiseq(mydata, norm = normParm,k= kParam, factor=factorParam,
                                 lc= lcParam, replicates=replicatesParam, conditions = condExp)
     }else{
-      print("Values in conditions need be founded in groups")
+      message("Values in conditions need be founded in groups")
       return( NULL)
     }
   }else{
-    mynoiseq = NOISeq::noiseq(mydata, norm = normParm, k= kParam, factor=factorParam, lc= lcParam, replicates=replicatesParam)
+    mynoiseq <- NOISeq::noiseq(mydata, norm = normParm, k= kParam, factor=factorParam, lc= lcParam, replicates=replicatesParam)
   }
   result <- mynoiseq@results[[1]]#pnr?? nss?? v??
   return(result)

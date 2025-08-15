@@ -39,10 +39,6 @@ groupNameModel = c("BM","JJ")
 numberReplicsModel = 3
 toolResult <- NULL
 data(gse95077)
-toolResult$deseq2 <- runDeseq2(countMatrix = gse95077,
-                               groupName = groupNameModel,
-                               numberReplics = numberReplicsModel,
-                               controlGroup = "BM",
-                               contrastGroup = "JJ",
-                               fitTypeParam = "local")
+toolResult$deseq2 <- runDeseq2(countMatrix = gse95077,groupName = groupNameModel,numberReplics = numberReplicsModel,
+                               controlGroup = "BM",contrastGroup = "JJ",fitTypeParam = "local")
 }

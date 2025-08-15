@@ -18,27 +18,28 @@
 #' toolResult$deseq2 <- runDeseq2(countMatrix = gse95077,groupName = groupNameModel,numberReplics = numberReplicsModel,
 #'                                controlGroup = "BM",contrastGroup = "JJ",fitTypeParam = "local")
 runDeseq2 <- function(countMatrix, groupName,numberReplics,controlGroup,contrastGroup,fitTypeParam = "local"){
+  dfDeseq2 <- NULL
   if((controlGroup %in% groupName) &&  (contrastGroup %in% groupName)){
     colDat <- NULL
     colNames <- colnames(countMatrix)
     colDat <- data.frame(type = colNames ,condiction = c(controlGroup, contrastGroup))
     dds<-DESeq2::DESeqDataSetFromMatrix(countMatrix,colData = colDat, design = ~condiction)
-
     #dds$condition <- relevel(dds$condiction, ref = controlGroup)
     if(typeof(countMatrix) == "double"){
-      cat("DESeq2 canceled. Dataset isn't COUNT data")
+      message("DESeq2 canceled. Dataset isn't COUNT data")
       return(NULL)
     }else{
-      print("Dataset is COUNT data")
+      message("Dataset is COUNT data")
       dds <- DESeq2::DESeq(dds, fitType = fitTypeParam)
       res <- DESeq2::results(dds,contrast = c("condiction",contrastGroup, controlGroup))
       resOrdered <- res[order(res$pvalue),]
       dfDeseq2 <- as.data.frame(resOrdered)
-      return(dfDeseq2)
     }
   }else{
-    message(paste("\n \n ===== ERROR: in DESeq2 execution is failed === \n","=== Contrast group is: [",contrastGroup,"] \n",
-                  "=== Control group is: [",controlGroup,"] \n","ERROR!! This values are not defined in groupName: [",groupName,"]\n"))
-    return(NULL)
+    message("\n \n ===== ERROR: in DESeq2 execution is failed === \n")
+    message("=== Contrast group is: [",contrastGroup,"] \n")
+    message("=== Control group is: [",controlGroup,"] \n")
+    message("ERROR!! This values are not defined in groupName: [",groupName,"]\n")
   }
+  return(dfDeseq2)
 }

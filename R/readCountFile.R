@@ -7,10 +7,13 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' df <- readCountFile(tableCountPath="./data/gse95077.csv",
-#'                     split=",")
+#' \donttest{
+#' txt <- "gene,sample1,sample2\nGeneA,10,20\nGeneB,5,15"
+#' con <- textConnection(txt)
+#' mat <- readCountFile(tableCountPath = con, split = ",")
+#' close(con)
 #' }
+
 readCountFile <- function(tableCountPath="data/table_count_df.csv",
                           split=","){
     tableCount <- utils::read.csv(tableCountPath,

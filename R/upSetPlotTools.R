@@ -22,7 +22,7 @@ upSetPlotTools <- function(df, condition = "condition_default", pathOut = ".", w
   df$number_of_methods <- rowSums(df)
   if(writeData){
     grDevices::pdf(paste0(pathOut,"upset_plot_",condition,".pdf"), width = 10, height = 7.5, onefile = FALSE)
-    print(meu_grafico)
+    #print(meu_grafico)
     grDevices::dev.off()
     utils::write.csv(df, file = paste0(pathOut,"upset_plot_", condition,".csv"))
   }else{

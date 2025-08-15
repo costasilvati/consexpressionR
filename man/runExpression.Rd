@@ -99,7 +99,7 @@ runExpression(
 \item{progressShiny}{shiny app element, used to show execution progress}
 }
 \value{
-list with all analysis expression
+An \code{ExpressionResultSet} object containing the results from each analysis method.
 }
 \description{
 Make expression analysis of 7 tools, and return a list of results by each tool.
@@ -107,13 +107,6 @@ Make expression analysis of 7 tools, and return a list of results by each tool.
 \examples{
 data(gse95077)
 treats = c("BM", "JJ")
-cons_result <- runExpression(numberReplics = 3,
-                              groupName = treats,
-                              rDataFrameCount = gse95077,
-                              sepCharacter = ",",
-                              experimentName = "test_cons",
-                              controlDeseq2 = "BM",
-                              contrastDeseq2 = "JJ",
-                              outDirPath = "." )
-expDef_result <- expressionDefinition(resultTool = cons_result, groups = treats)
+cons_result <- runExpression(numberReplics = 3, groupName = treats, rDataFrameCount = gse95077, controlDeseq2 = "BM", contrastDeseq2 = "JJ" )
+summary(cons_result)
 }

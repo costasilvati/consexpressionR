@@ -31,11 +31,10 @@ Execute knowSeq differential Expression analyse
 }
 \examples{
 \dontrun{
+
 data(gse95077)
 treats = c("BM", "JJ")
 toolResult <- NULL
-toolResult$knowSeq <- runKnowSeq(count = gse95077,
-                               groupName = treats,
-                               numberReplic = 3)
+toolResult$knowSeq <- runKnowSeq(count = gse95077,  groupName = treats, numberReplic = 3)
  }
 }

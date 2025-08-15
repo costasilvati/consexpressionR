@@ -1,41 +1,47 @@
-#' consensusList: make a list of genes was consider DE by threshold tools
+#' consensusList: make a list of genes considered DE by at least 'threshold' tools
 #'
-#' @param consexpressionList list. Output by 'consexpressionR' function
-#' @param deTool data.frame. Output of 'deByTool' function
-#' @param threshold integer. Number of tool was consider a gene as DE to filter (default: 5)
+#' @param consexpressionList An \code{ExpressionResultSet} object containing the results from each analysis method.
+#' @param deTool data.frame. Output of 'listDeByTool' function
+#' @param threshold Integer. Minimum number of tools that must agree on a gene being DE (default: 5)
 #'
-#' @return data.frame with DE genes and values analysis
+#' @return An \code{ExpressionResultSet} object with the consensus slot populated
 #' @export
 #'
 #' @examples
 #' data(gse95077)
 #' treats <- c("BM", "JJ")
-#' cons_result <- runExpression(numberReplics = 3,groupName = treats,
-#'                             rDataFrameCount = gse95077,
-#'                             sepCharacter = ",",
-#'                             experimentName = "test_cons",
-#'                             controlDeseq2 = "BM",
-#'                             contrastDeseq2 = "JJ",
-#'                             outDirPath = ".")
-#' expDef_result <- expressionDefinition(resultTool = cons_result,
-#'                                       groups = treats)
-#' deByTool <- listDeByTool(consexpressionList = cons_result,
-#'                          geneNames = row.names(gse95077),
-#'                          deList = expDef_result)
-#' consList <- consensusList(cons_result,deByTool)
+#' cons_result <- runExpression(numberReplics = 3, groupName = treats, rDataFrameCount = gse95077, controlDeseq2 = "BM", contrastDeseq2 = "JJ" )
+#' expDef_result <- expressionDefinition(resultTool = cons_result, groups = treats)
+#' deByTool <- listDeByTool(cons_result, row.names(gse95077), expDef_result)
+#' cons_result <- consensusList(cons_result, deByTool)
+#'
+#' summary(cons_result)
 consensusList <- function(consexpressionList,
                           deTool,
-                          threshold = 5){
+                          threshold = 5) {
+  if (!inherits(consexpressionList, "ExpressionResultSet")) {
+    stop("'consexpressionList' must be an ExpressionResultSet object.")
+  }
+
+  if (!is.data.frame(deTool)) {
+    stop("'deTool' must be a data.frame.")
+  }
+
   deTool$nDE <- rowSums(deTool)
   consensus <- deTool$nDE >= threshold
   deCons <- subset(deTool, consensus)
-  newList <- list()
-  toolNames <- names(consexpressionList)
-  for(i in 1:length(consexpressionList)){
-    frame <- as.data.frame(consexpressionList[[i]])
-    itens <- frame[row.names(deCons),, drop= FALSE]
-    newList[[i]] <- itens
+
+  consensusList <- list()
+  toolNames <- names(consexpressionList@results)
+
+  for (i in seq_along(toolNames)) {
+    tool <- toolNames[i]
+    frame <- as.data.frame(consexpressionList@results[[tool]])
+    itens <- frame[rownames(deCons), , drop = FALSE]
+    consensusList[[tool]] <- itens
   }
-  names(newList) <- toolNames
-  return(newList)
+  names(consensusList) <- toolNames
+
+  consexpressionList@consensus <- consensusList
+  return(consexpressionList)
 }

@@ -18,10 +18,10 @@
 #'                                desingExperiment = designExperimentModel)
 runEdger <- function (countMatrix, numberReplics,desingExperiment, methNorm = "TMM"){
     group <- c(desingExperiment)
-    m = as.matrix(countMatrix)
+    m <- as.matrix(countMatrix)
     y.dge <- edgeR::DGEList(counts = m, group = group)
     if (numberReplics < 1){
-        print('Replicates not found by edgeR. EdgeR wasn`t executed.')
+        message('Replicates not found by edgeR. EdgeR wasn`t executed.')
     }else if(numberReplics == 1){
         bcv <- 0.2
         y.et <- edgeR::exactTest(y.dge, dispersion = bcv^2)
