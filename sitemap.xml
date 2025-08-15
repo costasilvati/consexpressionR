@@ -6,8 +6,10 @@
 <url><loc>https://costasilvati.github.io/consexpressionR/articles/index.html</loc></url>
 <url><loc>https://costasilvati.github.io/consexpressionR/authors.html</loc></url>
 <url><loc>https://costasilvati.github.io/consexpressionR/index.html</loc></url>
+<url><loc>https://costasilvati.github.io/consexpressionR/reference/ExpressionResultSet-class.html</loc></url>
 <url><loc>https://costasilvati.github.io/consexpressionR/reference/consensusList.html</loc></url>
 <url><loc>https://costasilvati.github.io/consexpressionR/reference/consexpressionR-package.html</loc></url>
+<url><loc>https://costasilvati.github.io/consexpressionR/reference/createExpressionResultSet.html</loc></url>
 <url><loc>https://costasilvati.github.io/consexpressionR/reference/createNameFileOutput.html</loc></url>
 <url><loc>https://costasilvati.github.io/consexpressionR/reference/expressionDefinition.html</loc></url>
 <url><loc>https://costasilvati.github.io/consexpressionR/reference/frameAllGenes.html</loc></url>
@@ -23,6 +25,8 @@
 <url><loc>https://costasilvati.github.io/consexpressionR/reference/runLimma.html</loc></url>
 <url><loc>https://costasilvati.github.io/consexpressionR/reference/runNoiSeq.html</loc></url>
 <url><loc>https://costasilvati.github.io/consexpressionR/reference/runSamSeq.html</loc></url>
+<url><loc>https://costasilvati.github.io/consexpressionR/reference/show-ExpressionResultSet-method.html</loc></url>
+<url><loc>https://costasilvati.github.io/consexpressionR/reference/summary-ExpressionResultSet-method.html</loc></url>
 <url><loc>https://costasilvati.github.io/consexpressionR/reference/upSetPlotTools.html</loc></url>
 <url><loc>https://costasilvati.github.io/consexpressionR/reference/writeResults.html</loc></url>
 </urlset>

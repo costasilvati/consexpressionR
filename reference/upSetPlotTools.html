@@ -79,11 +79,8 @@
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">gse95077</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">treats</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BM"</span>, <span class="st">"JJ"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">cons_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="runExpression.html">runExpression</a></span><span class="op">(</span>numberReplics <span class="op">=</span> <span class="fl">3</span>, groupName <span class="op">=</span> <span class="va">treats</span>,</span></span>
-<span class="r-in"><span>                              rDataFrameCount <span class="op">=</span> <span class="va">gse95077</span>,</span></span>
-<span class="r-in"><span>                              sepCharacter <span class="op">=</span> <span class="st">","</span>,</span></span>
-<span class="r-in"><span>                              experimentName <span class="op">=</span> <span class="st">"test_cons"</span>,</span></span>
-<span class="r-in"><span>                              outDirPath <span class="op">=</span> <span class="st">"."</span> <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cons_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="runExpression.html">runExpression</a></span><span class="op">(</span>numberReplics <span class="op">=</span> <span class="fl">3</span>, groupName <span class="op">=</span> <span class="va">treats</span>,rDataFrameCount <span class="op">=</span> <span class="va">gse95077</span>,</span></span>
+<span class="r-in"><span>                            sepCharacter <span class="op">=</span> <span class="st">","</span>,experimentName <span class="op">=</span> <span class="st">"test_cons"</span>,outDirPath <span class="op">=</span> <span class="st">"."</span> <span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using classic mode.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Getting annotation of the Homo Sapiens...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Using reference genome 38.</span>
@@ -93,15 +90,15 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  ===== ERROR: KnowSeq execution is failed === </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  Error in mclustBIC(data = structure(c(-3.52446659876917, -2.42801002792396, : could not find function "mclustBIC"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Error in mclustBIC(data = structure(c(-3.52446659876917, -2.42801002792396, : could not find function "mclustBIC"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Removing intercept from test coefficients</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  ------------ limma executed!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  ------------ limma executed!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Computing (M,D) values..."</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Computing probability of differential expression..."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  ------------ NOISeq executed! </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  ------------ NOISeq executed! </span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`expect_is()` was deprecated in the 3rd edition.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Use `expect_type()`, `expect_s3_class()`, or `expect_s4_class()` instead</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`expect_is()` was deprecated in the 3rd edition.</span>
@@ -110,22 +107,16 @@
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Use `expect_type()`, `expect_s3_class()`, or `expect_s4_class()` instead</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Initial number of DE patterns = 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Final number of DE patterns = 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  ------------ EBSeq executed!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  ------------ EBSeq executed!</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  ===== ERROR: in DESeq2 execution is failed === </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  === Contrast group is: [  ] </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  === Control group is: [  ] </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  ERROR!! This values are not defined in groupName: [ BM ]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> === Contrast group is: [] </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> === Control group is: [] </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ERROR!! This values are not defined in groupName: [BMJJ]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  ===== ERROR: in DESeq2 execution is failed === </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  === Contrast group is: [  ] </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  === Control group is: [  ] </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  ERROR!! This values are not defined in groupName: [ JJ ]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  ------------ DESeq2 executed!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  ------------ DESeq2 executed!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimating sequencing depths...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Resampling to get new data matrices...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> perm= 1</span>
@@ -228,22 +219,16 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> perm= 98</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> perm= 99</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> perm= 100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of thresholds chosen (all possible thresholds) = 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of thresholds chosen (all possible thresholds) = 6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Getting all the cutoffs for the thresholds...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Getting number of false positives in the permutation...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  ------------ SAMSeq executed!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  ------------ DIFERENTIAL EXPRESSION ANALYSIS WAS COMPLETE!</span>
-<span class="r-in"><span><span class="va">expDef_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="expressionDefinition.html">expressionDefinition</a></span><span class="op">(</span>resultTool <span class="op">=</span> <span class="va">cons_result</span>,</span></span>
-<span class="r-in"><span>                                      groups <span class="op">=</span> <span class="va">treats</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">deByTool</span> <span class="op">&lt;-</span> <span class="fu"><a href="listDeByTool.html">listDeByTool</a></span><span class="op">(</span>consexpressionList <span class="op">=</span> <span class="va">cons_result</span>,</span></span>
-<span class="r-in"><span>                         geneNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">gse95077</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                         deList <span class="op">=</span> <span class="va">expDef_result</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">upSetPlotData</span> <span class="op">&lt;-</span> <span class="fu">upSetPlotTools</span><span class="op">(</span>df <span class="op">=</span> <span class="va">deByTool</span>,</span></span>
-<span class="r-in"><span>                                condition <span class="op">=</span> <span class="st">"Control_vs_Treat"</span>,</span></span>
-<span class="r-in"><span>                                pathOut <span class="op">=</span> <span class="st">"."</span>,</span></span>
-<span class="r-in"><span>                                writeData <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  ------------ SAMSeq executed!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  ------------ DIFERENTIAL EXPRESSION ANALYSIS WAS COMPLETE!</span>
+<span class="r-in"><span><span class="va">expDef_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="expressionDefinition.html">expressionDefinition</a></span><span class="op">(</span>resultTool <span class="op">=</span> <span class="va">cons_result</span>, groups <span class="op">=</span> <span class="va">treats</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">deByTool</span> <span class="op">&lt;-</span> <span class="fu"><a href="listDeByTool.html">listDeByTool</a></span><span class="op">(</span>consexpressionList <span class="op">=</span> <span class="va">cons_result</span>, geneNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">gse95077</span><span class="op">)</span>, deList <span class="op">=</span> <span class="va">expDef_result</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">upSetPlotData</span> <span class="op">&lt;-</span> <span class="fu">upSetPlotTools</span><span class="op">(</span>df <span class="op">=</span> <span class="va">deByTool</span>, condition <span class="op">=</span> <span class="st">"Control_vs_Treat"</span>, pathOut <span class="op">=</span> <span class="st">"."</span>, writeData <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -255,7 +240,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>

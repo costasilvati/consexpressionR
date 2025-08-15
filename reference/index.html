@@ -47,10 +47,22 @@
 
       <dl><dt>
 
+          <code><a href="ExpressionResultSet-class.html">ExpressionResultSet-class</a></code>
+
+        </dt>
+        <dd>An S4 class to store differential expression results</dd>
+      </dl><dl><dt>
+
           <code><a href="consensusList.html">consensusList()</a></code>
 
         </dt>
-        <dd>consensusList: make a list of genes was consider DE by threshold tools</dd>
+        <dd>consensusList: make a list of genes considered DE by at least 'threshold' tools</dd>
+      </dl><dl><dt>
+
+          <code><a href="createExpressionResultSet.html">createExpressionResultSet()</a></code>
+
+        </dt>
+        <dd>Constructor for ExpressionResultSet</dd>
       </dl><dl><dt>
 
           <code><a href="createNameFileOutput.html">createNameFileOutput()</a></code>
@@ -62,7 +74,7 @@
           <code><a href="expressionDefinition.html">expressionDefinition()</a></code>
 
         </dt>
-        <dd>Define who genes are deferentially expressed by method</dd>
+        <dd>Identify DE genes by method-specific thresholds</dd>
       </dl><dl><dt>
 
           <code><a href="frameAllGenes.html">frameAllGenes()</a></code>
@@ -80,7 +92,7 @@
           <code><a href="listDeByTool.html">listDeByTool()</a></code>
 
         </dt>
-        <dd>listDeByTool: makes a data.frame with genes (lines) and all executed DE tool. Each tool that identify gene as DE, are marked by 1.</dd>
+        <dd>listDeByTool: creates a data.frame with genes (rows) and DE tools (columns). Each tool that identifies a gene as DE is marked with 1.</dd>
       </dl><dl><dt>
 
           <code><a href="readCountFile.html">readCountFile()</a></code>
@@ -137,6 +149,18 @@
         <dd>Execute SAMSeq gene Expression analysis to count data</dd>
       </dl><dl><dt>
 
+          <code><a href="show-ExpressionResultSet-method.html">show(<i>&lt;ExpressionResultSet&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Show method for ExpressionResultSet</dd>
+      </dl><dl><dt>
+
+          <code><a href="summary-ExpressionResultSet-method.html">summary(<i>&lt;ExpressionResultSet&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Summary method for ExpressionResultSet</dd>
+      </dl><dl><dt>
+
           <code><a href="upSetPlotTools.html">upSetPlotTools()</a></code>
 
         </dt>
@@ -156,7 +180,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>
