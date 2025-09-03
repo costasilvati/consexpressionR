@@ -594,7 +594,7 @@ consexpressionR <- function(){
                                             pValueKnowseq = input$pValueKnowseqInp,
                                             deClassEbseq = input$classDeEbseqInp
                                             )
-      m <- as.matrix(consResult$exp)
+      m <- as.matrix(datasetCount())
       deByTool <- listDeByTool(consexpressionList = consResult$exp,
                                geneNames = row.names(m),
                                deList = expDef_result$df)
@@ -614,7 +614,10 @@ consexpressionR <- function(){
     output$upsetPlot <- shiny::renderPlot(consensusPlot(), res = 130)
 
     deConsList <- shiny::eventReactive(input$goConsList, {
-      deByTool <- listDeByTool(consResult$exp, row.names(m),expDef_result$df)
+      m <- as.matrix(datasetCount())
+      deByTool <- listDeByTool(consexpressionList = consResult$exp,
+                               geneNames = row.names(m),
+                               deList = expDef_result$df)
       remove(m)
       consListFinal$dfList <- consensusList(consexpressionList = consResult$exp,
                                      deTool = deByTool,
@@ -624,7 +627,7 @@ consexpressionR <- function(){
                                       input$thresoldDe ,
                                       " methods were found.")
       }
-      return(consListFinal$dfList)
+      return(consListFinal$dfList@consensus)
     })
 
     output$tableConsensus <- DT::renderDataTable({
@@ -636,13 +639,13 @@ consexpressionR <- function(){
         paste(input$tableConsensus, ".csv", sep = "")
       },
       content = function(file) {
-        write.csv(consListFinal$dfList, file, row.names = FALSE)
+        write.csv(consListFinal$dfList@consensus, file, row.names = FALSE)
       }
     )
 
     heatPlot <- shiny::eventReactive(input$goHeatMap, {
       req(input$tableCountInp)
-      deList <- consListFinal$dfList
+      deList <- consListFinal$dfList@consensus
       countDf <- countData$readData
       index <- rownames(countDf) %in% rownames(deList$limma)
       subsetCountDF <- countDf[index, ]
