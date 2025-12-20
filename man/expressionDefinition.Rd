@@ -36,7 +36,45 @@ expressionDefinition(
 
 \item{groups}{Character vector of group names or conditions.}
 
-\item{lfcMinLimma, ..., ppThresholdEbseq}{Numeric thresholds used per method (see details).}
+\item{lfcMinLimma}{Minimum logFC threshold for limma.}
+
+\item{lfcMaxLimma}{Maximum logFC threshold for limma.}
+
+\item{pValueLimma}{P-value cutoff for limma.}
+
+\item{FLimma}{Minimum F-statistic for multi-group limma.}
+
+\item{lfcMinSamseq}{Minimum fold-change for SAMSeq.}
+
+\item{lfcMaxSamseq}{Maximum fold-change for SAMSeq.}
+
+\item{qValueSamseq}{q-value cutoff for SAMSeq.}
+
+\item{scoreDSamseq}{Score(d) threshold for SAMSeq multi-class.}
+
+\item{lfcMinDeseq2}{Minimum log2 fold-change for DESeq2.}
+
+\item{lfcMaxDeseq2}{Maximum log2 fold-change for DESeq2.}
+
+\item{pValueDeseq2}{P-value cutoff for DESeq2.}
+
+\item{lfcMinEdger}{Minimum logFC for edgeR.}
+
+\item{lfcMaxEdger}{Maximum logFC for edgeR.}
+
+\item{pValueEdger}{P-value cutoff for edgeR.}
+
+\item{probNoiseq}{Probability threshold for NOISeq.}
+
+\item{lfcMaxKnowseq}{Maximum logFC for KnowSeq.}
+
+\item{lfcMinKnowseq}{Minimum logFC for KnowSeq.}
+
+\item{pValueKnowseq}{P-value cutoff for KnowSeq.}
+
+\item{deClassEbseq}{DE class to filter for EBSeq (e.g. "DE" or "EE").}
+
+\item{ppThresholdEbseq}{Posterior probability threshold for EBSeq.}
 
 \item{printResults}{Logical. Whether to write results to disk.}
 
@@ -52,6 +90,10 @@ ExpressionResultSet object and returns the DE genes per tool.
 \examples{
 data(gse95077)
 treats <- c("BM", "JJ")
-res <- runExpression(numberReplics = 3, groupName = treats, rDataFrameCount = gse95077, controlDeseq2 = "BM", contrastDeseq2 = "JJ" )
-expDef <- expressionDefinition(resultTool = res, groups = treats)
+res <- runExpression(numberReplics = 3,
+                     groupName = treats,
+                     rDataFrameCount = gse95077,
+                     controlDeseq2 = "BM",
+                     contrastDeseq2 = "JJ" )
+expDef <- expressionDefinition(res, treats)
 }

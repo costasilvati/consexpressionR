@@ -7,21 +7,29 @@
 #' @export
 #'
 #' @examples
-#' \donttest{
-#' txt <- "gene,sample1,sample2\nGeneA,10,20\nGeneB,5,15"
-#' con <- textConnection(txt)
-#' mat <- readCountFile(tableCountPath = con, split = ",")
-#' close(con)
-#' }
+#' # Example using a small toy count table
+#' tmp <- tempfile(fileext = ".csv")
+#' write.csv(
+#'   data.frame(
+#'     gene = c("gene1", "gene2"),
+#'     sample1 = c(10, 20),
+#'     sample2 = c(15, 25)
+#'   ),
+#'   tmp,
+#'   row.names = FALSE
+#' )
+#' counts <- readCountFile(tmp)
+#' head(counts)
+
 
 readCountFile <- function(tableCountPath="data/table_count_df.csv",
                           split=","){
     tableCount <- utils::read.csv(tableCountPath,
-                           sep=split,
-                           row.names=1,
-                           header=TRUE,
-                           stringsAsFactors=FALSE,
-                           na.strings = "NA")
+                                  sep=split,
+                                  row.names=1,
+                                  header=TRUE,
+                                  stringsAsFactors=FALSE,
+                                  na.strings = "NA")
     tableCount[is.na(tableCount)] <- 0
     return(tableCount)
 }

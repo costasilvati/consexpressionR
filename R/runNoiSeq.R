@@ -20,19 +20,19 @@
 #' toolResult$noiseq <- runNoiSeq(countMatrix = gse95077, designExperiment = rep(treats, each = 3))
 runNoiSeq <- function (countMatrix, designExperiment, groups = c(""), normParm = "rpkm", kParam = 0.5,
                        factorParam=c("Tissue"), lcParam = 0, replicatesParam = "technical", condExp = c("")){
-  myfactors <- data.frame(Tissue=c(designExperiment))
-  mydata <- NOISeq::readData(data=countMatrix, factors=myfactors)
-  if(length(groups) > 2 && length(condExp) == 2){
-    if(all(condExp %in% groups)){
-      mynoiseq <- NOISeq::noiseq(mydata, norm = normParm,k= kParam, factor=factorParam,
-                                lc= lcParam, replicates=replicatesParam, conditions = condExp)
+    myfactors <- data.frame(Tissue=c(designExperiment))
+    mydata <- NOISeq::readData(data=countMatrix, factors=myfactors)
+    if(length(groups) > 2 && length(condExp) == 2){
+        if(all(condExp %in% groups)){
+            mynoiseq <- NOISeq::noiseq(mydata, norm = normParm,k= kParam, factor=factorParam,
+                                       lc= lcParam, replicates=replicatesParam, conditions = condExp)
+        }else{
+            message("Values in conditions need be founded in groups")
+            return( NULL)
+        }
     }else{
-      message("Values in conditions need be founded in groups")
-      return( NULL)
+        mynoiseq <- NOISeq::noiseq(mydata, norm = normParm, k= kParam, factor=factorParam, lc= lcParam, replicates=replicatesParam)
     }
-  }else{
-    mynoiseq <- NOISeq::noiseq(mydata, norm = normParm, k= kParam, factor=factorParam, lc= lcParam, replicates=replicatesParam)
-  }
-  result <- mynoiseq@results[[1]]#pnr?? nss?? v??
-  return(result)
+    result <- mynoiseq@results[[1]]#pnr?? nss?? v??
+    return(result)
 }

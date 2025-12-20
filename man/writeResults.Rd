@@ -16,17 +16,19 @@ writeResults(
 
 \item{toolName}{text with file name}
 
-\item{sepCharacter}{character to separe data columns}
+\item{sepCharacter}{character to separate data columns}
 
-\item{pathOutput}{path to write output, need be a directory (default: ".")}
+\item{pathOutput}{path to write output, needs to be a directory (default:".")}
 }
 \value{
-void
+The path of the file created (invisible)
 }
 \description{
 Write a table or data.frame in defined output file
 }
 \examples{
-df <- data.frame(col1 = c("treat1", "treat2", "treat3"), col2 = c(1, 2, 3))
-writeResults(data = df, toolName = "test")
+df <- data.frame(col1 = c("treat1", "treat2", "treat3"),
+                 col2 = c(1, 2, 3))
+out <- writeResults(data = df, toolName = "test", pathOutput = tempdir())
+file.exists(out)
 }

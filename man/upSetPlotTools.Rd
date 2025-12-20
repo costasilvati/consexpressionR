@@ -29,9 +29,13 @@ UpSet Plot shows intersections by DE indications
 \examples{
 data(gse95077)
 treats = c("BM", "JJ")
-cons_result <- runExpression(numberReplics = 3, groupName = treats,rDataFrameCount = gse95077,
-                            sepCharacter = ",",experimentName = "test_cons",outDirPath = "." )
+cons_result <- runExpression(3, treats,rDataFrameCount = gse95077,
+                            sepCharacter = ",",experimentName = "test_cons",
+                            outDirPath = "." )
 expDef_result <- expressionDefinition(resultTool = cons_result, groups = treats)
-deByTool <- listDeByTool(consexpressionList = cons_result, geneNames = row.names(gse95077), deList = expDef_result)
-upSetPlotData <- upSetPlotTools(df = deByTool, condition = "Control_vs_Treat", pathOut = ".", writeData = FALSE)
+deByTool <- listDeByTool(consexpressionList = cons_result,
+                        geneNames = row.names(gse95077),
+                        deList = expDef_result)
+upSetPlotData <- upSetPlotTools(df = deByTool,condition = "Control_vs_Treat",
+                                pathOut = ".", writeData = FALSE)
 }

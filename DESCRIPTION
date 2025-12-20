@@ -1,9 +1,9 @@
 Package: consexpressionR
 Title: Differential Expression Analysis using consensus of 7 methods
-Version: 1.0.0.0
+Version: 0.99.0
 Authors@R: c(person("Juliana", "Costa-Silva",
             email="julianacostasilvati@gmail.com", 
-            role = c("aut", "cre"),
+            role = c("aut", "cre","fnd"),
            comment = c(ORCID = "0000-0002-5830-8548")),
   person("David", "Menotti", 
             email="menottid@gmail.com", 
@@ -18,11 +18,12 @@ Description: Comprehensive five-stage workflow for differential expression (DE) 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Depends: 
     R (>= 4.5.0)
 Imports: 
     mclust,
+    methods,
     cqn,
     DESeq2 (>= 1.38.3),
     EBSeq (>= 2.1.0),
@@ -51,7 +52,6 @@ Config/testthat/edition: 3
 File: data/gse95077.csv
 VignetteBuilder: knitr
 biocViews: Workflow, GeneExpressionWorkflow
-Maintainer: Juliana Costa-Silva <julianacostasilvati@gmail.com>
 URL: https://costasilvati.github.io/consexpressionR/
 BugReports: https://github.com/costasilvati/consexpressionR/issues
-LazyData: true
+LazyData: false

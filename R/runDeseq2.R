@@ -15,31 +15,31 @@
 #' numberReplicsModel = 3
 #' toolResult <- NULL
 #' data(gse95077)
-#' toolResult$deseq2 <- runDeseq2(countMatrix = gse95077,groupName = groupNameModel,numberReplics = numberReplicsModel,
-#'                                controlGroup = "BM",contrastGroup = "JJ",fitTypeParam = "local")
+#' toolResult$deseq2 <- runDeseq2(gse95077,groupNameModel,numberReplicsModel,
+#'                                "BM","JJ","local")
 runDeseq2 <- function(countMatrix, groupName,numberReplics,controlGroup,contrastGroup,fitTypeParam = "local"){
-  dfDeseq2 <- NULL
-  if((controlGroup %in% groupName) &&  (contrastGroup %in% groupName)){
-    colDat <- NULL
-    colNames <- colnames(countMatrix)
-    colDat <- data.frame(type = colNames ,condiction = c(controlGroup, contrastGroup))
-    dds<-DESeq2::DESeqDataSetFromMatrix(countMatrix,colData = colDat, design = ~condiction)
-    #dds$condition <- relevel(dds$condiction, ref = controlGroup)
-    if(typeof(countMatrix) == "double"){
-      message("DESeq2 canceled. Dataset isn't COUNT data")
-      return(NULL)
+    dfDeseq2 <- NULL
+    if((controlGroup %in% groupName) &&  (contrastGroup %in% groupName)){
+        colDat <- NULL
+        colNames <- colnames(countMatrix)
+        colDat <- data.frame(type = colNames ,condiction = c(controlGroup, contrastGroup))
+        dds<-DESeq2::DESeqDataSetFromMatrix(countMatrix,colData = colDat, design = ~condiction)
+        #dds$condition <- relevel(dds$condiction, ref = controlGroup)
+        if(typeof(countMatrix) == "double"){
+            message("DESeq2 canceled. Dataset isn't COUNT data")
+            return(NULL)
+        }else{
+            message("Dataset is COUNT data")
+            dds <- DESeq2::DESeq(dds, fitType = fitTypeParam)
+            res <- DESeq2::results(dds,contrast = c("condiction",contrastGroup, controlGroup))
+            resOrdered <- res[order(res$pvalue),]
+            dfDeseq2 <- as.data.frame(resOrdered)
+        }
     }else{
-      message("Dataset is COUNT data")
-      dds <- DESeq2::DESeq(dds, fitType = fitTypeParam)
-      res <- DESeq2::results(dds,contrast = c("condiction",contrastGroup, controlGroup))
-      resOrdered <- res[order(res$pvalue),]
-      dfDeseq2 <- as.data.frame(resOrdered)
+        message("\n \n ===== ERROR: in DESeq2 execution is failed === \n")
+        message("=== Contrast group is: [",contrastGroup,"] \n")
+        message("=== Control group is: [",controlGroup,"] \n")
+        message("ERROR!! This values are not defined in groupName: [",groupName,"]\n")
     }
-  }else{
-    message("\n \n ===== ERROR: in DESeq2 execution is failed === \n")
-    message("=== Contrast group is: [",contrastGroup,"] \n")
-    message("=== Control group is: [",controlGroup,"] \n")
-    message("ERROR!! This values are not defined in groupName: [",groupName,"]\n")
-  }
-  return(dfDeseq2)
+    return(dfDeseq2)
 }

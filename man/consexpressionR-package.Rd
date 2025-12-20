@@ -17,7 +17,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Juliana Costa-Silva \email{julianacostasilvati@gmail.com} (\href{https://orcid.org/0000-0002-5830-8548}{ORCID})
+\strong{Maintainer}: Juliana Costa-Silva \email{julianacostasilvati@gmail.com} (\href{https://orcid.org/0000-0002-5830-8548}{ORCID}) [funder]
 
 Authors:
 \itemize{

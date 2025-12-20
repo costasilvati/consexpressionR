@@ -26,4 +26,8 @@ gse95077
 Amiloride, an old diuretic drug, is a potential therapeutic agent for multiple myeloma
 Report ...
 }
+\examples{
+data(gse95077)
+str(gse95077)
+}
 \keyword{datasets}

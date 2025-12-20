@@ -22,8 +22,13 @@ consensusList: make a list of genes considered DE by at least 'threshold' tools
 \examples{
 data(gse95077)
 treats <- c("BM", "JJ")
-cons_result <- runExpression(numberReplics = 3, groupName = treats, rDataFrameCount = gse95077, controlDeseq2 = "BM", contrastDeseq2 = "JJ" )
-expDef_result <- expressionDefinition(resultTool = cons_result, groups = treats)
+cons_result <- runExpression(numberReplics = 3,
+                              groupName = treats,
+                              rDataFrameCount = gse95077,
+                              controlDeseq2 = "BM",
+                              contrastDeseq2 = "JJ" )
+expDef_result <- expressionDefinition(resultTool = cons_result,
+                                      groups = treats)
 deByTool <- listDeByTool(cons_result, row.names(gse95077), expDef_result)
 cons_result <- consensusList(cons_result, deByTool)
 

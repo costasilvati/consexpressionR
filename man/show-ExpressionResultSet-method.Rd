@@ -9,6 +9,10 @@
 \arguments{
 \item{object}{An ExpressionResultSet object}
 }
+\value{
+Invisibly returns \code{NULL}. This method is called for its
+side effect of printing a summary of the object to the console.
+}
 \description{
 Show method for ExpressionResultSet
 }

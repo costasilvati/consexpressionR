@@ -5,13 +5,15 @@
 #' @slot parameters A list of parameters used in the analysis
 #' @slot consensus A list containing consensus DEG results (e.g., from consensusList)
 #'
-#' @export
+#' @importFrom methods new setClass setMethod
+#' @exportClass ExpressionResultSet
+
 setClass("ExpressionResultSet",
          slots = list(
-           results = "list",
-           methods = "character",
-           parameters = "list",
-           consensus = "list"
+             results = "list",
+             methods = "character",
+             parameters = "list",
+             consensus = "list"
          ))
 
 #' Constructor for ExpressionResultSet
@@ -23,62 +25,68 @@ setClass("ExpressionResultSet",
 #' @return An ExpressionResultSet object
 #' @export
 createExpressionResultSet <- function(results, methods, parameters = list()) {
-  # Verifica se todos os elementos são data.frames ou NULL
-  if (!all(sapply(results, function(x) is.null(x) || inherits(x, "data.frame")))) {
-    stop("All elements in 'results' must be data.frames or NULL.")
-  }
+    # Verifica se todos os elementos são data.frames ou NULL
+    if (!all(sapply(results, function(x) is.null(x) || inherits(x, "data.frame")))) {
+        stop("All elements in 'results' must be data.frames or NULL.")
+    }
 
-  if (!is.character(methods)) {
-    stop("'methods' must be a character vector.")
-  }
+    if (!is.character(methods)) {
+        stop("'methods' must be a character vector.")
+    }
 
-  if (!is.list(parameters)) {
-    stop("'parameters' must be a list.")
-  }
+    if (!is.list(parameters)) {
+        stop("'parameters' must be a list.")
+    }
 
-  new("ExpressionResultSet",
-      results = results,
-      methods = methods,
-      parameters = parameters)
+    new("ExpressionResultSet",
+        results = results,
+        methods = methods,
+        parameters = parameters)
 }
 
 
 #' Show method for ExpressionResultSet
 #'
 #' @param object An ExpressionResultSet object
-#' @export
+#' @importFrom methods setMethod show
+#' @exportMethod show
+#' @return Invisibly returns \code{NULL}. This method is called for its
+#' side effect of printing a summary of the object to the console.
 setMethod("show", "ExpressionResultSet", function(object) {
-  cat("ExpressionResultSet object\n")
-  cat("Methods executed:", paste(object@methods, collapse = ", "), "\n")
-  cat("Results available:", length(object@results), "data.frames\n")
+    cat("ExpressionResultSet object\n")
+    cat("Methods executed:", paste(object@methods, collapse = ", "), "\n")
+    cat("Results available:", length(object@results), "data.frames\n")
 
-  if (length(object@consensus) == 0) {
-    cat("Consensus: not computed or empty.\n")
-  } else {
-    cat("Consensus: available (", length(object@consensus), " gene(s) listed)\n")
-  }
+    if (length(object@consensus) == 0) {
+        cat("Consensus: not computed or empty.\n")
+    } else {
+        cat("Consensus: available (", length(object@consensus), " gene(s) listed)\n")
+    }
 })
 
 #' Summary method for ExpressionResultSet
 #'
 #' @param object An ExpressionResultSet object
-#' @export
+#' @exportMethod summary
+#' @param object An ExpressionResultSet object
+#' @return Invisibly returns \code{NULL}. This method is used for its
+#' side effect of printing a summary to the console.
 setMethod("summary", "ExpressionResultSet", function(object) {
-  cat("Summary of ExpressionResultSet\n")
-  cat("---------------------------------\n")
-  cat("Methods used:", paste(object@methods, collapse = ", "), "\n")
+    cat("Summary of ExpressionResultSet\n")
+    cat("---------------------------------\n")
+    cat("Methods used:", paste(object@methods, collapse = ", "), "\n")
 
-  nTables <- length(object@results)
-  cat("Number of result tables:", nTables, "\n")
+    nTables <- length(object@results)
+    cat("Number of result tables:", nTables, "\n")
 
-  if (nTables > 0) {
-    sizes <- sapply(object@results, function(x) if (is.null(x)) 0 else nrow(x))
-    cat("Average number of DEGs per method:", round(mean(sizes), 2), "\n")
-  }
+    if (nTables > 0) {
+        sizes <- sapply(object@results, function(x) if (is.null(x)) 0 else nrow(x))
+        cat("Average number of DEGs per method:", round(mean(sizes), 2), "\n")
+    }
 
-  if (length(object@consensus) == 0) {
-    cat("Consensus list is empty or not defined.\n")
-  } else {
-    cat("Number of genes in consensus:", length(object@consensus), "\n")
-  }
+    if (length(object@consensus) == 0) {
+        cat("Consensus list is empty or not defined.\n")
+    } else {
+        cat("Number of genes in consensus:", length(object@consensus), "\n")
+    }
 })

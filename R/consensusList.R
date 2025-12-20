@@ -10,8 +10,13 @@
 #' @examples
 #' data(gse95077)
 #' treats <- c("BM", "JJ")
-#' cons_result <- runExpression(numberReplics = 3, groupName = treats, rDataFrameCount = gse95077, controlDeseq2 = "BM", contrastDeseq2 = "JJ" )
-#' expDef_result <- expressionDefinition(resultTool = cons_result, groups = treats)
+#' cons_result <- runExpression(numberReplics = 3,
+#'                               groupName = treats,
+#'                               rDataFrameCount = gse95077,
+#'                               controlDeseq2 = "BM",
+#'                               contrastDeseq2 = "JJ" )
+#' expDef_result <- expressionDefinition(resultTool = cons_result,
+#'                                       groups = treats)
 #' deByTool <- listDeByTool(cons_result, row.names(gse95077), expDef_result)
 #' cons_result <- consensusList(cons_result, deByTool)
 #'
@@ -19,29 +24,29 @@
 consensusList <- function(consexpressionList,
                           deTool,
                           threshold = 5) {
-  if (!inherits(consexpressionList, "ExpressionResultSet")) {
-    stop("'consexpressionList' must be an ExpressionResultSet object.")
-  }
+    if (!inherits(consexpressionList, "ExpressionResultSet")) {
+        stop("'consexpressionList' must be an ExpressionResultSet object.")
+    }
 
-  if (!is.data.frame(deTool)) {
-    stop("'deTool' must be a data.frame.")
-  }
+    if (!is.data.frame(deTool)) {
+        stop("'deTool' must be a data.frame.")
+    }
 
-  deTool$nDE <- rowSums(deTool)
-  consensus <- deTool$nDE >= threshold
-  deCons <- subset(deTool, consensus)
+    deTool$nDE <- rowSums(deTool)
+    consensus <- deTool$nDE >= threshold
+    deCons <- subset(deTool, consensus)
 
-  consensusList <- list()
-  toolNames <- names(consexpressionList@results)
+    consensusList <- list()
+    toolNames <- names(consexpressionList@results)
 
-  for (i in seq_along(toolNames)) {
-    tool <- toolNames[i]
-    frame <- as.data.frame(consexpressionList@results[[tool]])
-    itens <- frame[rownames(deCons), , drop = FALSE]
-    consensusList[[tool]] <- itens
-  }
-  names(consensusList) <- toolNames
+    for (i in seq_along(toolNames)) {
+        tool <- toolNames[i]
+        frame <- as.data.frame(consexpressionList@results[[tool]])
+        itens <- frame[rownames(deCons), , drop = FALSE]
+        consensusList[[tool]] <- itens
+    }
+    names(consensusList) <- toolNames
 
-  consexpressionList@consensus <- consensusList
-  return(consexpressionList)
+    consexpressionList@consensus <- consensusList
+    return(consexpressionList)
 }

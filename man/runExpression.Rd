@@ -107,6 +107,7 @@ Make expression analysis of 7 tools, and return a list of results by each tool.
 \examples{
 data(gse95077)
 treats = c("BM", "JJ")
-cons_result <- runExpression(numberReplics = 3, groupName = treats, rDataFrameCount = gse95077, controlDeseq2 = "BM", contrastDeseq2 = "JJ" )
+cons_result <- runExpression(3, treats, rDataFrameCount = gse95077,
+                             controlDeseq2 = "BM", contrastDeseq2 = "JJ" )
 summary(cons_result)
 }

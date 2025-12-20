@@ -24,9 +24,13 @@ Each tool that identifies a gene as DE is marked with 1.
 \examples{
 data(gse95077)
 treats <- c("BM", "JJ")
-cons_result <- runExpression(numberReplics = 3, groupName = treats, rDataFrameCount = gse95077, controlDeseq2 = "BM", contrastDeseq2 = "JJ" )
-expDef_result <- expressionDefinition(resultTool = cons_result, groups = treats)
-deByTool <- listDeByTool(cons_result, geneNames = rownames(gse95077), deList = expDef_result)
+cons_result <- runExpression(numberReplics = 3,
+                             groupName = treats,
+                             rDataFrameCount = gse95077,
+                             controlDeseq2 = "BM",
+                             contrastDeseq2 = "JJ" )
+expDef_result <- expressionDefinition(cons_result, treats)
+deByTool <- listDeByTool(cons_result,rownames(gse95077), expDef_result)
 
 #      DESeq2 limma edgeR
 # gene1      1     1     1

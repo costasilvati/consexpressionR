@@ -13,4 +13,9 @@
 #' }
 #' @source <https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE95077>
 #' @export
+#'
+#' @examples
+#' data(gse95077)
+#' str(gse95077)
+
 gse95077 <- load("data/gse95077.rda")
