@@ -28,7 +28,7 @@ UpSet Plot shows intersections by DE indications
 }
 \examples{
 data(gse95077)
-treats = c("BM", "JJ")
+treats <- c("BM", "JJ")
 cons_result <- runExpression(3, treats,rDataFrameCount = gse95077,
                             sepCharacter = ",",experimentName = "test_cons",
                             outDirPath = "." )

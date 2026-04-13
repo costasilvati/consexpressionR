@@ -20,7 +20,7 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Depends: 
-    R (>= 4.5.0)
+    R (>= 4.6.0)
 Imports: 
     mclust,
     methods,
@@ -41,13 +41,7 @@ Imports:
     shinyjs,
     plotly (>= 4.10.4),
     UpSetR (>= 1.4.0)
-Suggests: 
-    shinybusy,
-    grDevices,
-    knitr,
-    rmarkdown,
-    testthat (>= 3.0.0),
-    devtools
+Suggests: BiocStyle, knitr,rmarkdown, shinybusy, grDevices,testthat (>= 3.0.0),devtools
 Config/testthat/edition: 3
 File: data/gse95077.csv
 VignetteBuilder: knitr

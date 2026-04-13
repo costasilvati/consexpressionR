@@ -2,7 +2,7 @@
 % Please edit documentation in R/runExpression.R
 \name{runExpression}
 \alias{runExpression}
-\title{Make expression analysis of 7 tools, and return a list of results by each tool.}
+\title{Make expression analysis of multiple tools and return results by tool.}
 \usage{
 runExpression(
   numberReplics,
@@ -11,7 +11,7 @@ runExpression(
   sepCharacter = ",",
   rDataFrameCount = NULL,
   experimentName = "genericExperiment",
-  outDirPath = "../../consexpression2_results/",
+  outDirPath = tempdir(),
   printResults = FALSE,
   fitTypeDeseq2 = "local",
   controlDeseq2 = "",
@@ -38,76 +38,83 @@ runExpression(
 )
 }
 \arguments{
-\item{numberReplics}{number of replicate (technical or biological) by sample}
+\item{numberReplics}{number of replicates (technical or biological) per group}
 
-\item{groupName}{text, name of samples or treatment}
+\item{groupName}{character vector, group/treatment names (e.g., c("BM","JJ"))}
 
-\item{tableCountPath}{path to csv file that contains count data or abundance data (local)}
+\item{tableCountPath}{path to csv file that contains count/abundance data (local)}
 
-\item{sepCharacter}{character used to split csv data, can be comma or tab}
+\item{sepCharacter}{separator used to split csv data (comma or tab)}
 
-\item{rDataFrameCount}{RData object with table count, where line name is gene name, and name column is treat name}
+\item{rDataFrameCount}{data.frame/matrix with table count; rownames are genes and colnames are samples}
 
-\item{experimentName}{text, name of experiment}
+\item{experimentName}{experiment name}
 
-\item{outDirPath}{path to write output, need be a directory (local)}
+\item{outDirPath}{output directory (created if needed)}
 
-\item{printResults}{logical variable: TRUE print report by each tool, FALSE print only consensus result}
+\item{printResults}{if TRUE, writes per-tool outputs to outDirPath}
 
-\item{fitTypeDeseq2}{either "parametric", "local", "mean", or "glmGamPoi" for the type of fitting of dispersions to the mean intensity}
+\item{fitTypeDeseq2}{DESeq2 fitType}
 
-\item{controlDeseq2}{group of samples that represents control in experiment, used by DESeq2; Default is "".}
+\item{controlDeseq2}{control group label for DESeq2}
 
-\item{contrastDeseq2}{specific reference level that you need compare (this name should be in groupName List)}
+\item{contrastDeseq2}{contrast group label for DESeq2}
 
-\item{methodNormLimma}{normalization method to be used (limma)}
+\item{methodNormLimma}{normalization method used by limma/edgeR}
 
-\item{methodAdjPvalueLimma}{correction method, a character string. Can be abbreviated (limma)}
+\item{methodAdjPvalueLimma}{p-value adjustment method for limma}
 
-\item{numberTopTableLimma}{maximum number of genes to list (limma)}
+\item{numberTopTableLimma}{max number of genes for limma topTable}
 
-\item{filterIdKnowseq}{The attribute used as filter to return the rest of the attributes.}
+\item{filterIdKnowseq}{KnowSeq parameter}
 
-\item{notSapiensKnowseq}{A boolean value that indicates if the user wants the human annotation or another annotation available in BiomaRt. The possible not human dataset can be consulted by calling the following function: biomaRt::listDatasets(useMart("ensembl")).}
+\item{notSapiensKnowseq}{KnowSeq parameter}
 
-\item{methodNormEdgeR}{normalization method to be used in edgeR::calcNormFactors(), default: "TMM"}
+\item{methodNormEdgeR}{normalization method for edgeR}
 
-\item{normNoiseq}{Normalization method t can be one of "rpkm" (default), "uqua" (upper quartile), "tmm" (trimmed mean of M) or "n" (no normalization). Default: "rpkm".}
+\item{normNoiseq}{NOISeq parameter}
 
-\item{kNoiseq}{Counts equal to 0 are replaced by k. By default, k = 0.5}
+\item{kNoiseq}{NOISeq parameter}
 
-\item{factorNoiseq}{A string indicating the name of factor whose levels are the conditions to be compared.}
+\item{factorNoiseq}{NOISeq parameter}
 
-\item{lcNoiseq}{Length correction is done by dividing expression by length^lc. By default, lc = 0}
+\item{lcNoiseq}{NOISeq parameter}
 
-\item{replicatesNoiseq}{In this argument, the type of replicates to be used is defined: "technical", "biological" or "no" replicates. By default, "technical" replicates option is chosen.}
+\item{replicatesNoiseq}{NOISeq parameter}
 
-\item{condExpNoiseq}{A vector containing the two conditions to be compared by the differential expression algorithm (needed when the factor contains more than 2 different conditions).}
+\item{condExpNoiseq}{NOISeq parameter}
 
-\item{respTypeSamseq}{Problem type: "Quantitative" for a continuous parameter; "Two class unpaired" for two classes with unpaired observations; "Survival" for censored survival outcome; "Multiclass": more than 2 groups; "Two class paired" for two classes with paired observations. Default: "Two class unpaired".}
+\item{respTypeSamseq}{SAMSeq parameter}
 
-\item{npermSamseq}{Number of permutations used to estimate false discovery rates. Default 100}
+\item{npermSamseq}{SAMSeq parameter}
 
-\item{fdrEbseq}{parameter used in EBTest function: fdr False Discovery Rate cutt off}
+\item{fdrEbseq}{EBSeq parameter}
 
-\item{maxRoundEbseq}{parameter used in EBTest function: Number of iterations. The default value is 50.}
+\item{maxRoundEbseq}{EBSeq parameter}
 
-\item{methodDeResultsEbseq}{parameter used in GetDEResults function: "robust" or "classic". Using the "robust" option, EBSeq is more robust to genes with outliers and genes with extremely small variances. Using the "classic" option, the results will be more comparable to those obtained by using the GetPPMat() function from earlier version (<= 1.7.0) of EBSeq}
+\item{methodDeResultsEbseq}{EBSeq parameter}
 
-\item{deNovoAanalysis}{boolean value (TRUE if dataset don`t have a reference genome)}
+\item{deNovoAanalysis}{if TRUE, skips KnowSeq (requires annotation)}
 
-\item{progressShiny}{shiny app element, used to show execution progress}
+\item{progressShiny}{optional shiny progress callback}
 }
 \value{
-An \code{ExpressionResultSet} object containing the results from each analysis method.
+An \code{ExpressionResultSet} object containing results per method.
 }
 \description{
-Make expression analysis of 7 tools, and return a list of results by each tool.
+Make expression analysis of multiple tools and return results by tool.
 }
 \examples{
 data(gse95077)
-treats = c("BM", "JJ")
-cons_result <- runExpression(3, treats, rDataFrameCount = gse95077,
-                             controlDeseq2 = "BM", contrastDeseq2 = "JJ" )
-summary(cons_result)
+treats <- c("BM", "JJ")
+res <- runExpression(
+  numberReplics = 3,
+  groupName = treats,
+  rDataFrameCount = gse95077,
+  controlDeseq2 = "BM",
+  contrastDeseq2 = "JJ",
+  printResults = FALSE,
+  outDirPath = tempdir()
+)
+summary(res)
 }

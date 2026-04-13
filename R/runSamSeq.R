@@ -10,7 +10,7 @@
 #'
 #' @examples
 #' data(gse95077)
-#' treats = c("BM", "JJ")
+#' treats <- c("BM", "JJ")
 #' toolResult <- NULL
 #' toolResult$samseq <- runSamSeq(countMatrix = gse95077,
 #'                                designExperiment = rep(treats, each = 3))
@@ -19,7 +19,7 @@ runSamSeq <- function (countMatrix, designExperiment, respType="Two class unpair
                               geneid=row.names(countMatrix), genenames=row.names(countMatrix), nperms=numberPermutations)
     samResultTable <- rbind(samResult$siggenes.table$genes.up, samResult$siggenes.table$genes.lo)
     samScore <- rep(0,nrow(countMatrix))
-    samScore[match(samResultTable[,1], rownames(countMatrix))]=as.numeric(samResultTable[,3])
+    samScore[match(samResultTable[,1], rownames(countMatrix))] <- as.numeric(samResultTable[,3])
     samFdr <- rep(1, nrow(countMatrix))
     samFdr[match(samResultTable[,1], rownames(countMatrix))] <- as.numeric(samResultTable[,5])/100
     rownames(samResultTable) <- samResultTable[,1]

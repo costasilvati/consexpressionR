@@ -12,12 +12,13 @@
 #'
 #' @examples
 #' data(gse95077)
-#' treats = c("BM", "JJ")
+#' treats <- c("BM", "JJ")
 #' toolResult <- NULL
 #' toolResult$limma <- runLimma(gse95077, 3, rep(treats, each = 3))
 runLimma <- function (countMatrix, numberReplics, designExperiment, methodNorm = "TMM", methodAdjPvalue = "BH", numberTopTable = 1000000){
     if (numberReplics <= 1){
-        message('ERROR: limma-voom require more than one replics.')
+        warning("limma-voom requires at least 2 replicates per condition. Skipping limma analysis.")
+        return(NULL)
     }else {
         nf <- edgeR::calcNormFactors(countMatrix, method = methodNorm)
         condition <- factor(c(designExperiment))

@@ -12,7 +12,7 @@
 #'
 #' @examples
 #' data(gse95077)
-#' treats = c("BM", "JJ")
+#' treats <- c("BM", "JJ")
 #' designExperimentModel <- rep(treats, each = 3)
 #' toolResult <- NULL
 #' toolResult$ebseq <- runEbseq(gse95077,designExperimentModel,groups = treats)

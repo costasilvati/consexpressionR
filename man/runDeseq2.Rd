@@ -35,10 +35,11 @@ Execute DESeq2 DGE default analysis
 is configured to read only kallisto files, and count data
 }
 \examples{
-groupNameModel = c("BM","JJ")
-numberReplicsModel = 3
-toolResult <- NULL
 data(gse95077)
-toolResult$deseq2 <- runDeseq2(gse95077,groupNameModel,numberReplicsModel,
-                               "BM","JJ","local")
+groupNameModel <- c("BM","JJ")
+numberReplicsModel <- 3
+res <- runDeseq2(gse95077, groupNameModel, numberReplicsModel,
+                 controlGroup = "BM", contrastGroup = "JJ",
+                 fitTypeParam = "local")
+head(res)
 }

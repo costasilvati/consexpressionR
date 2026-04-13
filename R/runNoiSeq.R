@@ -15,7 +15,7 @@
 #'
 #' @examples
 #' data(gse95077)
-#' treats = c("BM", "JJ")
+#' treats <- c("BM", "JJ")
 #' toolResult <- NULL
 #' toolResult$noiseq <- runNoiSeq(countMatrix = gse95077, designExperiment = rep(treats, each = 3))
 runNoiSeq <- function (countMatrix, designExperiment, groups = c(""), normParm = "rpkm", kParam = 0.5,

@@ -1,4 +1,18 @@
-#' @keywords internal
+#' consexpressionR: Differential Expression Analysis using consensus of multiple methods
+#'
+#' Comprehensive workflow for differential expression (DE) analysis using multiple
+#' methods (e.g., DESeq2, edgeR, limma, EBSeq, NOISeq, SAMSeq, KnowSeq) and
+#' consensus strategies to derive robust DE gene lists.
+#'
+#' @docType package
+#' @name consexpressionR
+#'
+#' @examples
+#' obj <- createExpressionResultSet(
+#'   results = list(edgeR = data.frame(gene = "g1", logFC = 1)),
+#'   methodNames = "edgeR"
+#' )
+#' obj
 "_PACKAGE"
 
 ## usethis namespace: start
@@ -36,5 +50,3 @@
 #' @importFrom stats var
 #' @importFrom UpSetR upset
 #' @importFrom utils write.csv
-## usethis namespace: end
-NULL

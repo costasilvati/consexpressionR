@@ -28,7 +28,7 @@ Execute SAMSeq gene Expression analysis to count data
 }
 \examples{
 data(gse95077)
-treats = c("BM", "JJ")
+treats <- c("BM", "JJ")
 toolResult <- NULL
 toolResult$samseq <- runSamSeq(countMatrix = gse95077,
                                designExperiment = rep(treats, each = 3))

@@ -34,7 +34,7 @@ Execute edgeR expression Analisys
 }
 \examples{
 data(gse95077)
-treats = c("BM", "JJ")
+treats <- c("BM", "JJ")
 toolResult <- NULL
 toolResult$limma <- runLimma(gse95077, 3, rep(treats, each = 3))
 }

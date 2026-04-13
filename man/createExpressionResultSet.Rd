@@ -4,18 +4,41 @@
 \alias{createExpressionResultSet}
 \title{Constructor for ExpressionResultSet}
 \usage{
-createExpressionResultSet(results, methods, parameters = list())
+createExpressionResultSet(
+  results,
+  methodNames,
+  parameters = list(),
+  consensus = list()
+)
 }
 \arguments{
-\item{results}{Named list of data.frames}
+\item{results}{Named list of data.frames (or NULL elements).}
 
-\item{methods}{Character vector with method names}
+\item{methodNames}{Character vector with method names.}
 
-\item{parameters}{List of analysis parameters}
+\item{parameters}{List of analysis parameters.}
+
+\item{consensus}{List with consensus results (default: empty list).}
 }
 \value{
-An ExpressionResultSet object
+An ExpressionResultSet object.
 }
 \description{
 Constructor for ExpressionResultSet
+}
+\examples{
+res_list <- list(
+  edgeR = data.frame(gene = c("g1","g2"), logFC = c(1.2, -0.4)),
+  DESeq2 = NULL
+)
+
+obj <- createExpressionResultSet(
+  results = res_list,
+  methodNames = c("edgeR", "DESeq2"),
+  parameters = list(alpha = 0.05),
+  consensus = list(g1 = TRUE)
+)
+
+obj
+summary(obj)
 }

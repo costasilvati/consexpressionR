@@ -9,21 +9,37 @@
 #'
 #' @importFrom mclust mclustBIC
 #' @export
-#'
 #' @examples
-#' \donttest{
-#'
-#' data(gse95077)
-#' treats = c("BM", "JJ")
-#' toolResult <- NULL
-#' toolResult$knowSeq <- runKnowSeq(count = gse95077,  groupName = treats, numberReplic = 3)
-#'  }
+#' if (curl::has_internet() &&
+#'     requireNamespace("mclust", quietly = TRUE) &&
+#'     requireNamespace("cqn", quietly = TRUE) &&
+#'     requireNamespace("KnowSeq", quietly = TRUE)) {
+#'   data(gse95077)
+#'   treats <- c("BM", "JJ")
+#'   res <- runKnowSeq(
+#'     count = gse95077,
+#'     groupName = treats,
+#'     numberReplic = 3
+#'   )
+#' }
+
 runKnowSeq <- function(count, groupName, numberReplic, filterId="ensembl_gene_id", notSapiens = FALSE){
     if(length(groupName) > 2){
         return(NULL)
     }else{
+        if (!requireNamespace("mclust", quietly = TRUE)) {
+            stop("Package 'mclust' is required to run runKnowSeq().")
+        }
+
+        if (!requireNamespace("cqn", quietly = TRUE)) {
+            stop("Package 'cqn' is required to run runKnowSeq().")
+        }
+
+        if (!requireNamespace("KnowSeq", quietly = TRUE)) {
+            stop("Package 'KnowSeq' is required to run runKnowSeq().")
+        }
         designExperiment <- rep(groupName, each = numberReplic)
-        geneNames = as.character(row.names(count))
+        geneNames <- as.character(row.names(count))
 
         myAnnotation <- KnowSeq::getGenesAnnotation(values = geneNames, filter=filterId, notHSapiens = notSapiens)
         designExperiment <- rep(groupName, each=numberReplic)

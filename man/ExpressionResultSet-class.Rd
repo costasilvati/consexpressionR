@@ -10,12 +10,22 @@ An S4 class to store differential expression results
 \section{Slots}{
 
 \describe{
-\item{\code{results}}{A named list of data.frames, each corresponding to a method (e.g., edgeR, DESeq2, etc.)}
+\item{\code{results}}{A named list of data.frames, each corresponding to a method
+(e.g., edgeR, DESeq2, etc.)}
 
-\item{\code{methods}}{A character vector of methods used}
+\item{\code{methodNames}}{A character vector of methods used}
 
 \item{\code{parameters}}{A list of parameters used in the analysis}
 
-\item{\code{consensus}}{A list containing consensus DEG results (e.g., from consensusList)}
+\item{\code{consensus}}{A list containing consensus DEG results}
 }}
 
+\examples{
+obj <- createExpressionResultSet(
+  results = list(edgeR = data.frame(gene = "g1", logFC = 1)),
+  methodNames = "edgeR",
+  parameters = list(),
+  consensus = list()
+)
+obj
+}

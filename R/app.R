@@ -14,22 +14,16 @@
 consexpressionR <- function(){
     ui <- shiny::fluidPage(
         shiny::tags$style(
-            ".well-panel-tools{
-          min-height:600px;
-      }
-      .well-panel-tools2{
+        ".well-panel-tools{ min-height:600px;}
+        .well-panel-tools2{
         min-height:630px;
-      }
-      .center{
+        .center{
         margin-left:8%;
-        margin-top:2%;
-      }
-      "
-
+        margin-top:2%;}"
         ),
         shiny::fluidRow(
             shiny::h1("consexpressionR", shiny::span("R", style = "font-weight: 200"),
-                      style = "color: #fff; text-align: center;
+            style = "color: #fff; text-align: center;
         background-color:#27296d;
         padding: 2%;
         margin-bottom: 2%;"),
@@ -40,86 +34,67 @@ consexpressionR <- function(){
                 shiny::column(width = 1,
                 ),
                 shiny::column(width = 10,
-                              shiny::wellPanel(shiny::h3("Experiment Design", style="color: #5e63b6;"),
-                                               shiny::fluidRow(
-                                                   shiny::column(width = 6,
-                                                                 shiny::textInput(inputId = "experimentNameInp",
-                                                                                  label="Experiment Name",
-                                                                                  value="genericExperiment",
-                                                                                  placeholder = "genericExperiment"),
-                                                   ),
-                                                   shiny::column(width = 6,
-                                                                 shiny::numericInput(inputId = "numberReplicsInp",
-                                                                                     label="Number of Replics",
-                                                                                     value= 1,
-                                                                                     min = 1),
-                                                   ),
-                                                   shiny::p(shiny::helpText(
-                                                       "Note: This tool expect the same number of replics in each group of treatment."
-                                                   )),
-                                               ),
-                                               shiny::fluidRow(
-                                                   shiny::column(width = 6,
-                                                                 shiny::textInput(inputId ="groupNameInp",
-                                                                                  label="Treatment Names",
-                                                                                  placeholder ="Treat1, Treat2",
-                                                                                  value="Control,Treat"),
-                                                                 shiny::helpText("Note: Comma separeted list by sample treatment names. First group name was consider treatment (reference) group. Order of groups need be the same in column file"),
-                                                   ),
-                                                   shiny::column(width = 6,
-                                                                 shiny::radioButtons(
-                                                                     inputId = "deNovoAanalysisInp",
-                                                                     label = "De novo assembly RNA-seq data?",
-                                                                     choices = c("Yes" =TRUE, "No" =FALSE),
-                                                                     selected = FALSE,
-                                                                     inline = TRUE),
-                                                                 shiny::conditionalPanel(
-                                                                     condition = "input.groupNameInp.split(',').filter(function(e){ return e.trim().length > 0 }).length > 2",
-                                                                     shiny::radioButtons(inputId = "condition1Inp", "Select first condition to be compared by the differential expression algorithm:",
-                                                                                         choices = c(""),
-                                                                                         inline = TRUE),
-                                                                     shiny::radioButtons(inputId = "condition2Inp", "Select second condition to be compared by the differential expression algorithm:",
-                                                                                         choices = c(""),
-                                                                                         inline = TRUE)
-                                                                 ),
-                                                   )
-                                               ),
-
-                                               shiny::h3("Table count file", style="color: #5e63b6;"),
-                                               # Input: Selector for choosing dataset ----
-                                               shiny::fluidRow(
-                                                   shiny::column(width = 6,
-                                                                 shiny::selectInput(inputId = "sepCharcterInp",
-                                                                                    label = "Choose a separator:",
-                                                                                    choices = c("Comma-separated"=",","TAB" = "\t")),
-                                                   ),
-
-                                                   shiny::column(width = 6,
-                                                                 shiny::fileInput(inputId = "tableCountInp",
-                                                                                  label = "Select a table count file",
-                                                                                  multiple = FALSE,
-                                                                                  accept = c("text/csv/tsv",
-                                                                                             "text/comma-separated-values,text/plain",".csv")),
-                                                                 shiny::helpText("Note: while the data view will show only the specified", "number of replics, the summary will still be based","on the full dataset."),
-                                                   )
-
-                                               ),
-                                               shiny::div( style= "text-align: center;",
-                                                           shiny::actionButton(inputId = "go",
-                                                                               label = "Load count dataset",
-                                                                               width = '51%',
-                                                                               class= "btn-primary" ),
-                                               )
-
-                              ),
+                shiny::wellPanel(shiny::h3("Experiment Design", style="color: #5e63b6;"),
+                        shiny::fluidRow(shiny::column(width = 6,
+                        shiny::textInput(inputId = "experimentNameInp",
+                        label="Experiment Name",
+                        value="genericExperiment",
+                        placeholder = "genericExperiment"),),
+                    shiny::column(width = 6,
+                        shiny::numericInput(inputId = "numberReplicsInp",
+                            label="Number of Replics",
+                            value= 1,
+                            min = 1),),
+                    shiny::p(shiny::helpText(
+                    "Note: This tool expect the same number of replics in each group of treatment."
+                    )),),
+                    shiny::fluidRow(shiny::column(width = 6,
+                                shiny::textInput(inputId ="groupNameInp",
+                                label="Treatment Names",
+                                placeholder ="Treat1, Treat2",
+                                value="Control,Treat"),
+                    shiny::helpText("Note: Comma separeted list by sample treatment names. First group name was consider treatment (reference) group. Order of groups need be the same in column file"),
+                    ),
+                    shiny::column(width = 6,
+                    shiny::radioButtons(
+                        inputId = "deNovoAanalysisInp",
+                        label = "De novo assembly RNA-seq data?",
+                        choices = c("Yes" =TRUE, "No" =FALSE),
+                        selected = FALSE,
+                        inline = TRUE),
+                    shiny::conditionalPanel(
+                        condition = "input.groupNameInp.split(',').filter(function(e){ return e.trim().length > 0 }).length > 2",
+                        shiny::radioButtons(inputId = "condition1Inp", "Select first condition to be compared by the differential expression algorithm:",
+                        choices = c(""),inline = TRUE),
+                    shiny::radioButtons(inputId = "condition2Inp", "Select second condition to be compared by the differential expression algorithm:",
+                        choices = c(""),inline = TRUE)),)),
+                    shiny::h3("Table count file", style="color: #5e63b6;"),
+                    shiny::fluidRow(shiny::column(width = 6,
+                        shiny::selectInput(inputId = "sepCharcterInp",
+                        label = "Choose a separator:",
+                        choices = c("Comma-separated"=",","TAB" = "\t")),),
+                    shiny::column(width = 6,
+                                shiny::fileInput(inputId = "tableCountInp",
+                                label = "Select a table count file",
+                                multiple = FALSE,
+                                accept = c("text/csv/tsv",
+                                "text/comma-separated-values,text/plain",".csv")),
+                                shiny::helpText("Note: while the data view will show only the specified", "number of replics, the summary will still be based","on the full dataset."),
+                                )
+                    ),
+                        shiny::div( style= "text-align: center;",
+                            shiny::actionButton(inputId = "go",
+                            label = "Load count dataset",
+                            width = '51%',
+                            class= "btn-primary" ),)),
                 ),
                 shiny::column(width = 1)
             ),
         ),
         shiny::fluidRow(
             shiny::column(width = 12,
-                          shiny::h2("Details of data set load", style = "text-align: center;"),
-                          shiny::wellPanel(
+                        shiny::h2("Details of data set load", style = "text-align: center;"),
+                        shiny::wellPanel(
                               DT::dataTableOutput("sample")
                           )
             ),
@@ -474,7 +449,7 @@ consexpressionR <- function(){
                                           choices = groups,
                                           inline = TRUE)
                 varCondNoiseq$cond <- c(input$condition1Inp, input$condition2Inp)
-                message(paste("---- condition1Noiseq - ", varCondNoiseq))
+                message(sprintf("---- condition1Noiseq - %s", varCondNoiseq))
             } else {
                 shiny::updateRadioButtons(inputId = "condition1Inp",
                                           choices = c(""))
@@ -487,14 +462,14 @@ consexpressionR <- function(){
         observeEvent(input$condition1Inp, {
             if (input$condition1Inp != "" && input$condition2Inp != "") {
                 varCondNoiseq$cond <- c(input$condition1Inp, input$condition2Inp)
-                message(paste("---- condition1Noiseq - ", varCondNoiseq$cond))
+                message(sprintf("---- condition1Noiseq - %s ", varCondNoiseq$cond))
             }
         })
 
         observeEvent(input$condition2Inp, {
             if (input$condition1Inp != "" && input$condition2Inp != "") {
                 varCondNoiseq$cond <- c(input$condition1Inp, input$condition2Inp)
-                message(paste("---- condition1Noiseq - ", varCondNoiseq$cond))
+                message(sprintf("---- condition1Noiseq - %s", varCondNoiseq$cond))
             }
         })
 
@@ -536,7 +511,7 @@ consexpressionR <- function(){
                 progress$set(value = value, detail = detail)
             }
             groupsName <- c(unlist(strsplit(input$groupNameInp, ",")));
-            message(paste("---- notHumanKnowseq - ",input$notHumanKnowseq ))
+            message(sprintf("---- notHumanKnowseq - %s",input$notHumanKnowseq))
             consResult$exp <- runExpression(numberReplics = input$numberReplicsInp,
                                             rDataFrameCount = datasetCount(),
                                             groupName = groupsName,
@@ -599,16 +574,28 @@ consexpressionR <- function(){
                                      geneNames = row.names(m),
                                      deList = expDef_result$df)
 
-            if(length(deByTool > 0)){
-                deByTool_filtered <- deByTool[, apply(deByTool, 2, function(col) sum(col) != 0)]
-                UpSetR::upset(deByTool_filtered,
-                              sets = colnames(deByTool_filtered), #(deByTool_filtered),
-                              sets.bar.color = "#56B4E9",
-                              order.by = "freq",
-                              empty.intersections = "off")
-            }else{
-                message("ERROR: Problems to execute listDeByTool function.")
+            if (length(deByTool) > 0 && !is.null(deByTool) && ncol(deByTool) > 0) {
+
+                deByTool_filtered <- deByTool[, apply(deByTool, 2, function(col) sum(col) != 0), drop = FALSE]
+
+                UpSetR::upset(
+                    deByTool_filtered,
+                    sets = colnames(deByTool_filtered),
+                    sets.bar.color = "#56B4E9",
+                    order.by = "freq",
+                    empty.intersections = "off"
+                )
+
+            } else {
+
+                shiny::showNotification(
+                    "Não foi possível gerar o UpSet: listDeByTool retornou vazio/NULL.",
+                    type = "warning",
+                    duration = 6
+                )
+                return(NULL)
             }
+
         })
 
         output$upsetPlot <- shiny::renderPlot(consensusPlot(), res = 130)

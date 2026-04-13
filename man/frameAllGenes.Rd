@@ -21,10 +21,19 @@ This functis is executed into runExpression() function, so there is no need to c
 }
 \examples{
 data(gse95077)
-treats = c("BM", "JJ")
-cons_result <- runExpression(numberReplics = 3,groupName = treats,rDataFrameCount = gse95077,
-                              sepCharacter = ",",experimentName = "test_cons",
-                              controlDeseq2 = "BM",contrastDeseq2 = "JJ",outDirPath = "." )
-genes_list <- cons_result@results
-cons_rseult2 <- frameAllGenes(cons_list = genes_list ,countMatrix=gse95077)
+treats <- c("BM", "JJ")
+cons_result <- runExpression(
+  numberReplics = 3,
+  groupName = treats,
+  rDataFrameCount = gse95077,
+  experimentName = "test_cons",
+  controlDeseq2 = "BM",
+  contrastDeseq2 = "JJ",
+  outDirPath = tempdir(),
+  printResults = FALSE
+)
+
+genes_list <- results(cons_result)
+framed <- frameAllGenes(cons_list = genes_list, countMatrix = gse95077)
+head(framed)
 }

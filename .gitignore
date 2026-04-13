@@ -19,4 +19,5 @@
 inst/doc
 /doc/
 /Meta/
+vignettes/*.html
 

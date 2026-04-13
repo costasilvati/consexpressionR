@@ -1,0 +1,16 @@
+---
+title: "consexpressionR: análise de expressão diferencial por consenso"
+author: "Juliana Costa-Silva"
+date: "`r format(Sys.Date(), '%d-%m-%Y')`"
+output:
+  BiocStyle::html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{consexpressionR: análise de expressão diferencial por consenso}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# knitr::opts_chunk\$set( collapse = TRUE, comment = "#\>", message = FALSE, warning = FALSE )
