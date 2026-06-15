@@ -2,7 +2,7 @@
 % Please edit documentation in R/runKnowSeq.R
 \name{runKnowSeq}
 \alias{runKnowSeq}
-\title{Execute KnowSeq differential expression analysis}
+\title{Run differential expression analysis with KnowSeq}
 \usage{
 runKnowSeq(
   count,
@@ -13,26 +13,45 @@ runKnowSeq(
 )
 }
 \arguments{
-\item{count}{A count matrix or data.frame with genes in rows and samples in
-columns.}
+\item{count}{A matrix or data.frame of raw counts or abundance values, with
+genes in rows and samples in columns.}
 
-\item{groupName}{A character vector with exactly two biological conditions.}
+\item{groupName}{A character vector with exactly two group labels.}
 
-\item{numberReplic}{An integer indicating the number of replicates per group.}
+\item{numberReplic}{A single positive integer indicating the number of
+replicates per group.}
 
-\item{filterId}{The attribute used as filter to return the remaining
-attributes.}
+\item{filterId}{A single character string specifying the annotation filter
+used by \code{KnowSeq::getGenesAnnotation()}.}
 
-\item{notSapiens}{A logical value indicating whether the annotation should be
-retrieved for a non-human organism. Available datasets can be queried with
-\code{biomaRt::listDatasets(biomaRt::useMart("ensembl"))}.}
+\item{notSapiens}{A single logical value indicating whether a non-human
+annotation dataset should be used.}
 }
 \value{
-A data.frame containing the differential expression results extracted
-from \code{KnowSeq::DEGsExtraction()}.
+A data.frame containing the differential expression results returned
+by \code{KnowSeq::DEGsExtraction()}.
 }
 \description{
-Runs a differential expression analysis using the \pkg{KnowSeq} package.
+Executes a two-group differential expression analysis using functions from
+the \pkg{KnowSeq} package.
+}
+\details{
+This function wraps the main \pkg{KnowSeq} workflow steps:
+\enumerate{
+\item retrieve gene annotation with
+\code{KnowSeq::getGenesAnnotation()};
+\item compute expression values with
+\code{KnowSeq::calculateGeneExpressionValues()};
+\item extract differentially expressed genes with
+\code{KnowSeq::DEGsExtraction()}.
+}
+
+The function expects exactly two groups. Row names in \code{count} must
+contain gene identifiers compatible with the selected \code{filterId}.
+
+Because this workflow depends on external package behavior and may require
+internet access, errors raised by internal \pkg{KnowSeq}, \pkg{cqn}, or
+\pkg{mclust} calls are rethrown with additional context.
 }
 \examples{
 \dontrun{
@@ -43,5 +62,10 @@ res <- runKnowSeq(
   groupName = treats,
   numberReplic = 3
 )
+head(res)
 }
+}
+\seealso{
+\code{\link{runExpression}},
+\code{\link{expressionDefinition}}
 }
