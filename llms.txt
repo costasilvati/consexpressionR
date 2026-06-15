@@ -1,0 +1,130 @@
+# consexpressionR
+
+R package consexpressionR is an R package for differential expression
+analysis of count or quantification data. With just one count or
+quantification file, the user can obtain a list of genes indicated as
+differentially expressed by 5 or more methods. With a user-friendly
+graphical interface, it can be used in a web browser, where the user can
+parameterize all 7 expression analysis methodologies.
+
+The differential expression analysis is performed with the methods
+edgeR, DeSeq2, SAMSeq, KnowSeq, EBSeq, limma, and NOISeq. The results of
+each tool can be written in .csv files. Visualization is carried out
+through a heat map Plot, containing the genes that were considered as
+differentially expressed by 5 or more methods. consexpressionR is an R
+package for differential expression analysis of count or quantification
+data.
+
+With just one count or quantification file, the user can obtain a list
+of genes indicated as differentially expressed by 5 or more methods.
+With a user-friendly graphical interface, it can be used in a web
+browser, where the user can parameterize all 7 expression analysis
+methodologies. The differential expression analysis is performed with
+the methods edgeR, DeSeq2, SAMSeq, KnowSeq, EBSeq, limma, and NOISeq.
+The results of each tool can be written in .csv files. Visualization is
+carried out through a radarPlot, containing the genes thatwere
+considered as differentially expressed by 5 or more methods.
+
+You can see pkgdown in action at
+<https://costasilvati.shinyapps.io/consexpressionRapp/>.
+
+Learn more in
+[`vignette("consexpressionR")`](https://costasilvati.github.io/consexpressionR/articles/consexpressionR.md).
+
+## Installation
+
+``` r
+
+# Install released version from github
+library(devtools)
+install_github("costasilvati/consexpressionR")
+library(consexpressionR)
+```
+
+## Usage - shiny app
+
+To run shiny aplication and view consexpressionR in your browser:
+
+``` r
+
+# Install released version from github
+library(devtools)
+install_github("costasilvati/consexpressionR")
+library(consexpressionR)
+# shinyApp running in localhost
+consexpressionR()
+```
+
+``` r
+
+library(consexpressionR)
+# shinyApp running in localhost
+consexpressionR()
+```
+
+# Package index
+
+## All functions
+
+- [`ExpressionResultSet-class`](https://costasilvati.github.io/consexpressionR/reference/ExpressionResultSet-class.md)
+  : An S4 class to store differential expression results
+- [`consensus()`](https://costasilvati.github.io/consexpressionR/reference/consensus.md)
+  : Get consensus results
+- [`consensusList()`](https://costasilvati.github.io/consexpressionR/reference/consensusList.md)
+  : consensusList: make a list of genes considered DE by at least
+  'threshold' tools
+- [`consexpressionR-package`](https://costasilvati.github.io/consexpressionR/reference/consexpressionR.md)
+  [`consexpressionR`](https://costasilvati.github.io/consexpressionR/reference/consexpressionR.md)
+  : consexpressionR: Differential Expression Analysis using consensus of
+  multiple methods
+- [`createExpressionResultSet()`](https://costasilvati.github.io/consexpressionR/reference/createExpressionResultSet.md)
+  : Constructor for ExpressionResultSet
+- [`createNameFileOutput()`](https://costasilvati.github.io/consexpressionR/reference/createNameFileOutput.md)
+  : Build a file output name
+- [`expressionDefinition()`](https://costasilvati.github.io/consexpressionR/reference/expressionDefinition.md)
+  : Identify DE genes by method-specific thresholds
+- [`frameAllGenes()`](https://costasilvati.github.io/consexpressionR/reference/frameAllGenes.md)
+  : frameAllGenes
+- [`gse95077`](https://costasilvati.github.io/consexpressionR/reference/gse95077.md)
+  : NCBI GEO access GSE95077 dataset
+- [`listDeByTool()`](https://costasilvati.github.io/consexpressionR/reference/listDeByTool.md)
+  : listDeByTool: creates a data.frame with genes (rows) and DE tools
+  (columns). Each tool that identifies a gene as DE is marked with 1.
+- [`methodNames()`](https://costasilvati.github.io/consexpressionR/reference/methodNames.md)
+  : Get method names used in the analysis
+- [`parameters()`](https://costasilvati.github.io/consexpressionR/reference/parameters.md)
+  : Get parameters used in the analysis
+- [`readCountFile()`](https://costasilvati.github.io/consexpressionR/reference/readCountFile.md)
+  : Read table count File and creates a matrix from the given content
+  file.
+- [`results()`](https://costasilvati.github.io/consexpressionR/reference/results.md)
+  : Get result tables
+- [`runDeseq2()`](https://costasilvati.github.io/consexpressionR/reference/runDeseq2.md)
+  : Execute DESeq2 DGE default analysis is configured to read only
+  kallisto files, and count data
+- [`runEbseq()`](https://costasilvati.github.io/consexpressionR/reference/runEbseq.md)
+  : Execute EBSeq gene Expression analysis
+- [`runEdger()`](https://costasilvati.github.io/consexpressionR/reference/runEdger.md)
+  : Execute edgeR expression Analisys
+- [`runExpression()`](https://costasilvati.github.io/consexpressionR/reference/runExpression.md)
+  : Make expression analysis of multiple tools and return results by
+  tool.
+- [`runKnowSeq()`](https://costasilvati.github.io/consexpressionR/reference/runKnowSeq.md)
+  : Run differential expression analysis with KnowSeq
+- [`runLimma()`](https://costasilvati.github.io/consexpressionR/reference/runLimma.md)
+  : Execute edgeR expression Analisys
+- [`runNoiSeq()`](https://costasilvati.github.io/consexpressionR/reference/runNoiSeq.md)
+  : Execute NOISeq gene Expression analysis
+- [`runSamSeq()`](https://costasilvati.github.io/consexpressionR/reference/runSamSeq.md)
+  : Execute SAMSeq gene Expression analysis to count data
+- [`upSetPlotTools()`](https://costasilvati.github.io/consexpressionR/reference/upSetPlotTools.md)
+  : UpSet Plot shows intersections by DE indications
+- [`writeResults()`](https://costasilvati.github.io/consexpressionR/reference/writeResults.md)
+  : Write a table or data.frame in defined output file
+
+# Articles
+
+### All vignettes
+
+- [consexpressionR: análise de expressão diferencial por
+  consenso](https://costasilvati.github.io/consexpressionR/articles/consexpressionR.md):
