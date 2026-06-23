@@ -17,17 +17,17 @@
 #' @keywords internal
 #' @noRd
 .progress <- function(detail, progress_obj = NULL) {
-    if (!is.null(progress_obj)) {
-        progress_obj$set(detail = detail)
-    }
+  if (!is.null(progress_obj)) {
+    progress_obj$set(detail = detail)
+  }
 }
 
 #' @keywords internal
 #' @noRd
 .is_count_like <- function(x) {
-    x <- as.matrix(x)
-    if (anyNA(x) || any(x < 0)) {
-        return(FALSE)
-    }
-    all(abs(x - round(x)) < .Machine$double.eps^0.5)
+  x <- as.matrix(x)
+  if (anyNA(x) || any(x < 0)) {
+    return(FALSE)
+  }
+  all(abs(x - round(x)) < .Machine$double.eps^0.5)
 }

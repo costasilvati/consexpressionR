@@ -11,22 +11,28 @@
 #' set.seed(42)
 #' counts <- matrix(
 #'   as.integer(c(
-#'     rnbinom(200, mu = 10,  size = 1), 
-#'     rnbinom(200, mu = 100, size = 1) 
+#'     rnbinom(200, mu = 10, size = 1),
+#'     rnbinom(200, mu = 100, size = 1)
 #'   )),
 #'   nrow = 100,
-#'   dimnames = list(paste0("gene", seq_len(100)),
-#'                     paste0("sample", seq_len(4)))
+#'   dimnames = list(
+#'     paste0("gene", seq_len(100)),
+#'     paste0("sample", seq_len(4))
+#'   )
 #' )
 #' groups_info <- c("control", "control", "treated", "treated")
 #' treats <- c("control", "treated")
-#' cons_result <- runExpression(numberReplics = 2,
-#'                               groupName = treats,
-#'                               rDataFrameCount = counts,
-#'                               controlDeseq2 = "control",
-#'                               contrastDeseq2 = "treated" )
-#' expDef_result <- expressionDefinition(resultTool = cons_result,
-#'                                       groups = treats)
+#' cons_result <- runExpression(
+#'   numberReplics = 2,
+#'   groupName = treats,
+#'   rDataFrameCount = counts,
+#'   controlDeseq2 = "control",
+#'   contrastDeseq2 = "treated"
+#' )
+#' expDef_result <- expressionDefinition(
+#'   resultTool = cons_result,
+#'   groups = treats
+#' )
 #' deByTool <- listDeByTool(cons_result, row.names(counts), expDef_result)
 #' cons_result <- consensusList(cons_result, deByTool)
 #'
@@ -34,29 +40,29 @@
 consensusList <- function(consexpressionList,
                           deTool,
                           threshold = 5) {
-    if (!inherits(consexpressionList, "ExpressionResultSet")) {
-        stop("'consexpressionList' must be an ExpressionResultSet object.")
-    }
+  if (!inherits(consexpressionList, "ExpressionResultSet")) {
+    stop("'consexpressionList' must be an ExpressionResultSet object.")
+  }
 
-    if (!is.data.frame(deTool)) {
-        stop("'deTool' must be a data.frame.")
-    }
+  if (!is.data.frame(deTool)) {
+    stop("'deTool' must be a data.frame.")
+  }
 
-    deTool$nDE <- rowSums(deTool)
-    consensus <- deTool$nDE >= threshold
-    deCons <- subset(deTool, consensus)
+  deTool$nDE <- rowSums(deTool)
+  consensus <- deTool$nDE >= threshold
+  deCons <- subset(deTool, consensus)
 
-    consensusList <- list()
-    toolNames <- names(consexpressionList@results)
+  consensusList <- list()
+  toolNames <- names(consexpressionList@results)
 
-    for (i in seq_along(toolNames)) {
-        tool <- toolNames[i]
-        frame <- as.data.frame(consexpressionList@results[[tool]])
-        itens <- frame[rownames(deCons), , drop = FALSE]
-        consensusList[[tool]] <- itens
-    }
-    names(consensusList) <- toolNames
+  for (i in seq_along(toolNames)) {
+    tool <- toolNames[i]
+    frame <- as.data.frame(consexpressionList@results[[tool]])
+    itens <- frame[rownames(deCons), , drop = FALSE]
+    consensusList[[tool]] <- itens
+  }
+  names(consensusList) <- toolNames
 
-    consexpressionList@consensus <- consensusList
-    return(consexpressionList)
+  consexpressionList@consensus <- consensusList
+  return(consexpressionList)
 }

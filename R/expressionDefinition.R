@@ -35,20 +35,24 @@
 #' set.seed(42)
 #' counts <- matrix(
 #'   as.integer(c(
-#'     rnbinom(200, mu = 10,  size = 1), 
-#'     rnbinom(200, mu = 100, size = 1) 
+#'     rnbinom(200, mu = 10, size = 1),
+#'     rnbinom(200, mu = 100, size = 1)
 #'   )),
 #'   nrow = 100,
-#'   dimnames = list(paste0("gene", seq_len(100)),
-#'                     paste0("sample", seq_len(4)))
+#'   dimnames = list(
+#'     paste0("gene", seq_len(100)),
+#'     paste0("sample", seq_len(4))
+#'   )
 #' )
 #' groups_info <- c("control", "control", "treated", "treated")
 #' treats <- c("control", "treated")
-#' res <- runExpression(numberReplics = 2,
-#'                      groupName = treats,
-#'                      rDataFrameCount = counts,
-#'                      controlDeseq2 = "control",
-#'                      contrastDeseq2 = "treated" )
+#' res <- runExpression(
+#'   numberReplics = 2,
+#'   groupName = treats,
+#'   rDataFrameCount = counts,
+#'   controlDeseq2 = "control",
+#'   contrastDeseq2 = "treated"
+#' )
 #' expDef <- expressionDefinition(res, treats)
 expressionDefinition <- function(resultTool, groups = c(""),
                                  lfcMinLimma = -2, lfcMaxLimma = 2, pValueLimma = 0.05, FLimma = 0.8,
@@ -59,77 +63,90 @@ expressionDefinition <- function(resultTool, groups = c(""),
                                  lfcMaxKnowseq = 2, lfcMinKnowseq = -2, pValueKnowseq = 0.05,
                                  deClassEbseq = "DE", ppThresholdEbseq = 0.8,
                                  printResults = FALSE, pathOutput = ".") {
+  if (!inherits(resultTool, "ExpressionResultSet")) {
+    stop("'resultTool' must be an ExpressionResultSet object.")
+  }
 
-    if (!inherits(resultTool, "ExpressionResultSet")) {
-        stop("'resultTool' must be an ExpressionResultSet object.")
+  deList <- list()
+
+  if (!is.null(resultTool@results$edger)) {
+    deList$edger <- subset(
+      resultTool@results$edger,
+      (`logFC` <= lfcMinEdger | `logFC` >= lfcMaxEdger) &
+        (`PValue` <= pValueEdger)
+    )
+  }
+
+  if (!is.null(resultTool@results$knowseq) && length(resultTool@results$knowseq) > 0) {
+    deList$knowseq <- subset(
+      resultTool@results$knowseq,
+      (`logFC` <= lfcMinKnowseq | `logFC` >= lfcMaxKnowseq) &
+        (`P.Value` <= pValueKnowseq)
+    )
+  }
+
+  if (!is.null(resultTool@results$limma)) {
+    if (length(groups) > 2) {
+      deList$limma <- subset(
+        resultTool@results$limma,
+        (`F` >= FLimma) & (`P.Value` <= pValueLimma)
+      )
+    } else {
+      deList$limma <- subset(
+        resultTool@results$limma,
+        ((`logFC` <= lfcMinLimma) | (`logFC` >= lfcMaxLimma)) &
+          (`P.Value` <= pValueLimma)
+      )
     }
+  }
 
-    deList <- list()
+  if (!is.null(resultTool@results$noiseq)) {
+    deList$noiseq <- subset(resultTool@results$noiseq, prob >= probNoiseq)
+  }
 
-    if (!is.null(resultTool@results$edger)) {
-        deList$edger <- subset(resultTool@results$edger,
-                               (`logFC` <= lfcMinEdger | `logFC` >= lfcMaxEdger) &
-                                   (`PValue` <= pValueEdger))
+  if (!is.null(resultTool@results$ebseq)) {
+    ebseqDf <- as.data.frame(resultTool@results$ebseq)
+    deList$ebseq <- subset(ebseqDf, resultTool@results$ebseq == deClassEbseq)
+  }
+
+  if (!is.null(resultTool@results$deseq2)) {
+    deList$deseq2 <- subset(
+      resultTool@results$deseq2,
+      ((`log2FoldChange` <= lfcMinDeseq2) |
+        (`log2FoldChange` >= lfcMaxDeseq2)) &
+        (pvalue <= pValueDeseq2)
+    )
+  }
+
+  if (!is.null(resultTool@results$samseq)) {
+    samseqDf <- as.data.frame(resultTool@results$samseq, row.names = NULL)
+    if (length(groups) > 2) {
+      deList$samseq <- subset(
+        samseqDf,
+        (`Score(d)` >= scoreDSamseq) &
+          (`q-value(%)` <= qValueSamseq)
+      )
+    } else {
+      deList$samseq <- subset(
+        samseqDf,
+        ((`Fold Change` >= lfcMaxSamseq) |
+          (`Fold Change` <= lfcMinSamseq)) &
+          (`q-value(%)` <= qValueSamseq)
+      )
     }
+    row.names(deList$samseq) <- deList$samseq$`Gene ID`
+  }
 
-    if (!is.null(resultTool@results$knowseq) && length(resultTool@results$knowseq) > 0) {
-        deList$knowseq <- subset(resultTool@results$knowseq,
-                                 (`logFC` <= lfcMinKnowseq | `logFC` >= lfcMaxKnowseq) &
-                                     (`P.Value` <= pValueKnowseq))
+  if (printResults && length(deList) > 0) {
+    tools <- names(deList)
+    for (i in seq_along(deList)) {
+      consexpressionR::writeResults(
+        data = deList[[i]],
+        toolName = paste0(tools[i], "_DE_"),
+        pathOutput = pathOutput
+      )
     }
+  }
 
-    if (!is.null(resultTool@results$limma)) {
-        if (length(groups) > 2) {
-            deList$limma <- subset(resultTool@results$limma,
-                                   (`F` >= FLimma) & (`P.Value` <= pValueLimma))
-        } else {
-            deList$limma <- subset(resultTool@results$limma,
-                                   ((`logFC` <= lfcMinLimma) | (`logFC` >= lfcMaxLimma)) &
-                                       (`P.Value` <= pValueLimma))
-        }
-    }
-
-    if (!is.null(resultTool@results$noiseq)) {
-        deList$noiseq <- subset(resultTool@results$noiseq, prob >= probNoiseq)
-    }
-
-    if (!is.null(resultTool@results$ebseq)) {
-        ebseqDf <- as.data.frame(resultTool@results$ebseq)
-        deList$ebseq <- subset(ebseqDf, resultTool@results$ebseq == deClassEbseq)
-    }
-
-    if (!is.null(resultTool@results$deseq2)) {
-        deList$deseq2 <- subset(resultTool@results$deseq2,
-                                ((`log2FoldChange` <= lfcMinDeseq2) |
-                                     (`log2FoldChange` >= lfcMaxDeseq2)) &
-                                    (pvalue <= pValueDeseq2))
-    }
-
-    if (!is.null(resultTool@results$samseq)) {
-        samseqDf <- as.data.frame(resultTool@results$samseq, row.names = NULL)
-        if (length(groups) > 2) {
-            deList$samseq <- subset(samseqDf,
-                                    (`Score(d)` >= scoreDSamseq) &
-                                        (`q-value(%)` <= qValueSamseq))
-        } else {
-            deList$samseq <- subset(samseqDf,
-                                    ((`Fold Change` >= lfcMaxSamseq) |
-                                         (`Fold Change` <= lfcMinSamseq)) &
-                                        (`q-value(%)` <= qValueSamseq))
-        }
-        row.names(deList$samseq) <- deList$samseq$`Gene ID`
-    }
-
-    if (printResults && length(deList) > 0) {
-        tools <- names(deList)
-        for (i in seq_along(deList)) {
-            consexpressionR::writeResults(
-                data = deList[[i]],
-                toolName = paste0(tools[i], "_DE_"),
-                pathOutput = pathOutput
-            )
-        }
-    }
-
-    return(deList)
+  return(deList)
 }

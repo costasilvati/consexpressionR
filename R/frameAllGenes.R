@@ -14,12 +14,14 @@
 #' set.seed(42)
 #' counts <- matrix(
 #'   as.integer(c(
-#'     rnbinom(200, mu = 10,  size = 1), 
-#'     rnbinom(200, mu = 100, size = 1) 
+#'     rnbinom(200, mu = 10, size = 1),
+#'     rnbinom(200, mu = 100, size = 1)
 #'   )),
 #'   nrow = 100,
-#'   dimnames = list(paste0("gene", seq_len(100)),
-#'                     paste0("sample", seq_len(4)))
+#'   dimnames = list(
+#'     paste0("gene", seq_len(100)),
+#'     paste0("sample", seq_len(4))
+#'   )
 #' )
 #' groups_info <- c("control", "control", "treated", "treated")
 #' treats <- c("control", "treated")
@@ -37,25 +39,25 @@
 #' genes_list <- results(cons_result)
 #' framed <- frameAllGenes(cons_list = genes_list, countMatrix = counts)
 #' head(framed)
-frameAllGenes <- function(cons_list,countMatrix){
-    newList <- list()
-    tools <- names(cons_list)
-    i <- 1
-    for (tool_exp in cons_list) {
-        result_frame <- as.data.frame(tool_exp)
-        result_frame$gene_id <- rownames(result_frame)
-        countMatrix_df <- as.data.frame(countMatrix)
-        countMatrix_df$gene_id <- rownames(countMatrix_df)
-        result <- merge(countMatrix_df,result_frame,by = "gene_id",all.x = TRUE)
-        rownames(result) <- result$gene_id
-        countMatrix_df$gene_id <- NULL
-        result <- result[, !names(result) %in% names(countMatrix_df)]
-        rownames(result) <- result$gene_id
-        result$gene_id <- NULL
-        newList[[i]] <- result
-        message(" - ", i, tools[[i]])
-        i <- i+1
-    }
-    names(newList) <- tools
-    return(newList)
+frameAllGenes <- function(cons_list, countMatrix) {
+  newList <- list()
+  tools <- names(cons_list)
+  i <- 1
+  for (tool_exp in cons_list) {
+    result_frame <- as.data.frame(tool_exp)
+    result_frame$gene_id <- rownames(result_frame)
+    countMatrix_df <- as.data.frame(countMatrix)
+    countMatrix_df$gene_id <- rownames(countMatrix_df)
+    result <- merge(countMatrix_df, result_frame, by = "gene_id", all.x = TRUE)
+    rownames(result) <- result$gene_id
+    countMatrix_df$gene_id <- NULL
+    result <- result[, !names(result) %in% names(countMatrix_df)]
+    rownames(result) <- result$gene_id
+    result$gene_id <- NULL
+    newList[[i]] <- result
+    message(" - ", i, tools[[i]])
+    i <- i + 1
+  }
+  names(newList) <- tools
+  return(newList)
 }

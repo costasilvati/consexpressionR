@@ -30,18 +30,22 @@ Execute SAMSeq gene Expression analysis to count data
 set.seed(42)
 counts <- matrix(
   as.integer(c(
-    rnbinom(200, mu = 10,  size = 1), 
-    rnbinom(200, mu = 100, size = 1) 
+    rnbinom(200, mu = 10, size = 1),
+    rnbinom(200, mu = 100, size = 1)
   )),
   nrow = 100,
-  dimnames = list(paste0("gene", seq_len(100)),
-                    paste0("sample", seq_len(4)))
+  dimnames = list(
+    paste0("gene", seq_len(100)),
+    paste0("sample", seq_len(4))
+  )
 )
 groups_info <- c("control", "control", "treated", "treated")
 treats <- c("control", "treated")
 toolResult <- NULL
 if (requireNamespace("samr", quietly = TRUE)) {
-  toolResult$samseq <- runSamSeq(countMatrix = counts,
-                               designExperiment = rep(treats, each = 2))
+  toolResult$samseq <- runSamSeq(
+    countMatrix = counts,
+    designExperiment = rep(treats, each = 2)
+  )
 }
 }

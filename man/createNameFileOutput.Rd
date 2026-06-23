@@ -18,5 +18,5 @@ string name of path file output
 Build a file output name
 }
 \examples{
-nameFile <- createNameFileOutput (outDirPath = "data/", execName = "expermient1")
+nameFile <- createNameFileOutput(outDirPath = "data/", execName = "expermient1")
 }

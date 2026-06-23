@@ -27,8 +27,10 @@ The path of the file created (invisible)
 Write a table or data.frame in defined output file
 }
 \examples{
-df <- data.frame(col1 = c("treat1", "treat2", "treat3"),
-                 col2 = c(1, 2, 3))
+df <- data.frame(
+  col1 = c("treat1", "treat2", "treat3"),
+  col2 = c(1, 2, 3)
+)
 out <- writeResults(data = df, toolName = "test", pathOutput = tempdir())
 file.exists(out)
 }

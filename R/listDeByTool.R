@@ -12,46 +12,52 @@
 #' set.seed(42)
 #' counts <- matrix(
 #'   as.integer(c(
-#'     rnbinom(200, mu = 10,  size = 1), 
-#'     rnbinom(200, mu = 100, size = 1) 
+#'     rnbinom(200, mu = 10, size = 1),
+#'     rnbinom(200, mu = 100, size = 1)
 #'   )),
 #'   nrow = 100,
-#'   dimnames = list(paste0("gene", seq_len(100)),
-#'                     paste0("sample", seq_len(4)))
+#'   dimnames = list(
+#'     paste0("gene", seq_len(100)),
+#'     paste0("sample", seq_len(4))
+#'   )
 #' )
 #' groups_info <- c("control", "control", "treated", "treated")
 #' treats <- c("control", "treated")
-#' cons_result <- runExpression(numberReplics = 2,
-#'                              groupName = treats,
-#'                              rDataFrameCount = counts,
-#'                              controlDeseq2 = "control",
-#'                              contrastDeseq2 = "treated" )
+#' cons_result <- runExpression(
+#'   numberReplics = 2,
+#'   groupName = treats,
+#'   rDataFrameCount = counts,
+#'   controlDeseq2 = "control",
+#'   contrastDeseq2 = "treated"
+#' )
 #' expDef_result <- expressionDefinition(cons_result, treats)
-#' deByTool <- listDeByTool(cons_result,rownames(counts), expDef_result)
+#' deByTool <- listDeByTool(cons_result, rownames(counts), expDef_result)
 listDeByTool <- function(consexpressionList, geneNames, deList) {
-    if (!inherits(consexpressionList, "ExpressionResultSet")) {
-        stop("'consexpressionList' must be an ExpressionResultSet object.")
-    }
+  if (!inherits(consexpressionList, "ExpressionResultSet")) {
+    stop("'consexpressionList' must be an ExpressionResultSet object.")
+  }
 
-    if (!is.character(geneNames)) {
-        stop("'geneNames' must be a character vector.")
-    }
+  if (!is.character(geneNames)) {
+    stop("'geneNames' must be a character vector.")
+  }
 
-    if (!is.list(deList)) {
-        stop("'deList' must be a list.")
-    }
+  if (!is.list(deList)) {
+    stop("'deList' must be a list.")
+  }
 
-    expressionList <- consexpressionList@results
-    toolNames <- names(expressionList)
+  expressionList <- consexpressionList@results
+  toolNames <- names(expressionList)
 
-    deTool <- matrix(0L, nrow = length(geneNames), ncol = length(toolNames),
-                     dimnames = list(geneNames, toolNames))
+  deTool <- matrix(0L,
+    nrow = length(geneNames), ncol = length(toolNames),
+    dimnames = list(geneNames, toolNames)
+  )
 
-    for (i in seq_along(toolNames)) {
-        degs <- rownames(deList[[i]])
-        idx <- which(geneNames %in% degs)
-        deTool[idx, i] <- 1L
-    }
+  for (i in seq_along(toolNames)) {
+    degs <- rownames(deList[[i]])
+    idx <- which(geneNames %in% degs)
+    deTool[idx, i] <- 1L
+  }
 
-    return(as.data.frame(deTool))
+  return(as.data.frame(deTool))
 }

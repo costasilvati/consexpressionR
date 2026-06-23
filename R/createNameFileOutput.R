@@ -7,17 +7,20 @@
 #' @export
 #'
 #' @examples
-#' nameFile <- createNameFileOutput (outDirPath = "data/", execName = "expermient1")
-createNameFileOutput <- function (outDirPath=".",
-                                  execName="exec"){
-    if(!substr(outDirPath, nchar(outDirPath), nchar(outDirPath)) == "/"){
-        outDirPath <- paste(outDirPath, '/',
-                            sep = "")
-    }
-    outputFileName <- paste0(outDirPath,
-                             'consexpression2_',
-                             execName,
-                             format(Sys.time(), "%d%m%Y_%H%M%S"),
-                             '.csv')
-    return(outputFileName)
+#' nameFile <- createNameFileOutput(outDirPath = "data/", execName = "expermient1")
+createNameFileOutput <- function(outDirPath = ".",
+                                 execName = "exec") {
+  if (!substr(outDirPath, nchar(outDirPath), nchar(outDirPath)) == "/") {
+    outDirPath <- paste(outDirPath, "/",
+      sep = ""
+    )
+  }
+  outputFileName <- paste0(
+    outDirPath,
+    "consexpression2_",
+    execName,
+    format(Sys.time(), "%d%m%Y_%H%M%S"),
+    ".csv"
+  )
+  return(outputFileName)
 }

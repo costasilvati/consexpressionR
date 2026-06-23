@@ -20,16 +20,15 @@
 #' )
 #' counts <- readCountFile(tmp)
 #' head(counts)
-
-
-readCountFile <- function(tableCountPath="data/table_count_df.csv",
-                          split=","){
-    tableCount <- utils::read.csv(tableCountPath,
-                                  sep=split,
-                                  row.names=1,
-                                  header=TRUE,
-                                  stringsAsFactors=FALSE,
-                                  na.strings = "NA")
-    tableCount[is.na(tableCount)] <- 0
-    return(tableCount)
+readCountFile <- function(tableCountPath = "data/table_count_df.csv",
+                          split = ",") {
+  tableCount <- utils::read.csv(tableCountPath,
+    sep = split,
+    row.names = 1,
+    header = TRUE,
+    stringsAsFactors = FALSE,
+    na.strings = "NA"
+  )
+  tableCount[is.na(tableCount)] <- 0
+  return(tableCount)
 }

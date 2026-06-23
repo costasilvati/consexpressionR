@@ -17,54 +17,53 @@
 #'   consensus = list()
 #' )
 #' obj
-
 setClass(
-    "ExpressionResultSet",
-    slots = list(
-        results = "list",
-        methodNames = "character",
-        parameters = "list",
-        consensus = "list"
-    )
+  "ExpressionResultSet",
+  slots = list(
+    results = "list",
+    methodNames = "character",
+    parameters = "list",
+    consensus = "list"
+  )
 )
 
 
 #' @importFrom methods setValidity
 setValidity("ExpressionResultSet", function(object) {
-    # results: list, ideally named
-    if (!is.list(object@results)) {
-        return("'results' must be a list.")
-    }
+  # results: list, ideally named
+  if (!is.list(object@results)) {
+    return("'results' must be a list.")
+  }
 
-    # every element must be NULL or data.frame
-    ok <- all(vapply(
-        object@results,
-        function(x) is.null(x) || inherits(x, "data.frame"),
-        logical(1)
-    ))
-    if (!ok) {
-        return("All elements in 'results' must be data.frames or NULL.")
-    }
+  # every element must be NULL or data.frame
+  ok <- all(vapply(
+    object@results,
+    function(x) is.null(x) || inherits(x, "data.frame"),
+    logical(1)
+  ))
+  if (!ok) {
+    return("All elements in 'results' must be data.frames or NULL.")
+  }
 
-    # methodNames
-    if (!is.character(object@methodNames)) {
-        return("'methodNames' must be a character vector.")
-    }
-    if (length(object@methodNames) > 0L && anyNA(object@methodNames)) {
-        return("'methodNames' cannot contain NA.")
-    }
+  # methodNames
+  if (!is.character(object@methodNames)) {
+    return("'methodNames' must be a character vector.")
+  }
+  if (length(object@methodNames) > 0L && anyNA(object@methodNames)) {
+    return("'methodNames' cannot contain NA.")
+  }
 
-    # parameters
-    if (!is.list(object@parameters)) {
-        return("'parameters' must be a list.")
-    }
+  # parameters
+  if (!is.list(object@parameters)) {
+    return("'parameters' must be a list.")
+  }
 
-    # consensus
-    if (!is.list(object@consensus)) {
-        return("'consensus' must be a list.")
-    }
+  # consensus
+  if (!is.list(object@consensus)) {
+    return("'consensus' must be a list.")
+  }
 
-    TRUE
+  TRUE
 })
 
 #' Get result tables
@@ -129,7 +128,7 @@ setMethod("parameters", "ExpressionResultSet", function(object) object@parameter
 #' @export
 #' @examples
 #' obj <- createExpressionResultSet(
-#'   results = list(edgeR = data.frame(gene = c("g1","g2"), logFC = c(1,-1))),
+#'   results = list(edgeR = data.frame(gene = c("g1", "g2"), logFC = c(1, -1))),
 #'   methodNames = "edgeR",
 #'   consensus = list(g1 = TRUE)
 #' )
@@ -152,7 +151,7 @@ setMethod("consensus", "ExpressionResultSet", function(object) object@consensus)
 #' @export
 #' @examples
 #' res_list <- list(
-#'   edgeR = data.frame(gene = c("g1","g2"), logFC = c(1.2, -0.4)),
+#'   edgeR = data.frame(gene = c("g1", "g2"), logFC = c(1.2, -0.4)),
 #'   DESeq2 = NULL
 #' )
 #'
@@ -169,38 +168,40 @@ createExpressionResultSet <- function(results,
                                       methodNames,
                                       parameters = list(),
                                       consensus = list()) {
-    if (!is.list(results)) {
-        stop("'results' must be a list.")
-    }
+  if (!is.list(results)) {
+    stop("'results' must be a list.")
+  }
 
-    if (!all(vapply(results,
-                    function(x) is.null(x) || inherits(x, "data.frame"),
-                    logical(1)))) {
-        stop("All elements in 'results' must be data.frames or NULL.")
-    }
+  if (!all(vapply(
+    results,
+    function(x) is.null(x) || inherits(x, "data.frame"),
+    logical(1)
+  ))) {
+    stop("All elements in 'results' must be data.frames or NULL.")
+  }
 
-    if (!is.character(methodNames)) {
-        stop("'methodNames' must be a character vector.")
-    }
+  if (!is.character(methodNames)) {
+    stop("'methodNames' must be a character vector.")
+  }
 
-    if (!is.list(parameters)) {
-        stop("'parameters' must be a list.")
-    }
+  if (!is.list(parameters)) {
+    stop("'parameters' must be a list.")
+  }
 
-    if (!is.list(consensus)) {
-        stop("'consensus' must be a list.")
-    }
+  if (!is.list(consensus)) {
+    stop("'consensus' must be a list.")
+  }
 
-    obj <- new(
-        "ExpressionResultSet",
-        results = results,
-        methodNames = methodNames,
-        parameters = parameters,
-        consensus = consensus
-    )
+  obj <- new(
+    "ExpressionResultSet",
+    results = results,
+    methodNames = methodNames,
+    parameters = parameters,
+    consensus = consensus
+  )
 
-    validObject(obj)
-    obj
+  validObject(obj)
+  obj
 }
 
 #' Show an ExpressionResultSet object
@@ -211,21 +212,23 @@ createExpressionResultSet <- function(results,
 #' @aliases show,ExpressionResultSet-method
 #' @export
 setMethod("show", "ExpressionResultSet", function(object) {
-    message("ExpressionResultSet object")
+  message("ExpressionResultSet object")
 
-    m <- methodNames(object)
-    message(sprintf("Methods executed: %s",
-                    if (length(m) == 0L) "<none>" else paste(m, collapse = ", ")))
+  m <- methodNames(object)
+  message(sprintf(
+    "Methods executed: %s",
+    if (length(m) == 0L) "<none>" else paste(m, collapse = ", ")
+  ))
 
-    res_list <- results(object)
-    message(sprintf("Result tables: %d", length(res_list)))
+  res_list <- results(object)
+  message(sprintf("Result tables: %d", length(res_list)))
 
-    cons <- consensus(object)
-    if (length(cons) == 0L) {
-        message("Consensus: not computed or empty.")
-    } else {
-        message(sprintf("Consensus: available (%d gene(s))", length(cons)))
-    }
+  cons <- consensus(object)
+  if (length(cons) == 0L) {
+    message("Consensus: not computed or empty.")
+  } else {
+    message(sprintf("Consensus: available (%d gene(s))", length(cons)))
+  }
 })
 
 
@@ -237,32 +240,34 @@ setMethod("show", "ExpressionResultSet", function(object) {
 #' @aliases summary,ExpressionResultSet-method
 #' @export
 setMethod("summary", "ExpressionResultSet", function(object) {
-    message("Summary of ExpressionResultSet")
-    message("---------------------------------")
+  message("Summary of ExpressionResultSet")
+  message("---------------------------------")
 
-    m <- methodNames(object)
-    message(sprintf("Methods used: %s",
-                    if (length(m) == 0L) "<none>" else paste(m, collapse = ", ")))
+  m <- methodNames(object)
+  message(sprintf(
+    "Methods used: %s",
+    if (length(m) == 0L) "<none>" else paste(m, collapse = ", ")
+  ))
 
-    res_list <- results(object)
-    nTables <- length(res_list)
-    message(sprintf("Number of result tables: %d", nTables))
+  res_list <- results(object)
+  nTables <- length(res_list)
+  message(sprintf("Number of result tables: %d", nTables))
 
-    if (nTables > 0L) {
-        sizes <- vapply(
-            res_list,
-            function(x) if (is.null(x)) 0L else nrow(x),
-            integer(1)
-        )
-        message(sprintf("Average number of DEGs per method: %.2f", mean(sizes)))
-    }
+  if (nTables > 0L) {
+    sizes <- vapply(
+      res_list,
+      function(x) if (is.null(x)) 0L else nrow(x),
+      integer(1)
+    )
+    message(sprintf("Average number of DEGs per method: %.2f", mean(sizes)))
+  }
 
-    cons <- consensus(object)
-    if (length(cons) == 0L) {
-        message("Consensus list is empty or not defined.")
-    } else {
-        message(sprintf("Number of genes in consensus: %d", length(cons)))
-    }
+  cons <- consensus(object)
+  if (length(cons) == 0L) {
+    message("Consensus list is empty or not defined.")
+  } else {
+    message(sprintf("Number of genes in consensus: %d", length(cons)))
+  }
 
-    invisible(NULL)
+  invisible(NULL)
 })

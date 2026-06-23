@@ -38,18 +38,21 @@ is configured to read only kallisto files, and count data
 set.seed(42)
 counts <- matrix(
   as.integer(c(
-    rnbinom(200, mu = 10,  size = 1), 
-    rnbinom(200, mu = 100, size = 1) 
+    rnbinom(200, mu = 10, size = 1),
+    rnbinom(200, mu = 100, size = 1)
   )),
   nrow = 100,
-  dimnames = list(paste0("gene", seq_len(100)),
-                    paste0("sample", seq_len(4)))
+  dimnames = list(
+    paste0("gene", seq_len(100)),
+    paste0("sample", seq_len(4))
+  )
 )
 groups_info <- c("control", "control", "treated", "treated")
 treats <- c("control", "treated")
 numberReplicsModel <- 2
 res <- runDeseq2(counts, treats, numberReplicsModel,
-                 controlGroup = "control", contrastGroup = "treated",
-                 fitTypeParam = "local")
+  controlGroup = "control", contrastGroup = "treated",
+  fitTypeParam = "local"
+)
 utils::head(res)
 }

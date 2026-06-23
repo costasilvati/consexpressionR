@@ -64,12 +64,14 @@
 #'   set.seed(42)
 #'   counts <- matrix(
 #'     as.integer(c(
-#'       rnbinom(200, mu = 10,  size = 1), 
-#'       rnbinom(200, mu = 100, size = 1) 
+#'       rnbinom(200, mu = 10, size = 1),
+#'       rnbinom(200, mu = 100, size = 1)
 #'     )),
 #'     nrow = 100,
-#'     dimnames = list(paste0("gene", seq_len(100)),
-#'                     paste0("sample", seq_len(4)))
+#'     dimnames = list(
+#'       paste0("gene", seq_len(100)),
+#'       paste0("sample", seq_len(4))
+#'     )
 #'   )
 #'   groups_info <- c("control", "control", "treated", "treated")
 #'   result <- runBayseq(counts, sampleInfo = groups_info)
@@ -79,87 +81,95 @@
 #' @export
 runBayseq <- function(data,
                       groups = NULL,
-                      sampleInfo  = NULL,
-                      pCutoff     = 0.95,
-                      fdrCutoff   = 0.05,
-                      samplesize  = 10000,
-                      seed        = 42) {
-    .check_package("baySeq", repo = "Bioconductor")
-    if (!is.matrix(data)) {
-        data <- as.matrix(data)
+                      sampleInfo = NULL,
+                      pCutoff = 0.95,
+                      fdrCutoff = 0.05,
+                      samplesize = 10000,
+                      seed = 42) {
+  .check_package("baySeq", repo = "Bioconductor")
+  if (!is.matrix(data)) {
+    data <- as.matrix(data)
+  }
+  if (!is.integer(data)) {
+    message("[runBayseq] Converting matrix to integer values (this is necessary to execute baySeq).")
+    mode(data) <- "integer"
+  }
+  if (is.null(rownames(data))) {
+    rownames(data) <- paste0("gene", seq_len(nrow(data)))
+  }
+  if (is.null(groups)) {
+    if (is.null(sampleInfo)) {
+      stop("[runBayseq] Please, infrom 'groups' or 'sampleInfo' to define groups.")
     }
-    if (!is.integer(data)) {
-        message("[runBayseq] Converting matrix to integer values (this is necessary to execute baySeq).")
-        mode(data) <- "integer"
+    group_factor <- as.factor(sampleInfo)
+    group_levels <- levels(group_factor)
+    if (length(group_levels) != 2) {
+      stop("[runBayseq] consexpressionR has suport only two groups compair.")
     }
-    if (is.null(rownames(data))) {
-        rownames(data) <- paste0("gene", seq_len(nrow(data)))
-    }
-    if (is.null(groups)) {
-        if (is.null(sampleInfo)) {
-            stop("[runBayseq] Please, infrom 'groups' or 'sampleInfo' to define groups.")
-        }
-        group_factor <- as.factor(sampleInfo)
-        group_levels <- levels(group_factor)
-        if (length(group_levels) != 2) {
-            stop("[runBayseq] consexpressionR has suport only two groups compair.")
-        }
-        group_vec <- as.factor(as.integer(group_factor))
-        groups <- list(
-            NDE = rep(1L, ncol(data)),
-            DE  = group_vec
-        )
-    }
-    replicates_factor <- factor(groups$DE)
-    
-    if (length(levels(replicates_factor)) != 2) {
-        stop("[runBayseq] 'groups$DE' must define exactly two groups.")
-    }
-    cd <- methods::new(
-        "countData",
-        data   = data,
-        replicates = factor(sampleInfo),
-        groups = groups
+    group_vec <- as.factor(as.integer(group_factor))
+    groups <- list(
+      NDE = rep(1L, ncol(data)),
+      DE  = group_vec
     )
-    message("baySeq libsizes")
-    baySeq::libsizes(cd) <- baySeq::getLibsizes(cd)
-    message("baySeq getPriors")
-    cd <- tryCatch(
-        baySeq::getPriors.NB(cd, samplesize = samplesize, estimation = "QL",
-                             cl = NULL),
-        error = function(e) {
-            warning("[runBayseq] Fail in priors estimation: ", conditionMessage(e))
-            return(NULL)
-        }
-    )
-    
-    if (is.null(cd)) return(invisible(NULL))
-    cd <- tryCatch(
-        baySeq::getLikelihoods(cd, pET = "BIC", cl = NULL),
-        error = function(e) {
-            warning("[runBayseq] Fail in calc likelihoods: ", conditionMessage(e))
-            return(NULL)
-        }
-    )
-    if (is.null(cd)) return(invisible(NULL))
-    results_raw <- baySeq::topCounts(cd, group = "DE", number = nrow(data),
-                                     normaliseData = TRUE)
-    message("Available columns in results_raw:\n")
-    grp1_idx <- which(groups$DE == 1L)
-    grp2_idx <- which(groups$DE == 2L)
-    mean_grp1 <- rowMeans(data[, grp1_idx, drop = FALSE] + 0.5)
-    mean_grp2 <- rowMeans(data[, grp2_idx, drop = FALSE] + 0.5)
-    logFC_vec  <- log2(mean_grp2 / mean_grp1)
-    gene_names <- rownames(results_raw)
-    result_df <- data.frame(
-        gene         = gene_names,
-        posterior_DE = results_raw[, "DE"],
-        FDR          = results_raw[, "FDR.DE"],
-        logFC        = logFC_vec[gene_names],
-        DE_baySeq    = (results_raw[, "DE"] >= pCutoff) &
-            (results_raw[, "FDR.DE"] <= fdrCutoff),
-        row.names    = NULL,
-        stringsAsFactors = FALSE
-    )
-    return(result_df)
+  }
+  replicates_factor <- factor(groups$DE)
+
+  if (length(levels(replicates_factor)) != 2) {
+    stop("[runBayseq] 'groups$DE' must define exactly two groups.")
+  }
+  cd <- methods::new(
+    "countData",
+    data = data,
+    replicates = factor(sampleInfo),
+    groups = groups
+  )
+  message("baySeq libsizes")
+  baySeq::libsizes(cd) <- baySeq::getLibsizes(cd)
+  message("baySeq getPriors")
+  cd <- tryCatch(
+    baySeq::getPriors.NB(cd,
+      samplesize = samplesize, estimation = "QL",
+      cl = NULL
+    ),
+    error = function(e) {
+      warning("[runBayseq] Fail in priors estimation: ", conditionMessage(e))
+      return(NULL)
+    }
+  )
+
+  if (is.null(cd)) {
+    return(invisible(NULL))
+  }
+  cd <- tryCatch(
+    baySeq::getLikelihoods(cd, pET = "BIC", cl = NULL),
+    error = function(e) {
+      warning("[runBayseq] Fail in calc likelihoods: ", conditionMessage(e))
+      return(NULL)
+    }
+  )
+  if (is.null(cd)) {
+    return(invisible(NULL))
+  }
+  results_raw <- baySeq::topCounts(cd,
+    group = "DE", number = nrow(data),
+    normaliseData = TRUE
+  )
+  message("Available columns in results_raw:\n")
+  grp1_idx <- which(groups$DE == 1L)
+  grp2_idx <- which(groups$DE == 2L)
+  mean_grp1 <- rowMeans(data[, grp1_idx, drop = FALSE] + 0.5)
+  mean_grp2 <- rowMeans(data[, grp2_idx, drop = FALSE] + 0.5)
+  logFC_vec <- log2(mean_grp2 / mean_grp1)
+  gene_names <- rownames(results_raw)
+  result_df <- data.frame(
+    gene = gene_names,
+    posterior_DE = results_raw[, "DE"],
+    FDR = results_raw[, "FDR.DE"],
+    logFC = logFC_vec[gene_names],
+    DE_baySeq = (results_raw[, "DE"] >= pCutoff) &
+      (results_raw[, "FDR.DE"] <= fdrCutoff),
+    row.names = NULL,
+    stringsAsFactors = FALSE
+  )
+  return(result_df)
 }

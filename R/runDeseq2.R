@@ -13,19 +13,22 @@
 #' set.seed(42)
 #' counts <- matrix(
 #'   as.integer(c(
-#'     rnbinom(200, mu = 10,  size = 1), 
-#'     rnbinom(200, mu = 100, size = 1) 
+#'     rnbinom(200, mu = 10, size = 1),
+#'     rnbinom(200, mu = 100, size = 1)
 #'   )),
 #'   nrow = 100,
-#'   dimnames = list(paste0("gene", seq_len(100)),
-#'                     paste0("sample", seq_len(4)))
+#'   dimnames = list(
+#'     paste0("gene", seq_len(100)),
+#'     paste0("sample", seq_len(4))
+#'   )
 #' )
 #' groups_info <- c("control", "control", "treated", "treated")
 #' treats <- c("control", "treated")
 #' numberReplicsModel <- 2
 #' res <- runDeseq2(counts, treats, numberReplicsModel,
-#'                  controlGroup = "control", contrastGroup = "treated",
-#'                  fitTypeParam = "local")
+#'   controlGroup = "control", contrastGroup = "treated",
+#'   fitTypeParam = "local"
+#' )
 #' utils::head(res)
 runDeseq2 <- function(countMatrix,
                       groupName,
@@ -33,52 +36,52 @@ runDeseq2 <- function(countMatrix,
                       controlGroup,
                       contrastGroup,
                       fitTypeParam = "local") {
-    dfDeseq2 <- NULL
-    if (!(controlGroup %in% groupName) || !(contrastGroup %in% groupName)) {
-        warning(sprintf(
-            "DESeq2 skipped: controlGroup='%s' and/or contrastGroup='%s' not found in groupName.",
-            controlGroup, contrastGroup
-        ))
-        return(NULL)
-    }
-    if (is.null(colnames(countMatrix))) {
-        warning("DESeq2 skipped: countMatrix must have column names.")
-        return(NULL)
-    }
-    condition <- factor(rep(groupName, each = numberReplics), levels = groupName)
-    if (length(condition) != ncol(countMatrix)) {
-        warning(sprintf(
-            "DESeq2 skipped: expected %d samples from groupName/numberReplics but countMatrix has %d columns.",
-            length(condition), ncol(countMatrix)
-        ))
-        return(NULL)
-    }
-    colDat <- data.frame(
-        row.names = colnames(countMatrix),
-        condition = condition
-    )
-    x <- as.matrix(countMatrix)
-    if (anyNA(x) || any(x < 0)) {
-        warning("DESeq2 skipped: countMatrix contains NA and/or negative values.")
-        return(NULL)
-    }
-    is_integer_valued <- all(abs(x - round(x)) < .Machine$double.eps^0.5)
-    if (!is_integer_valued) {
-        warning("DESeq2 skipped: countMatrix does not look like count data (non-integer values detected).")
-        return(NULL)
-    }
-    .check_package("DESeq2", repo = "Bioconductor")
-    dds <- DESeq2::DESeqDataSetFromMatrix(
-        countData = round(x),
-        colData = colDat,
-        design = ~ condition
-    )
-    dds <- DESeq2::DESeq(dds, fitType = fitTypeParam)
-    res <- DESeq2::results(
-        dds,
-        contrast = c("condition", contrastGroup, controlGroup)
-    )
-    resOrdered <- res[order(res$pvalue), ]
-    dfDeseq2 <- as.data.frame(resOrdered)
-    dfDeseq2
+  dfDeseq2 <- NULL
+  if (!(controlGroup %in% groupName) || !(contrastGroup %in% groupName)) {
+    warning(sprintf(
+      "DESeq2 skipped: controlGroup='%s' and/or contrastGroup='%s' not found in groupName.",
+      controlGroup, contrastGroup
+    ))
+    return(NULL)
+  }
+  if (is.null(colnames(countMatrix))) {
+    warning("DESeq2 skipped: countMatrix must have column names.")
+    return(NULL)
+  }
+  condition <- factor(rep(groupName, each = numberReplics), levels = groupName)
+  if (length(condition) != ncol(countMatrix)) {
+    warning(sprintf(
+      "DESeq2 skipped: expected %d samples from groupName/numberReplics but countMatrix has %d columns.",
+      length(condition), ncol(countMatrix)
+    ))
+    return(NULL)
+  }
+  colDat <- data.frame(
+    row.names = colnames(countMatrix),
+    condition = condition
+  )
+  x <- as.matrix(countMatrix)
+  if (anyNA(x) || any(x < 0)) {
+    warning("DESeq2 skipped: countMatrix contains NA and/or negative values.")
+    return(NULL)
+  }
+  is_integer_valued <- all(abs(x - round(x)) < .Machine$double.eps^0.5)
+  if (!is_integer_valued) {
+    warning("DESeq2 skipped: countMatrix does not look like count data (non-integer values detected).")
+    return(NULL)
+  }
+  .check_package("DESeq2", repo = "Bioconductor")
+  dds <- DESeq2::DESeqDataSetFromMatrix(
+    countData = round(x),
+    colData = colDat,
+    design = ~condition
+  )
+  dds <- DESeq2::DESeq(dds, fitType = fitTypeParam)
+  res <- DESeq2::results(
+    dds,
+    contrast = c("condition", contrastGroup, controlGroup)
+  )
+  resOrdered <- res[order(res$pvalue), ]
+  dfDeseq2 <- as.data.frame(resOrdered)
+  dfDeseq2
 }

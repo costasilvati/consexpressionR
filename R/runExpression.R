@@ -40,12 +40,14 @@
 #' set.seed(42)
 #' counts <- matrix(
 #'   as.integer(c(
-#'     rnbinom(200, mu = 10,  size = 1), 
-#'     rnbinom(200, mu = 100, size = 1) 
+#'     rnbinom(200, mu = 10, size = 1),
+#'     rnbinom(200, mu = 100, size = 1)
 #'   )),
 #'   nrow = 100,
-#'   dimnames = list(paste0("gene", seq_len(100)),
-#'                     paste0("sample", seq_len(4)))
+#'   dimnames = list(
+#'     paste0("gene", seq_len(100)),
+#'     paste0("sample", seq_len(4))
+#'   )
 #' )
 #' groups_info <- c("control", "control", "treated", "treated")
 #' treats <- c("control", "treated")
@@ -89,182 +91,181 @@ runExpression <- function(numberReplics,
                           methodDeResultsEbseq = "robust",
                           deNovoAanalysis = FALSE,
                           progressShiny = NULL) {
+  if (!is.null(rDataFrameCount)) {
+    countMatrix <- as.matrix(rDataFrameCount)
+  } else if (!is.null(tableCountPath)) {
+    countMatrix <- as.matrix(readCountFile(tableCountPath, sepCharacter))
+  } else {
+    stop("'count matrix and RDataFrame' is NULL.")
+  }
+  .progress("Count matrix")
 
-    if (!is.null(rDataFrameCount)) {
-        countMatrix <- as.matrix(rDataFrameCount)
-    } else if(!is.null(tableCountPath)) {
-        countMatrix <- as.matrix(readCountFile(tableCountPath, sepCharacter))
-    }else{
-        stop("'count matrix and RDataFrame' is NULL.")
+  if (is.null(colnames(countMatrix))) {
+    stop("countMatrix must have column names (sample names).")
+  }
+  if (!is.numeric(numberReplics) || length(numberReplics) != 1L || numberReplics < 1) {
+    stop("'numberReplics' must be a single number >= 1.")
+  }
+  designExperiment <- rep(groupName, each = numberReplics)
+  if (length(designExperiment) != ncol(countMatrix)) {
+    stop(sprintf(
+      "Expected %d samples from groupName/numberReplics but countMatrix has %d columns.",
+      length(designExperiment), ncol(countMatrix)
+    ))
+  }
+  # ---- run tools ----
+  resultTool <- list()
+  .progress("Executing edgeR...", progressShiny)
+  resultTool$edger <- tryCatch(
+    runEdger(countMatrix, numberReplics, designExperiment, methNorm = methodNormEdgeR),
+    error = function(e) {
+      warning(sprintf("edgeR failed and will be skipped: %s", conditionMessage(e)))
+      NULL
     }
-    .progress("Count matrix")
-
-    if (is.null(colnames(countMatrix))) {
-        stop("countMatrix must have column names (sample names).")
+  )
+  .progress("Executing baySeq...", progressShiny)
+  resultTool$bayseq <- NULL
+  result <- runBayseq(countMatrix, sampleInfo = designExperiment)
+  # .progress("Executing KnowSeq...", progressShiny)
+  # resultTool$knowseq <- NULL
+  # if (deNovoAanalysis) {
+  #     warning("KnowSeq skipped for de novo analysis (annotation not available).")
+  # } else {
+  #     resultTool$knowseq <- tryCatch(
+  #         runKnowSeq(
+  #             count = countMatrix,
+  #             groupName = groupName,
+  #             numberReplic = numberReplics,
+  #             filterId = filterIdKnowseq,
+  #             notSapiens = notSapiensKnowseq
+  #         ),
+  #         error = function(e) {
+  #             warning(sprintf("KnowSeq failed and will be skipped: %s", conditionMessage(e)))
+  #             NULL
+  #         }
+  #     )
+  # }
+  .progress("Executing limma...", progressShiny)
+  resultTool$limma <- tryCatch(
+    runLimma(
+      countMatrix, numberReplics, designExperiment,
+      methodNormLimma, methodAdjPvalueLimma, numberTopTableLimma
+    ),
+    error = function(e) {
+      warning(sprintf("limma failed and will be skipped: %s", conditionMessage(e)))
+      NULL
     }
-    if (!is.numeric(numberReplics) || length(numberReplics) != 1L || numberReplics < 1) {
-        stop("'numberReplics' must be a single number >= 1.")
+  )
+  .progress("Executing NOISeq...", progressShiny)
+  resultTool$noiseq <- tryCatch(
+    runNoiSeq(
+      countMatrix = countMatrix,
+      groups = groupName,
+      designExperiment = designExperiment,
+      normParm = normNoiseq,
+      kParam = kNoiseq,
+      factorParam = factorNoiseq,
+      lcParam = lcNoiseq,
+      replicatesParam = replicatesNoiseq,
+      condExp = condExpNoiseq
+    ),
+    error = function(e) {
+      warning(sprintf("NOISeq failed and will be skipped: %s", conditionMessage(e)))
+      NULL
     }
-    designExperiment <- rep(groupName, each = numberReplics)
-    if (length(designExperiment) != ncol(countMatrix)) {
-        stop(sprintf(
-            "Expected %d samples from groupName/numberReplics but countMatrix has %d columns.",
-            length(designExperiment), ncol(countMatrix)
-        ))
+  )
+  .progress("Executing EBSeq...", progressShiny)
+  resultTool$ebseq <- tryCatch(
+    runEbseq(
+      as.matrix(countMatrix),
+      designExperiment,
+      fdr = fdrEbseq,
+      maxRound = maxRoundEbseq,
+      methodDeResults = methodDeResultsEbseq,
+      groups = groupName
+    ),
+    error = function(e) {
+      warning(sprintf("EBSeq failed and will be skipped: %s", conditionMessage(e)))
+      NULL
     }
-    # ---- run tools ----
-    resultTool <- list()
-    .progress("Executing edgeR...", progressShiny)
-    resultTool$edger <- tryCatch(
-        runEdger(countMatrix, numberReplics, designExperiment, methNorm = methodNormEdgeR),
-        error = function(e) {
-            warning(sprintf("edgeR failed and will be skipped: %s", conditionMessage(e)))
-            NULL
-        }
+  )
+  if (!.is_count_like(countMatrix)) {
+    warning("DESeq2 and SAMSeq skipped: input does not look like raw count data (non-integer values detected).")
+    resultTool$deseq2 <- NULL
+    resultTool$samseq <- NULL
+  } else {
+    .progress("Executing DESeq2...", progressShiny)
+    resultTool$deseq2 <- tryCatch(
+      runDeseq2(
+        countMatrix,
+        groupName,
+        numberReplics,
+        controlGroup = controlDeseq2,
+        contrastGroup = contrastDeseq2,
+        fitTypeParam = fitTypeDeseq2
+      ),
+      error = function(e) {
+        warning(sprintf("DESeq2 failed and will be skipped: %s", conditionMessage(e)))
+        NULL
+      }
     )
-    .progress("Executing baySeq...", progressShiny)
-    resultTool$bayseq <- NULL
-    result <- runBayseq(countMatrix, sampleInfo = designExperiment)
-    # .progress("Executing KnowSeq...", progressShiny)
-    # resultTool$knowseq <- NULL
-    # if (deNovoAanalysis) {
-    #     warning("KnowSeq skipped for de novo analysis (annotation not available).")
-    # } else {
-    #     resultTool$knowseq <- tryCatch(
-    #         runKnowSeq(
-    #             count = countMatrix,
-    #             groupName = groupName,
-    #             numberReplic = numberReplics,
-    #             filterId = filterIdKnowseq,
-    #             notSapiens = notSapiensKnowseq
-    #         ),
-    #         error = function(e) {
-    #             warning(sprintf("KnowSeq failed and will be skipped: %s", conditionMessage(e)))
-    #             NULL
-    #         }
-    #     )
-    # }
-    .progress("Executing limma...", progressShiny)
-    resultTool$limma <- tryCatch(
-        runLimma(
-            countMatrix, numberReplics, designExperiment,
-            methodNormLimma, methodAdjPvalueLimma, numberTopTableLimma
-        ),
-        error = function(e) {
-            warning(sprintf("limma failed and will be skipped: %s", conditionMessage(e)))
-            NULL
-        }
+    .progress("Executing SAMSeq...", progressShiny)
+    resultTool$samseq <- tryCatch(
+      runSamSeq(
+        countMatrix,
+        designExperiment,
+        respType = respTypeSamseq,
+        numberPermutations = npermSamseq
+      ),
+      error = function(e) {
+        warning(sprintf("SAMSeq failed and will be skipped: %s", conditionMessage(e)))
+        NULL
+      }
     )
-    .progress("Executing NOISeq...", progressShiny)
-    resultTool$noiseq <- tryCatch(
-        runNoiSeq(
-            countMatrix = countMatrix,
-            groups = groupName,
-            designExperiment = designExperiment,
-            normParm = normNoiseq,
-            kParam = kNoiseq,
-            factorParam = factorNoiseq,
-            lcParam = lcNoiseq,
-            replicatesParam = replicatesNoiseq,
-            condExp = condExpNoiseq
-        ),
-        error = function(e) {
-            warning(sprintf("NOISeq failed and will be skipped: %s", conditionMessage(e)))
-            NULL
+  }
+  if (isTRUE(printResults)) {
+    .progress("Writing results...", progressShiny)
+    if (!dir.exists(outDirPath)) {
+      dir.create(outDirPath, recursive = TRUE, showWarnings = FALSE)
+    }
+    tryCatch(
+      {
+        for (nm in names(resultTool)) {
+          data <- resultTool[[nm]]
+          if (is.null(data)) next
+          utils::write.csv(
+            data,
+            file = file.path(outDirPath, paste0(experimentName, "_", nm, ".csv"))
+          )
+          save(
+            data,
+            file = file.path(outDirPath, paste0(experimentName, "_", nm, ".RData"))
+          )
         }
-    )
-    .progress("Executing EBSeq...", progressShiny)
-    resultTool$ebseq <- tryCatch(
-        runEbseq(
-            as.matrix(countMatrix),
-            designExperiment,
-            fdr = fdrEbseq,
-            maxRound = maxRoundEbseq,
-            methodDeResults = methodDeResultsEbseq,
-            groups = groupName
-        ),
-        error = function(e) {
-            warning(sprintf("EBSeq failed and will be skipped: %s", conditionMessage(e)))
-            NULL
-        }
-    )
-    if (!.is_count_like(countMatrix)) {
-        warning("DESeq2 and SAMSeq skipped: input does not look like raw count data (non-integer values detected).")
-        resultTool$deseq2 <- NULL
-        resultTool$samseq <- NULL
-    } else {
-        .progress("Executing DESeq2...", progressShiny)
-        resultTool$deseq2 <- tryCatch(
-            runDeseq2(
-                countMatrix,
-                groupName,
-                numberReplics,
-                controlGroup = controlDeseq2,
-                contrastGroup = contrastDeseq2,
-                fitTypeParam = fitTypeDeseq2
-            ),
-            error = function(e) {
-                warning(sprintf("DESeq2 failed and will be skipped: %s", conditionMessage(e)))
-                NULL
-            }
+        toolsFramed <- frameAllGenes(resultTool, countMatrix)
+        save(
+          toolsFramed,
+          file = file.path(outDirPath, paste0(experimentName, "_toolsResult.RData"))
         )
-        .progress("Executing SAMSeq...", progressShiny)
-        resultTool$samseq <- tryCatch(
-            runSamSeq(
-                countMatrix,
-                designExperiment,
-                respType = respTypeSamseq,
-                numberPermutations = npermSamseq
-            ),
-            error = function(e) {
-                warning(sprintf("SAMSeq failed and will be skipped: %s", conditionMessage(e)))
-                NULL
-            }
-        )
-    }
-    if (isTRUE(printResults)) {
-        .progress("Writing results...", progressShiny)
-        if (!dir.exists(outDirPath)) {
-            dir.create(outDirPath, recursive = TRUE, showWarnings = FALSE)
-        }
-        tryCatch(
-            {
-                for (nm in names(resultTool)) {
-                    data <- resultTool[[nm]]
-                    if (is.null(data)) next
-                    utils::write.csv(
-                        data,
-                        file = file.path(outDirPath, paste0(experimentName, "_", nm, ".csv"))
-                    )
-                    save(
-                        data,
-                        file = file.path(outDirPath, paste0(experimentName, "_", nm, ".RData"))
-                    )
-                }
-                toolsFramed <- frameAllGenes(resultTool, countMatrix)
-                save(
-                    toolsFramed,
-                    file = file.path(outDirPath, paste0(experimentName, "_toolsResult.RData"))
-                )
-            },
-            error = function(e) {
-                warning(sprintf("Writing results failed: %s", conditionMessage(e)))
-            }
-        )
-    }
-    .progress("Complete!", progressShiny)
-    message("Differential expression analysis completed.")
-    parameters <- list(
-        numberReplics = numberReplics,
-        groupName = groupName,
-        experimentName = experimentName,
-        tableCountPath = tableCountPath,
-        printResults = printResults
+      },
+      error = function(e) {
+        warning(sprintf("Writing results failed: %s", conditionMessage(e)))
+      }
     )
-    createExpressionResultSet(
-        results = resultTool,
-        methodNames = names(resultTool),
-        parameters = parameters,
-        consensus = list()
-    )
+  }
+  .progress("Complete!", progressShiny)
+  message("Differential expression analysis completed.")
+  parameters <- list(
+    numberReplics = numberReplics,
+    groupName = groupName,
+    experimentName = experimentName,
+    tableCountPath = tableCountPath,
+    printResults = printResults
+  )
+  createExpressionResultSet(
+    results = resultTool,
+    methodNames = names(resultTool),
+    parameters = parameters,
+    consensus = list()
+  )
 }
