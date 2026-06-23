@@ -6,6 +6,9 @@ Get consensus results
 
 ``` r
 consensus(object)
+
+# S4 method for class 'ExpressionResultSet'
+consensus(object)
 ```
 
 ## Arguments

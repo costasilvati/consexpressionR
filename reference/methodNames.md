@@ -6,6 +6,9 @@ Get method names used in the analysis
 
 ``` r
 methodNames(object)
+
+# S4 method for class 'ExpressionResultSet'
+methodNames(object)
 ```
 
 ## Arguments

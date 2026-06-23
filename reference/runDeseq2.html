@@ -87,11 +87,21 @@ is configured to read only kallisto files, and count data</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">gse95077</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">groupNameModel</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BM"</span>,<span class="st">"JJ"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">numberReplicsModel</span> <span class="op">&lt;-</span> <span class="fl">3</span></span></span>
-<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">runDeseq2</span><span class="op">(</span><span class="va">gse95077</span>, <span class="va">groupNameModel</span>, <span class="va">numberReplicsModel</span>,</span></span>
-<span class="r-in"><span>                 controlGroup <span class="op">=</span> <span class="st">"BM"</span>, contrastGroup <span class="op">=</span> <span class="st">"JJ"</span>,</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html" class="external-link">rnbinom</a></span><span class="op">(</span><span class="fl">200</span>, mu <span class="op">=</span> <span class="fl">10</span>,  size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, </span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html" class="external-link">rnbinom</a></span><span class="op">(</span><span class="fl">200</span>, mu <span class="op">=</span> <span class="fl">100</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span></span>
+<span class="r-in"><span>  <span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  nrow <span class="op">=</span> <span class="fl">100</span>,</span></span>
+<span class="r-in"><span>  dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"gene"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"sample"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">groups_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"control"</span>, <span class="st">"control"</span>, <span class="st">"treated"</span>, <span class="st">"treated"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">treats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"control"</span>, <span class="st">"treated"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">numberReplicsModel</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">runDeseq2</span><span class="op">(</span><span class="va">counts</span>, <span class="va">treats</span>, <span class="va">numberReplicsModel</span>,</span></span>
+<span class="r-in"><span>                 controlGroup <span class="op">=</span> <span class="st">"control"</span>, contrastGroup <span class="op">=</span> <span class="st">"treated"</span>,</span></span>
 <span class="r-in"><span>                 fitTypeParam <span class="op">=</span> <span class="st">"local"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> converting counts to integer mode</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> estimating size factors</span>
@@ -100,21 +110,14 @@ is configured to read only kallisto files, and count data</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> mean-dispersion relationship</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> final dispersion estimates</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> fitting model and testing</span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  baseMean log2FoldChange      lfcSE      stat        pvalue</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000168264  9961.997      -2.536170 0.09832161 -25.79464 1.018494e-146</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000175130  4503.308       3.007566 0.13389830  22.46157 9.864118e-112</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000105887 29118.330      -2.675320 0.11995046 -22.30354 3.413811e-110</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000105968 18191.302      -2.384373 0.10704468 -22.27456 6.521205e-110</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000075624 96510.567       2.323520 0.11131366  20.87363  9.300167e-97</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000065978 14489.744       1.282091 0.06875535  18.64714  1.332104e-77</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                          padj</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000168264 3.157332e-145</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000175130 1.528938e-110</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000105887 3.527604e-109</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000105968 5.053934e-109</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000075624  5.766104e-96</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000065978  6.882537e-77</span>
+<span class="r-in"><span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        baseMean log2FoldChange    lfcSE      stat       pvalue       padj</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> gene49 61.33954      -4.474586 1.358609 -3.293504 0.0009894697 0.09894697</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> gene33 45.38362       4.498825 1.648520  2.729008 0.0063525156 0.17994440</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> gene14 22.34744      -3.063946 1.182995 -2.589991 0.0095978393 0.17994440</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> gene48 20.08076       4.787228 1.859389  2.574624 0.0100349212 0.17994440</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> gene58 26.98364       3.625938 1.411685  2.568519 0.0102134190 0.17994440</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> gene5  24.36280       3.983786 1.562752  2.549212 0.0107966639 0.17994440</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

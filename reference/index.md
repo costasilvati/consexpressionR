@@ -21,8 +21,6 @@
   : Identify DE genes by method-specific thresholds
 - [`frameAllGenes()`](https://costasilvati.github.io/consexpressionR/reference/frameAllGenes.md)
   : frameAllGenes
-- [`gse95077`](https://costasilvati.github.io/consexpressionR/reference/gse95077.md)
-  : NCBI GEO access GSE95077 dataset
 - [`listDeByTool()`](https://costasilvati.github.io/consexpressionR/reference/listDeByTool.md)
   : listDeByTool: creates a data.frame with genes (rows) and DE tools
   (columns). Each tool that identifies a gene as DE is marked with 1.
@@ -35,6 +33,8 @@
   file.
 - [`results()`](https://costasilvati.github.io/consexpressionR/reference/results.md)
   : Get result tables
+- [`runBayseq()`](https://costasilvati.github.io/consexpressionR/reference/runBayseq.md)
+  : Run differential expression analysis using baySeq
 - [`runDeseq2()`](https://costasilvati.github.io/consexpressionR/reference/runDeseq2.md)
   : Execute DESeq2 DGE default analysis is configured to read only
   kallisto files, and count data
@@ -45,14 +45,16 @@
 - [`runExpression()`](https://costasilvati.github.io/consexpressionR/reference/runExpression.md)
   : Make expression analysis of multiple tools and return results by
   tool.
-- [`runKnowSeq()`](https://costasilvati.github.io/consexpressionR/reference/runKnowSeq.md)
-  : Run differential expression analysis with KnowSeq
 - [`runLimma()`](https://costasilvati.github.io/consexpressionR/reference/runLimma.md)
   : Execute edgeR expression Analisys
 - [`runNoiSeq()`](https://costasilvati.github.io/consexpressionR/reference/runNoiSeq.md)
   : Execute NOISeq gene Expression analysis
 - [`runSamSeq()`](https://costasilvati.github.io/consexpressionR/reference/runSamSeq.md)
   : Execute SAMSeq gene Expression analysis to count data
+- [`show(`*`<ExpressionResultSet>`*`)`](https://costasilvati.github.io/consexpressionR/reference/show-ExpressionResultSet-method.md)
+  : Show an ExpressionResultSet object
+- [`summary(`*`<ExpressionResultSet>`*`)`](https://costasilvati.github.io/consexpressionR/reference/summary-ExpressionResultSet-method.md)
+  : Summarize an ExpressionResultSet object
 - [`upSetPlotTools()`](https://costasilvati.github.io/consexpressionR/reference/upSetPlotTools.md)
   : UpSet Plot shows intersections by DE indications
 - [`writeResults()`](https://costasilvati.github.io/consexpressionR/reference/writeResults.md)

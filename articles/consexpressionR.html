@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>consexpressionR: análise de expressão diferencial por consenso • consexpressionR</title>
+<title>Introduction to cosexpressionR • consexpressionR</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="consexpressionR: análise de expressão diferencial por consenso">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to cosexpressionR">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -50,11 +50,16 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>consexpressionR: análise de expressão diferencial por consenso</h1>
+      <h1>Introduction to cosexpressionR</h1>
                         <h4 data-toc-skip class="author">Juliana
 Costa-Silva</h4>
-            
-            <h4 data-toc-skip class="date">15-06-2026</h4>
+            <address class="author_afil">
+      Federal University of Paraná - UFPR and Federal Technological
+University of Paraná
+(UTFPR)<br><a class="author_email" href="mailto:#"></a><a href="mailto:julianacostasilvati@gmail.com" class="email">julianacostasilvati@gmail.com</a>
+      </address>
+                  
+            <h4 data-toc-skip class="date">23 June 2026</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/costasilvati/consexpressionR/blob/master/vignettes/consexpressionR.Rmd" class="external-link"><code>vignettes/consexpressionR.Rmd</code></a></small>
       <div class="d-none name"><code>consexpressionR.Rmd</code></div>
@@ -63,9 +68,258 @@ Costa-Silva</h4>
     
     
 <div class="section level2">
-<h2 id="knitropts_chunkset-collapse-true-comment-message-false-warning-false">knitr::opts_chunk$set( collapse = TRUE, comment = “#&gt;”, message =
-FALSE, warning = FALSE )<a class="anchor" aria-label="anchor" href="#knitropts_chunkset-collapse-true-comment-message-false-warning-false"></a>
+<h2 id="basics">Basics<a class="anchor" aria-label="anchor" href="#basics"></a>
 </h2>
+<div class="section level3">
+<h3 id="install-consexpressionr">Install <code>consexpressionR</code><a class="anchor" aria-label="anchor" href="#install-consexpressionr"></a>
+</h3>
+<p><code>R</code> is an open-source statistical environment which can be
+easily modified to enhance its functionality via packages. <em><a href="https://bioconductor.org/packages/3.23/consexpressionR" class="external-link">consexpressionR</a></em>
+is a <code>R</code> package available via the <a href="http://bioconductor.org" class="external-link">Bioconductor</a> repository for packages.
+<code>R</code> can be installed on any operating system from <a href="https://cran.r-project.org/" class="external-link">CRAN</a> after which you can install
+<em><a href="https://bioconductor.org/packages/3.23/consexpressionR" class="external-link">consexpressionR</a></em>
+by using the following commands in your <code>R</code> session:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span></span>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"consexpressionR"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Check that you have a valid Bioconductor installation</span></span>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/valid.html" class="external-link">valid</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="required-knowledge">Required knowledge<a class="anchor" aria-label="anchor" href="#required-knowledge"></a>
+</h3>
+<p><em><a href="https://bioconductor.org/packages/3.23/consexpressionR" class="external-link">consexpressionR</a></em>
+is based on many other packages and in particular in those that have
+implemented the infrastructure needed for dealing with RNA-seq data
+(EDIT!). That is, packages like <em><a href="https://bioconductor.org/packages/3.23/SummarizedExperiment" class="external-link">SummarizedExperiment</a></em>
+(EDIT!).</p>
+<p>If you are asking yourself the question “Where do I start using
+Bioconductor?” you might be interested in <a href="http://lcolladotor.github.io/2014/10/16/startbioc/#.VkOKbq6rRuU" class="external-link">this
+blog post</a>.</p>
+</div>
+<div class="section level3">
+<h3 id="asking-for-help">Asking for help<a class="anchor" aria-label="anchor" href="#asking-for-help"></a>
+</h3>
+<p>As package developers, we try to explain clearly how to use our
+packages and in which order to use the functions. But <code>R</code> and
+<code>Bioconductor</code> have a steep learning curve so it is critical
+to learn where to ask for help. The blog post quoted above mentions some
+but we would like to highlight the <a href="https://support.bioconductor.org/" class="external-link">Bioconductor support site</a>
+as the main resource for getting help: remember to use the
+<code>consexpressionR</code> tag and check <a href="https://support.bioconductor.org/tag/consexpressionR/" class="external-link">the older
+posts</a>. Other alternatives are available such as creating GitHub
+issues and tweeting. However, please note that if you want to receive
+help you should adhere to the <a href="http://www.bioconductor.org/help/support/posting-guide/" class="external-link">posting
+guidelines</a>. It is particularly critical that you provide a small
+reproducible example and your session information so package developers
+can track down the source of the error.</p>
+</div>
+<div class="section level3">
+<h3 id="citing-consexpressionr">Citing <code>consexpressionR</code><a class="anchor" aria-label="anchor" href="#citing-consexpressionr"></a>
+</h3>
+<p>We hope that <em><a href="https://bioconductor.org/packages/3.23/consexpressionR" class="external-link">consexpressionR</a></em>
+will be useful for your research. Please use the following information
+to cite the package and the overall approach. Thank you!</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## Citation info</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"consexpressionR"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; To cite package 'consexpressionR' in publications use:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Costa-Silva, J., Menotti, D., Lopes, M. F. consexpressionR: an R</span></span>
+<span><span class="co">#&gt;   package for consensus differential gene expression analysis arxiv</span></span>
+<span><span class="co">#&gt;   (2025)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; A BibTeX entry for LaTeX users is</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   @Article{,</span></span>
+<span><span class="co">#&gt;     title = {consexpressionR: an R package for consensus differential gene expression analysis},</span></span>
+<span><span class="co">#&gt;     author = {Juliana Costa-Silva and David Menotti and Fabricio M. Lopes},</span></span>
+<span><span class="co">#&gt;     year = {2025},</span></span>
+<span><span class="co">#&gt;     journal = {arxiv},</span></span>
+<span><span class="co">#&gt;     doi = {10.48550/arXiv.2503.21546},</span></span>
+<span><span class="co">#&gt;   }</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="quick-start-to-using-consexpressionr">Quick start to using <code>consexpressionR</code><a class="anchor" aria-label="anchor" href="#quick-start-to-using-consexpressionr"></a>
+</h2>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://costasilvati.github.io/consexpressionR/">"consexpressionR"</a></span><span class="op">)</span></span></code></pre></div>
+<p>Edit this as you see fit =)</p>
+<p>Here is an example of you can cite your package inside the
+vignette:</p>
+<ul>
+<li>
+<em><a href="https://bioconductor.org/packages/3.23/consexpressionR" class="external-link">consexpressionR</a></em>
+(Costa-Silva, Menotti, and Lopes, 2025)</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="reproducibility">Reproducibility<a class="anchor" aria-label="anchor" href="#reproducibility"></a>
+</h2>
+<p>The <em><a href="https://bioconductor.org/packages/3.23/consexpressionR" class="external-link">consexpressionR</a></em>
+package (Costa-Silva, Menotti, and Lopes, 2025) was made possible thanks
+to:</p>
+<ul>
+<li>R (R Core Team, 2026)</li>
+<li>
+<em><a href="https://bioconductor.org/packages/3.23/BiocStyle" class="external-link">BiocStyle</a></em>
+(Oleś, 2026)</li>
+<li>
+<em><a href="https://CRAN.R-project.org/package=knitr" class="external-link">knitr</a></em> (Xie,
+2025)</li>
+<li>
+<em><a href="https://CRAN.R-project.org/package=RefManageR" class="external-link">RefManageR</a></em>
+(McLean, 2017)</li>
+<li>
+<em><a href="https://CRAN.R-project.org/package=rmarkdown" class="external-link">rmarkdown</a></em>
+(Allaire, Xie, Dervieux, McPherson, Luraschi, Ushey, Atkins, Wickham,
+Cheng, Chang, and Iannone, 2026)</li>
+<li>
+<em><a href="https://CRAN.R-project.org/package=sessioninfo" class="external-link">sessioninfo</a></em>
+(Wickham, Chang, Flight, Müller, and Hester, 2026)</li>
+<li>
+<em><a href="https://CRAN.R-project.org/package=testthat" class="external-link">testthat</a></em>
+(Wickham, 2011)</li>
+</ul>
+<p>This package was developed using <em><a href="https://bioconductor.org/packages/3.23/biocthis" class="external-link">biocthis</a></em>.</p>
+<p><code>R</code> session information.</p>
+<pre><code><span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt;  <span style="color: #555555; font-style: italic;">setting </span> <span style="color: #555555; font-style: italic;">value</span></span></span>
+<span><span class="co">#&gt;  version  R version 4.6.0 (2026-04-24)</span></span>
+<span><span class="co">#&gt;  os       Ubuntu 24.04.4 LTS</span></span>
+<span><span class="co">#&gt;  system   x86_64, linux-gnu</span></span>
+<span><span class="co">#&gt;  ui       X11</span></span>
+<span><span class="co">#&gt;  language en</span></span>
+<span><span class="co">#&gt;  collate  C.UTF-8</span></span>
+<span><span class="co">#&gt;  ctype    C.UTF-8</span></span>
+<span><span class="co">#&gt;  tz       UTC</span></span>
+<span><span class="co">#&gt;  date     2026-06-23</span></span>
+<span><span class="co">#&gt;  pandoc   3.8.3 @ /opt/hostedtoolcache/pandoc/3.8.3/x64/ (via rmarkdown)</span></span>
+<span><span class="co">#&gt;  quarto   NA</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt;  <span style="color: #555555; font-style: italic;">package        </span> <span style="color: #555555; font-style: italic;">*</span> <span style="color: #555555; font-style: italic;">version  </span> <span style="color: #555555; font-style: italic;">date (UTC)</span> <span style="color: #555555; font-style: italic;">lib</span> <span style="color: #555555; font-style: italic;">source</span></span></span>
+<span><span class="co">#&gt;  backports         1.5.1     <span style="color: #555555;">2026-04-03</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  bibtex            0.5.2     <span style="color: #555555;">2026-02-03</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  BiocManager       1.30.27   <span style="color: #555555;">2025-11-14</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  BiocStyle       * 2.40.0    <span style="color: #555555;">2026-04-28</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">Bioconduc~</span></span></span>
+<span><span class="co">#&gt;  bookdown          0.47      <span style="color: #555555;">2026-06-16</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  bslib             0.11.0    <span style="color: #555555;">2026-05-16</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  cachem            1.1.0     <span style="color: #555555;">2024-05-16</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  cli               3.6.6     <span style="color: #555555;">2026-04-09</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  consexpressionR * 0.99.0    <span style="color: #555555;">2026-06-23</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
+<span><span class="co">#&gt;  desc              1.4.3     <span style="color: #555555;">2023-12-10</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  digest            0.6.39    <span style="color: #555555;">2025-11-19</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  evaluate          1.0.5     <span style="color: #555555;">2025-08-27</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  fastmap           1.2.0     <span style="color: #555555;">2024-05-15</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  fs                2.1.0     <span style="color: #555555;">2026-04-18</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  generics          0.1.4     <span style="color: #555555;">2025-05-09</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  glue              1.8.1     <span style="color: #555555;">2026-04-17</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  htmltools         0.5.9     <span style="color: #555555;">2025-12-04</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  htmlwidgets       1.6.4     <span style="color: #555555;">2023-12-06</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  httr              1.4.8     <span style="color: #555555;">2026-02-13</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  jquerylib         0.1.4     <span style="color: #555555;">2021-04-26</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  jsonlite          2.0.0     <span style="color: #555555;">2025-03-27</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  knitr             1.51      <span style="color: #555555;">2025-12-20</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  lifecycle         1.0.5     <span style="color: #555555;">2026-01-08</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  lubridate         1.9.5     <span style="color: #555555;">2026-02-04</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  magrittr          2.0.5     <span style="color: #555555;">2026-04-04</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  otel              0.2.0     <span style="color: #555555;">2025-08-29</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  pkgdown           2.2.0     <span style="color: #555555;">2025-11-06</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  plyr              1.8.9     <span style="color: #555555;">2023-10-02</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  R6                2.6.1     <span style="color: #555555;">2025-02-15</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  ragg              1.5.2     <span style="color: #555555;">2026-03-23</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  Rcpp              1.1.1-1.1 <span style="color: #555555;">2026-04-24</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  RefManageR      * 1.4.0     <span style="color: #555555;">2022-09-30</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  rlang             1.2.0     <span style="color: #555555;">2026-04-06</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  rmarkdown         2.31      <span style="color: #555555;">2026-03-26</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  sass              0.4.10    <span style="color: #555555;">2025-04-11</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  sessioninfo     * 1.2.4     <span style="color: #555555;">2026-06-04</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  stringi           1.8.7     <span style="color: #555555;">2025-03-27</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  stringr           1.6.0     <span style="color: #555555;">2025-11-04</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  systemfonts       1.3.2     <span style="color: #555555;">2026-03-05</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  textshaping       1.0.5     <span style="color: #555555;">2026-03-06</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  timechange        0.4.0     <span style="color: #555555;">2026-01-29</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  xfun              0.59      <span style="color: #555555;">2026-06-19</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  xml2              1.6.0     <span style="color: #555555;">2026-06-22</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  yaml              2.3.12    <span style="color: #555555;">2025-12-10</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #555555;"> [1] /home/runner/work/_temp/Library</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;"> [2] /opt/R/4.6.0/lib/R/site-library</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;"> [3] /opt/R/4.6.0/lib/R/library</span></span></span>
+<span><span class="co">#&gt;  <span style="color: #BBBBBB; background-color: #BB0000;">*</span> ── Packages attached to the search path.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span></code></pre>
+</div>
+<div class="section level2">
+<h2 id="bibliography">Bibliography<a class="anchor" aria-label="anchor" href="#bibliography"></a>
+</h2>
+<p>This vignette was generated using <em><a href="https://bioconductor.org/packages/3.23/BiocStyle" class="external-link">BiocStyle</a></em>
+(Oleś, 2026) with <em><a href="https://CRAN.R-project.org/package=knitr" class="external-link">knitr</a></em> (Xie,
+2025) and <em><a href="https://CRAN.R-project.org/package=rmarkdown" class="external-link">rmarkdown</a></em>
+(Allaire, Xie, Dervieux et al., 2026) running behind the scenes.</p>
+<p>Citations made with <em><a href="https://CRAN.R-project.org/package=RefManageR" class="external-link">RefManageR</a></em>
+(McLean, 2017).</p>
+<p>
+<a id="bib-allaire2026rmarkdown"></a><a href="#cite-allaire2026rmarkdown">[1]</a><cite>
+J. Allaire, Y. Xie, C. Dervieux, et al. <em>rmarkdown: Dynamic Documents
+for R</em>. R package version 2.31. 2026. URL:
+<a href="https://github.com/rstudio/rmarkdown" class="external-link">https://github.com/rstudio/rmarkdown</a>.</cite>
+</p>
+<p>
+<a id="bib-costasilva2025consexpressionr"></a><a href="#cite-costasilva2025consexpressionr">[2]</a><cite>
+J. Costa-Silva, D. Menotti, and F. M. Lopes. “consexpressionR: an R
+package for consensus differential gene expression analysis”. In:
+<em>arxiv</em> (2025). DOI:
+<a href="https://doi.org/10.48550/arXiv.2503.21546" class="external-link">10.48550/arXiv.2503.21546</a>.</cite>
+</p>
+<p>
+<a id="bib-mclean2017refmanager"></a><a href="#cite-mclean2017refmanager">[3]</a><cite>
+M. W. McLean. “RefManageR: Import and Manage BibTeX and BibLaTeX
+References in R”. In: <em>The Journal of Open Source Software</em>
+(2017). DOI:
+<a href="https://doi.org/10.21105/joss.00338" class="external-link">10.21105/joss.00338</a>.</cite>
+</p>
+<p>
+<a id="bib-ole2026biocstyle"></a><a href="#cite-ole2026biocstyle">[4]</a><cite>
+A. Oleś. <em>BiocStyle: Standard styles for vignettes and other
+Bioconductor documents</em>. R package version 2.40.0. 2026. DOI:
+<a href="https://doi.org/10.18129/B9.bioc.BiocStyle" class="external-link">10.18129/B9.bioc.BiocStyle</a>.
+URL:
+<a href="https://bioconductor.org/packages/BiocStyle" class="external-link">https://bioconductor.org/packages/BiocStyle</a>.</cite>
+</p>
+<p>
+<a id="bib-2026language"></a><a href="#cite-2026language">[5]</a><cite>
+R Core Team. <em>R: A Language and Environment for Statistical
+Computing</em>. R Foundation for Statistical Computing (ROR: &lt;<a href="https://ror.org/05qewa988%3E" class="external-link uri">https://ror.org/05qewa988&gt;</a>;). Vienna, Austria, 2026.
+DOI:
+<a href="https://doi.org/10.32614/R.manuals" class="external-link">10.32614/R.manuals</a>.
+URL:
+<a href="https://www.R-project.org/" class="external-link">https://www.R-project.org/</a>.</cite>
+</p>
+<p>
+<a id="bib-wickham2011testthat"></a><a href="#cite-wickham2011testthat">[6]</a><cite>
+H. Wickham. “testthat: Get Started with Testing”. In: <em>The R
+Journal</em> 3 (2011), pp. 5–10. URL:
+<a href="https://journal.r-project.org/articles/RJ-2011-002/" class="external-link">https://journal.r-project.org/articles/RJ-2011-002/</a>.</cite>
+</p>
+<p>
+<a id="bib-wickham2026sessioninfo"></a><a href="#cite-wickham2026sessioninfo">[7]</a><cite>
+H. Wickham, W. Chang, R. Flight, et al. <em>sessioninfo: R Session
+Information</em>. R package version 1.2.4. 2026. URL:
+<a href="https://sessioninfo.r-lib.org" class="external-link">https://sessioninfo.r-lib.org</a>.</cite>
+</p>
+<p>
+<a id="bib-xie2025knitr"></a><a href="#cite-xie2025knitr">[8]</a><cite>
+Y. Xie. <em>knitr: A General-Purpose Package for Dynamic Report
+Generation in R</em>. R package version 1.51. 2025. URL:
+<a href="https://yihui.org/knitr/" class="external-link">https://yihui.org/knitr/</a>.</cite>
+</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

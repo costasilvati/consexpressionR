@@ -74,19 +74,95 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">gse95077</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">treats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BM"</span>, <span class="st">"JJ"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">cons_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="runExpression.html">runExpression</a></span><span class="op">(</span><span class="fl">3</span>, <span class="va">treats</span>,rDataFrameCount <span class="op">=</span> <span class="va">gse95077</span>,</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html" class="external-link">rnbinom</a></span><span class="op">(</span><span class="fl">200</span>, mu <span class="op">=</span> <span class="fl">10</span>,  size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, </span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html" class="external-link">rnbinom</a></span><span class="op">(</span><span class="fl">200</span>, mu <span class="op">=</span> <span class="fl">100</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span></span>
+<span class="r-in"><span>  <span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  nrow <span class="op">=</span> <span class="fl">100</span>,</span></span>
+<span class="r-in"><span>  dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"gene"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"sample"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">groups_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"control"</span>, <span class="st">"control"</span>, <span class="st">"treated"</span>, <span class="st">"treated"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">treats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"control"</span>, <span class="st">"treated"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cons_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="runExpression.html">runExpression</a></span><span class="op">(</span><span class="fl">2</span>, <span class="va">treats</span>,rDataFrameCount <span class="op">=</span> <span class="va">counts</span>,</span></span>
 <span class="r-in"><span>                            sepCharacter <span class="op">=</span> <span class="st">","</span>,experimentName <span class="op">=</span> <span class="st">"test_cons"</span>,</span></span>
 <span class="r-in"><span>                            outDirPath <span class="op">=</span> <span class="st">"."</span> <span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> calcNormFactors has been renamed to normLibSizes</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using classic mode.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Getting annotation of the Homo Sapiens...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Using reference genome 38.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Calculating gene expression values...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> RQ fit ......</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SQN </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>KnowSeq failed and will be skipped: KnowSeq execution failed due to an internal dependency issue involving the 'mclust' package: could not find function "mclustBIC"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> baySeq libsizes</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> baySeq getPriors</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Finding priors...</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The '@replicates' slot is not a factor; converting now.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> done.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Finding posterior likelihoods...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Length of priorReps:0</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Length of priorSubset:100</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Length of subset:100</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Length of postRows:100</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Analysing part 1 of 1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Preparing data...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> done.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimating likelihoods...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ...done!</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> .</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> done.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Available columns in results_raw:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "sample1" "sample2" "sample3" "sample4" "likes"   "DE"      "FDR.DE" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [8] "FWER.DE"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      sample1 sample2 sample3 sample4     likes  DE    FDR.DE   FWER.DE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NA         6       2     163     183 0.7791478 2&gt;1 0.2208522 0.2208522</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NA.1       0       1      36      39 0.5303252 2&gt;1 0.3452635 0.5867983</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NA.2       3       3      95     126 0.5212935 2&gt;1 0.3897445 0.7846006</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NA.3      14      15       4      29 0.5017534 1&gt;2 0.4168700 0.8919226</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NA.4      32       8      23      29 0.4885126 1&gt;2 0.4357935 0.9472029</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NA.5       1       2     187     104 0.4878071 2&gt;1 0.4485267 0.9742452</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>‘&gt;=’ not meaningful for factors</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> calcNormFactors has been renamed to normLibSizes</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Removing intercept from test coefficients</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Computing (M,D) values..."</span>
@@ -126,92 +202,18 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> perm= 22</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> perm= 23</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> perm= 24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 26</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 28</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 29</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 31</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 32</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 34</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 35</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 36</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 38</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 39</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 40</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 41</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 42</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 43</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 44</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 45</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 46</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 47</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 48</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 49</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 51</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 52</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 53</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 54</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 55</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 56</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 57</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 58</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 59</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 60</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 61</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 62</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 63</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 64</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 65</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 66</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 67</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 68</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 69</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 70</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 71</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 72</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 73</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 74</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 76</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 77</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 78</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 79</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 80</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 81</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 82</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 83</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 85</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 86</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 87</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 88</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 89</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 90</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 91</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 92</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 93</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 94</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 95</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 96</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 97</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 98</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 99</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perm= 100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of thresholds chosen (all possible thresholds) = 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of thresholds chosen (all possible thresholds) = 11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Getting all the cutoffs for the thresholds...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Getting number of false positives in the permutation...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Differential expression analysis completed.</span>
 <span class="r-in"><span><span class="va">expDef_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="expressionDefinition.html">expressionDefinition</a></span><span class="op">(</span>resultTool <span class="op">=</span> <span class="va">cons_result</span>, groups <span class="op">=</span> <span class="va">treats</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">deByTool</span> <span class="op">&lt;-</span> <span class="fu"><a href="listDeByTool.html">listDeByTool</a></span><span class="op">(</span>consexpressionList <span class="op">=</span> <span class="va">cons_result</span>,</span></span>
-<span class="r-in"><span>                        geneNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">gse95077</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                        geneNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">counts</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                        deList <span class="op">=</span> <span class="va">expDef_result</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">upSetPlotData</span> <span class="op">&lt;-</span> <span class="fu">upSetPlotTools</span><span class="op">(</span>df <span class="op">=</span> <span class="va">deByTool</span>,condition <span class="op">=</span> <span class="st">"Control_vs_Treat"</span>,</span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"UpSetR"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="va">upSetPlotData</span> <span class="op">&lt;-</span> <span class="fu">upSetPlotTools</span><span class="op">(</span>df <span class="op">=</span> <span class="va">deByTool</span>,condition <span class="op">=</span> <span class="st">"Control_vs_Treat"</span>,</span></span>
 <span class="r-in"><span>                                pathOut <span class="op">=</span> <span class="st">"."</span>, writeData <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`aes_string()` was deprecated in ggplot2 3.0.0.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please use tidy evaluation idioms with `aes()`.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> See also `vignette("ggplot2-in-packages")` for more information.</span>

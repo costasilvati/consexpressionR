@@ -6,6 +6,9 @@ Get result tables
 
 ``` r
 results(object)
+
+# S4 method for class 'ExpressionResultSet'
+results(object)
 ```
 
 ## Arguments

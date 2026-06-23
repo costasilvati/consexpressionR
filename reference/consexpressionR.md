@@ -20,6 +20,9 @@ Useful links:
 
 Authors:
 
+- Juliana Costa-Silva <julianacostasilvati@gmail.com>
+  ([ORCID](https://orcid.org/0000-0002-5830-8548)) \[funder\]
+
 - David Menotti <menottid@gmail.com>
   ([ORCID](https://orcid.org/0000-0003-2430-2030))
 

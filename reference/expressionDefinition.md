@@ -139,21 +139,97 @@ A list of data.frames with DE genes per method.
 ## Examples
 
 ``` r
-data(gse95077)
-treats <- c("BM", "JJ")
-res <- runExpression(numberReplics = 3,
+set.seed(42)
+counts <- matrix(
+  as.integer(c(
+    rnbinom(200, mu = 10,  size = 1), 
+    rnbinom(200, mu = 100, size = 1) 
+  )),
+  nrow = 100,
+  dimnames = list(paste0("gene", seq_len(100)),
+                    paste0("sample", seq_len(4)))
+)
+groups_info <- c("control", "control", "treated", "treated")
+treats <- c("control", "treated")
+res <- runExpression(numberReplics = 2,
                      groupName = treats,
-                     rDataFrameCount = gse95077,
-                     controlDeseq2 = "BM",
-                     contrastDeseq2 = "JJ" )
+                     rDataFrameCount = counts,
+                     controlDeseq2 = "control",
+                     contrastDeseq2 = "treated" )
 #> calcNormFactors has been renamed to normLibSizes
 #> Using classic mode.
-#> Getting annotation of the Homo Sapiens...
-#> Using reference genome 38.
-#> Calculating gene expression values...
-#> RQ fit ......
-#> SQN 
-#> Warning: KnowSeq failed and will be skipped: KnowSeq execution failed due to an internal dependency issue involving the 'mclust' package: could not find function "mclustBIC"
+#> baySeq libsizes
+#> baySeq getPriors
+#> Finding priors...
+#> Warning: The '@replicates' slot is not a factor; converting now.
+#> done.
+#> Finding posterior likelihoods...
+#> Length of priorReps:0
+#> Length of priorSubset:100
+#> Length of subset:100
+#> Length of postRows:100
+#> Analysing part 1 of 1
+#> Preparing data...
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> done.
+#> Estimating likelihoods...
+#> ...done!
+#> .
+#> done.
+#> Available columns in results_raw:
+#> [1] "sample1" "sample2" "sample3" "sample4" "likes"   "DE"      "FDR.DE" 
+#> [8] "FWER.DE"
+#>      sample1 sample2 sample3 sample4     likes  DE    FDR.DE   FWER.DE
+#> NA         6       2     163     183 0.7791478 2>1 0.2208522 0.2208522
+#> NA.1       0       1      36      39 0.5303252 2>1 0.3452635 0.5867983
+#> NA.2       3       3      95     126 0.5212935 2>1 0.3897445 0.7846006
+#> NA.3      14      15       4      29 0.5017534 1>2 0.4168700 0.8919226
+#> NA.4      32       8      23      29 0.4885126 1>2 0.4357935 0.9472029
+#> NA.5       1       2     187     104 0.4878071 2>1 0.4485267 0.9742452
+#> Warning: ‘>=’ not meaningful for factors
 #> calcNormFactors has been renamed to normLibSizes
 #> Removing intercept from test coefficients
 #> [1] "Computing (M,D) values..."
@@ -199,83 +275,7 @@ res <- runExpression(numberReplics = 3,
 #> perm= 22
 #> perm= 23
 #> perm= 24
-#> perm= 25
-#> perm= 26
-#> perm= 27
-#> perm= 28
-#> perm= 29
-#> perm= 30
-#> perm= 31
-#> perm= 32
-#> perm= 33
-#> perm= 34
-#> perm= 35
-#> perm= 36
-#> perm= 37
-#> perm= 38
-#> perm= 39
-#> perm= 40
-#> perm= 41
-#> perm= 42
-#> perm= 43
-#> perm= 44
-#> perm= 45
-#> perm= 46
-#> perm= 47
-#> perm= 48
-#> perm= 49
-#> perm= 50
-#> perm= 51
-#> perm= 52
-#> perm= 53
-#> perm= 54
-#> perm= 55
-#> perm= 56
-#> perm= 57
-#> perm= 58
-#> perm= 59
-#> perm= 60
-#> perm= 61
-#> perm= 62
-#> perm= 63
-#> perm= 64
-#> perm= 65
-#> perm= 66
-#> perm= 67
-#> perm= 68
-#> perm= 69
-#> perm= 70
-#> perm= 71
-#> perm= 72
-#> perm= 73
-#> perm= 74
-#> perm= 75
-#> perm= 76
-#> perm= 77
-#> perm= 78
-#> perm= 79
-#> perm= 80
-#> perm= 81
-#> perm= 82
-#> perm= 83
-#> perm= 84
-#> perm= 85
-#> perm= 86
-#> perm= 87
-#> perm= 88
-#> perm= 89
-#> perm= 90
-#> perm= 91
-#> perm= 92
-#> perm= 93
-#> perm= 94
-#> perm= 95
-#> perm= 96
-#> perm= 97
-#> perm= 98
-#> perm= 99
-#> perm= 100
-#> Number of thresholds chosen (all possible thresholds) = 8
+#> Number of thresholds chosen (all possible thresholds) = 11
 #> Getting all the cutoffs for the thresholds...
 #> Getting number of false positives in the permutation...
 #> Differential expression analysis completed.

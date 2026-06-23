@@ -41,11 +41,23 @@ SAMSeq report in data Frame
 ## Examples
 
 ``` r
-data(gse95077)
-treats <- c("BM", "JJ")
+set.seed(42)
+counts <- matrix(
+  as.integer(c(
+    rnbinom(200, mu = 10,  size = 1), 
+    rnbinom(200, mu = 100, size = 1) 
+  )),
+  nrow = 100,
+  dimnames = list(paste0("gene", seq_len(100)),
+                    paste0("sample", seq_len(4)))
+)
+groups_info <- c("control", "control", "treated", "treated")
+treats <- c("control", "treated")
 toolResult <- NULL
-toolResult$samseq <- runSamSeq(countMatrix = gse95077,
-                               designExperiment = rep(treats, each = 3))
+if (requireNamespace("samr", quietly = TRUE)) {
+  toolResult$samseq <- runSamSeq(countMatrix = counts,
+                               designExperiment = rep(treats, each = 2))
+}
 #> Estimating sequencing depths...
 #> Resampling to get new data matrices...
 #> perm= 1
@@ -72,83 +84,7 @@ toolResult$samseq <- runSamSeq(countMatrix = gse95077,
 #> perm= 22
 #> perm= 23
 #> perm= 24
-#> perm= 25
-#> perm= 26
-#> perm= 27
-#> perm= 28
-#> perm= 29
-#> perm= 30
-#> perm= 31
-#> perm= 32
-#> perm= 33
-#> perm= 34
-#> perm= 35
-#> perm= 36
-#> perm= 37
-#> perm= 38
-#> perm= 39
-#> perm= 40
-#> perm= 41
-#> perm= 42
-#> perm= 43
-#> perm= 44
-#> perm= 45
-#> perm= 46
-#> perm= 47
-#> perm= 48
-#> perm= 49
-#> perm= 50
-#> perm= 51
-#> perm= 52
-#> perm= 53
-#> perm= 54
-#> perm= 55
-#> perm= 56
-#> perm= 57
-#> perm= 58
-#> perm= 59
-#> perm= 60
-#> perm= 61
-#> perm= 62
-#> perm= 63
-#> perm= 64
-#> perm= 65
-#> perm= 66
-#> perm= 67
-#> perm= 68
-#> perm= 69
-#> perm= 70
-#> perm= 71
-#> perm= 72
-#> perm= 73
-#> perm= 74
-#> perm= 75
-#> perm= 76
-#> perm= 77
-#> perm= 78
-#> perm= 79
-#> perm= 80
-#> perm= 81
-#> perm= 82
-#> perm= 83
-#> perm= 84
-#> perm= 85
-#> perm= 86
-#> perm= 87
-#> perm= 88
-#> perm= 89
-#> perm= 90
-#> perm= 91
-#> perm= 92
-#> perm= 93
-#> perm= 94
-#> perm= 95
-#> perm= 96
-#> perm= 97
-#> perm= 98
-#> perm= 99
-#> perm= 100
-#> Number of thresholds chosen (all possible thresholds) = 7
+#> Number of thresholds chosen (all possible thresholds) = 12
 #> Getting all the cutoffs for the thresholds...
 #> Getting number of false positives in the permutation...
 ```

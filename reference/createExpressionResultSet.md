@@ -56,6 +56,10 @@ obj
 #> Result tables: 2
 #> Consensus: available (1 gene(s))
 summary(obj)
-#>              Length               Class                Mode 
-#>                   1 ExpressionResultSet                  S4 
+#> Summary of ExpressionResultSet
+#> ---------------------------------
+#> Methods used: edgeR, DESeq2
+#> Number of result tables: 2
+#> Average number of DEGs per method: 1.00
+#> Number of genes in consensus: 1
 ```

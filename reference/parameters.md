@@ -6,6 +6,9 @@ Get parameters used in the analysis
 
 ``` r
 parameters(object)
+
+# S4 method for class 'ExpressionResultSet'
+parameters(object)
 ```
 
 ## Arguments
