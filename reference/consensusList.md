@@ -35,20 +35,24 @@ An `ExpressionResultSet` object with the consensus slot populated
 set.seed(42)
 counts <- matrix(
   as.integer(c(
-    rnbinom(200, mu = 10,  size = 1), 
-    rnbinom(200, mu = 100, size = 1) 
+    rnbinom(200, mu = 10, size = 1),
+    rnbinom(200, mu = 100, size = 1)
   )),
   nrow = 100,
-  dimnames = list(paste0("gene", seq_len(100)),
-                    paste0("sample", seq_len(4)))
+  dimnames = list(
+    paste0("gene", seq_len(100)),
+    paste0("sample", seq_len(4))
+  )
 )
 groups_info <- c("control", "control", "treated", "treated")
 treats <- c("control", "treated")
-cons_result <- runExpression(numberReplics = 2,
-                              groupName = treats,
-                              rDataFrameCount = counts,
-                              controlDeseq2 = "control",
-                              contrastDeseq2 = "treated" )
+cons_result <- runExpression(
+  numberReplics = 2,
+  groupName = treats,
+  rDataFrameCount = counts,
+  controlDeseq2 = "control",
+  contrastDeseq2 = "treated"
+)
 #> calcNormFactors has been renamed to normLibSizes
 #> Using classic mode.
 #> baySeq libsizes
@@ -171,8 +175,10 @@ cons_result <- runExpression(numberReplics = 2,
 #> Getting all the cutoffs for the thresholds...
 #> Getting number of false positives in the permutation...
 #> Differential expression analysis completed.
-expDef_result <- expressionDefinition(resultTool = cons_result,
-                                      groups = treats)
+expDef_result <- expressionDefinition(
+  resultTool = cons_result,
+  groups = treats
+)
 deByTool <- listDeByTool(cons_result, row.names(counts), expDef_result)
 cons_result <- consensusList(cons_result, deByTool)
 

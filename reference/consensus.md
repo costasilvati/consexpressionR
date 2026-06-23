@@ -25,7 +25,7 @@ A list.
 
 ``` r
 obj <- createExpressionResultSet(
-  results = list(edgeR = data.frame(gene = c("g1","g2"), logFC = c(1,-1))),
+  results = list(edgeR = data.frame(gene = c("g1", "g2"), logFC = c(1, -1))),
   methodNames = "edgeR",
   consensus = list(g1 = TRUE)
 )

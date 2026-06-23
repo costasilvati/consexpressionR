@@ -61,18 +61,20 @@ EBSeq report in data Frame fromat
 set.seed(42)
 counts <- matrix(
   as.integer(c(
-    rnbinom(200, mu = 10,  size = 1), 
-    rnbinom(200, mu = 100, size = 1) 
+    rnbinom(200, mu = 10, size = 1),
+    rnbinom(200, mu = 100, size = 1)
   )),
   nrow = 100,
-  dimnames = list(paste0("gene", seq_len(100)),
-                    paste0("sample", seq_len(4)))
+  dimnames = list(
+    paste0("gene", seq_len(100)),
+    paste0("sample", seq_len(4))
+  )
 )
 groups_info <- c("control", "control", "treated", "treated")
 treats <- c("control", "treated")
 designExperimentModel <- rep(treats, each = 2)
 toolResult <- NULL
-toolResult$ebseq <- runEbseq(counts,designExperimentModel,groups = treats)
+toolResult$ebseq <- runEbseq(counts, designExperimentModel, groups = treats)
 #> Warning: `expect_is()` was deprecated in the 3rd edition.
 #> ℹ Use `expect_type()`, `expect_s3_class()`, or `expect_s4_class()` instead
 #> Warning: `expect_is()` was deprecated in the 3rd edition.

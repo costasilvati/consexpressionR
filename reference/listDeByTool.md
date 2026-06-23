@@ -35,20 +35,24 @@ that tool.
 set.seed(42)
 counts <- matrix(
   as.integer(c(
-    rnbinom(200, mu = 10,  size = 1), 
-    rnbinom(200, mu = 100, size = 1) 
+    rnbinom(200, mu = 10, size = 1),
+    rnbinom(200, mu = 100, size = 1)
   )),
   nrow = 100,
-  dimnames = list(paste0("gene", seq_len(100)),
-                    paste0("sample", seq_len(4)))
+  dimnames = list(
+    paste0("gene", seq_len(100)),
+    paste0("sample", seq_len(4))
+  )
 )
 groups_info <- c("control", "control", "treated", "treated")
 treats <- c("control", "treated")
-cons_result <- runExpression(numberReplics = 2,
-                             groupName = treats,
-                             rDataFrameCount = counts,
-                             controlDeseq2 = "control",
-                             contrastDeseq2 = "treated" )
+cons_result <- runExpression(
+  numberReplics = 2,
+  groupName = treats,
+  rDataFrameCount = counts,
+  controlDeseq2 = "control",
+  contrastDeseq2 = "treated"
+)
 #> calcNormFactors has been renamed to normLibSizes
 #> Using classic mode.
 #> baySeq libsizes
@@ -172,5 +176,5 @@ cons_result <- runExpression(numberReplics = 2,
 #> Getting number of false positives in the permutation...
 #> Differential expression analysis completed.
 expDef_result <- expressionDefinition(cons_result, treats)
-deByTool <- listDeByTool(cons_result,rownames(counts), expDef_result)
+deByTool <- listDeByTool(cons_result, rownames(counts), expDef_result)
 ```

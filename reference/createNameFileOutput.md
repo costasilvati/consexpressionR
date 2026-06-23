@@ -31,5 +31,5 @@ string name of path file output
 ## Examples
 
 ``` r
-nameFile <- createNameFileOutput (outDirPath = "data/", execName = "expermient1")
+nameFile <- createNameFileOutput(outDirPath = "data/", execName = "expermient1")
 ```

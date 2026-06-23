@@ -17,8 +17,8 @@ by using the following commands in your `R` session:
 ``` r
 
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
-      install.packages("BiocManager")
-  }
+  install.packages("BiocManager")
+}
 
 BiocManager::install("consexpressionR")
 

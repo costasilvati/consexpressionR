@@ -39,7 +39,7 @@ An ExpressionResultSet object.
 
 ``` r
 res_list <- list(
-  edgeR = data.frame(gene = c("g1","g2"), logFC = c(1.2, -0.4)),
+  edgeR = data.frame(gene = c("g1", "g2"), logFC = c(1.2, -0.4)),
   DESeq2 = NULL
 )
 

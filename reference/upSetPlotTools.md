@@ -41,18 +41,22 @@ data.frame with row sum by input df
 set.seed(42)
 counts <- matrix(
   as.integer(c(
-    rnbinom(200, mu = 10,  size = 1), 
-    rnbinom(200, mu = 100, size = 1) 
+    rnbinom(200, mu = 10, size = 1),
+    rnbinom(200, mu = 100, size = 1)
   )),
   nrow = 100,
-  dimnames = list(paste0("gene", seq_len(100)),
-                    paste0("sample", seq_len(4)))
+  dimnames = list(
+    paste0("gene", seq_len(100)),
+    paste0("sample", seq_len(4))
+  )
 )
 groups_info <- c("control", "control", "treated", "treated")
 treats <- c("control", "treated")
-cons_result <- runExpression(2, treats,rDataFrameCount = counts,
-                            sepCharacter = ",",experimentName = "test_cons",
-                            outDirPath = "." )
+cons_result <- runExpression(2, treats,
+  rDataFrameCount = counts,
+  sepCharacter = ",", experimentName = "test_cons",
+  outDirPath = "."
+)
 #> calcNormFactors has been renamed to normLibSizes
 #> Using classic mode.
 #> baySeq libsizes
@@ -170,12 +174,16 @@ cons_result <- runExpression(2, treats,rDataFrameCount = counts,
 #> Getting number of false positives in the permutation...
 #> Differential expression analysis completed.
 expDef_result <- expressionDefinition(resultTool = cons_result, groups = treats)
-deByTool <- listDeByTool(consexpressionList = cons_result,
-                        geneNames = rownames(counts),
-                        deList = expDef_result)
+deByTool <- listDeByTool(
+  consexpressionList = cons_result,
+  geneNames = rownames(counts),
+  deList = expDef_result
+)
 if (requireNamespace("UpSetR", quietly = TRUE)) {
-    upSetPlotData <- upSetPlotTools(df = deByTool,condition = "Control_vs_Treat",
-                                pathOut = ".", writeData = FALSE)
+  upSetPlotData <- upSetPlotTools(
+    df = deByTool, condition = "Control_vs_Treat",
+    pathOut = ".", writeData = FALSE
+  )
 }
 #> Warning: `aes_string()` was deprecated in ggplot2 3.0.0.
 #> ℹ Please use tidy evaluation idioms with `aes()`.
