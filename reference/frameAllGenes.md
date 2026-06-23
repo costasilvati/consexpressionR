@@ -113,21 +113,20 @@ cons_result <- runExpression(
 #> .
 #> .
 #> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
 #> done.
 #> Estimating likelihoods...
 #> ...done!
 #> .
 #> done.
 #> Available columns in results_raw:
-#> [1] "sample1" "sample2" "sample3" "sample4" "likes"   "DE"      "FDR.DE" 
-#> [8] "FWER.DE"
-#>      sample1 sample2 sample3 sample4     likes  DE    FDR.DE   FWER.DE
-#> NA         6       2     163     183 0.7791478 2>1 0.2208522 0.2208522
-#> NA.1       0       1      36      39 0.5303252 2>1 0.3452635 0.5867983
-#> NA.2       3       3      95     126 0.5212935 2>1 0.3897445 0.7846006
-#> NA.3      14      15       4      29 0.5017534 1>2 0.4168700 0.8919226
-#> NA.4      32       8      23      29 0.4885126 1>2 0.4357935 0.9472029
-#> NA.5       1       2     187     104 0.4878071 2>1 0.4485267 0.9742452
 #> Warning: ‘>=’ not meaningful for factors
 #> calcNormFactors has been renamed to normLibSizes
 #> Removing intercept from test coefficients
@@ -810,13 +809,13 @@ head(framed)
 #> gene10     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene100    <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene11     <NA>      <NA>     <NA>           <NA>       <NA>
-#> gene12   gene12    gene12     1.95          2.883       57.5
+#> gene12   gene12    gene12     1.95          2.883     64.286
 #> gene13     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene14     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene15     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene16     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene17     <NA>      <NA>     <NA>           <NA>       <NA>
-#> gene18   gene18    gene18        2 2331119974.565       57.5
+#> gene18   gene18    gene18        2 2331119974.565     64.286
 #> gene19     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene2      <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene20     <NA>      <NA>     <NA>           <NA>       <NA>
@@ -828,12 +827,12 @@ head(framed)
 #> gene26     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene27     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene28     <NA>      <NA>     <NA>           <NA>       <NA>
-#> gene29   gene29    gene29      1.9          2.973       57.5
-#> gene3     gene3     gene3        2          5.088       57.5
-#> gene30   gene30    gene30     1.95          2.831       57.5
+#> gene29   gene29    gene29      1.8          2.973     64.286
+#> gene3     gene3     gene3        2          5.088     64.286
+#> gene30   gene30    gene30        2          2.831     64.286
 #> gene31     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene32     <NA>      <NA>     <NA>           <NA>       <NA>
-#> gene33   gene33    gene33      1.9         23.148       57.5
+#> gene33   gene33    gene33     1.95         23.148     64.286
 #> gene34     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene35     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene36     <NA>      <NA>     <NA>           <NA>       <NA>
@@ -841,53 +840,53 @@ head(framed)
 #> gene38     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene39     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene4      <NA>      <NA>     <NA>           <NA>       <NA>
-#> gene40     <NA>      <NA>     <NA>           <NA>       <NA>
+#> gene40   gene40    gene40     1.75          1.874     64.286
 #> gene41     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene42     <NA>      <NA>     <NA>           <NA>       <NA>
-#> gene43   gene43    gene43        2         10.301       57.5
+#> gene43   gene43    gene43        2         10.301     64.286
 #> gene44     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene45     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene46     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene47     <NA>      <NA>     <NA>           <NA>       <NA>
-#> gene48   gene48    gene48        2         28.057       57.5
+#> gene48   gene48    gene48        2         28.057     64.286
 #> gene49     <NA>      <NA>     <NA>           <NA>       <NA>
-#> gene5     gene5     gene5        2         16.712       57.5
+#> gene5     gene5     gene5        2         16.712     64.286
 #> gene50     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene51     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene52     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene53     <NA>      <NA>     <NA>           <NA>       <NA>
-#> gene54   gene54    gene54     1.95          3.661       57.5
+#> gene54   gene54    gene54        2          3.661     64.286
 #> gene55     <NA>      <NA>     <NA>           <NA>       <NA>
-#> gene56   gene56    gene56     1.85          7.582       57.5
+#> gene56   gene56    gene56      1.8          7.582     64.286
 #> gene57     <NA>      <NA>     <NA>           <NA>       <NA>
-#> gene58   gene58    gene58        2         13.174       57.5
+#> gene58   gene58    gene58        2         13.174     64.286
 #> gene59     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene6      <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene60     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene61     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene62     <NA>      <NA>     <NA>           <NA>       <NA>
-#> gene63   gene63    gene63        2          3.517       57.5
+#> gene63   gene63    gene63        2          3.517     64.286
 #> gene64     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene65     <NA>      <NA>     <NA>           <NA>       <NA>
-#> gene66   gene66    gene66        2          5.421       57.5
-#> gene67   gene67    gene67        2          4.717       57.5
+#> gene66   gene66    gene66        2          5.421     64.286
+#> gene67   gene67    gene67        2          4.717     64.286
 #> gene68     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene69     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene7      <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene70     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene71     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene72     <NA>      <NA>     <NA>           <NA>       <NA>
-#> gene73   gene73    gene73        2          9.889       57.5
+#> gene73   gene73    gene73        2          9.889     64.286
 #> gene74     <NA>      <NA>     <NA>           <NA>       <NA>
-#> gene75   gene75    gene75     1.95          4.117       57.5
-#> gene76   gene76    gene76     1.95          1.882       57.5
+#> gene75   gene75    gene75        2          4.117     64.286
+#> gene76     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene77     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene78     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene79     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene8      <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene80     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene81     <NA>      <NA>     <NA>           <NA>       <NA>
-#> gene82     <NA>      <NA>     <NA>           <NA>       <NA>
+#> gene82   gene82    gene82      1.9          6.728     64.286
 #> gene83     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene84     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene85     <NA>      <NA>     <NA>           <NA>       <NA>
@@ -896,14 +895,14 @@ head(framed)
 #> gene88     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene89     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene9      <NA>      <NA>     <NA>           <NA>       <NA>
-#> gene90   gene90    gene90        2          3.312       57.5
+#> gene90   gene90    gene90        2          3.312     64.286
 #> gene91     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene92     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene93     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene94     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene95     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene96     <NA>      <NA>     <NA>           <NA>       <NA>
-#> gene97   gene97    gene97        2          4.031       57.5
+#> gene97   gene97    gene97        2          4.031     64.286
 #> gene98     <NA>      <NA>     <NA>           <NA>       <NA>
 #> gene99     <NA>      <NA>     <NA>           <NA>       <NA>
 #> 

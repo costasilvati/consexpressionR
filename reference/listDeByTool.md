@@ -107,21 +107,20 @@ cons_result <- runExpression(numberReplics = 2,
 #> .
 #> .
 #> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
+#> .
 #> done.
 #> Estimating likelihoods...
 #> ...done!
 #> .
 #> done.
 #> Available columns in results_raw:
-#> [1] "sample1" "sample2" "sample3" "sample4" "likes"   "DE"      "FDR.DE" 
-#> [8] "FWER.DE"
-#>      sample1 sample2 sample3 sample4     likes  DE    FDR.DE   FWER.DE
-#> NA         6       2     163     183 0.7791478 2>1 0.2208522 0.2208522
-#> NA.1       0       1      36      39 0.5303252 2>1 0.3452635 0.5867983
-#> NA.2       3       3      95     126 0.5212935 2>1 0.3897445 0.7846006
-#> NA.3      14      15       4      29 0.5017534 1>2 0.4168700 0.8919226
-#> NA.4      32       8      23      29 0.4885126 1>2 0.4357935 0.9472029
-#> NA.5       1       2     187     104 0.4878071 2>1 0.4485267 0.9742452
 #> Warning: ‘>=’ not meaningful for factors
 #> calcNormFactors has been renamed to normLibSizes
 #> Removing intercept from test coefficients
