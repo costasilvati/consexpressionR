@@ -2,9 +2,12 @@
 % Please edit documentation in R/Class-ExpressionResultSet.R
 \name{consensus}
 \alias{consensus}
+\alias{consensus,ExpressionResultSet-method}
 \title{Get consensus results}
 \usage{
 consensus(object)
+
+\S4method{consensus}{ExpressionResultSet}(object)
 }
 \arguments{
 \item{object}{An ExpressionResultSet object.}

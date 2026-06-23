@@ -11,13 +11,24 @@
 #' @export
 #'
 #' @examples
-#' data(gse95077)
-#' treats <- c("BM", "JJ")
-#' designExperimentModel <- rep(treats, each = 3)
+#' set.seed(42)
+#' counts <- matrix(
+#'   as.integer(c(
+#'     rnbinom(200, mu = 10,  size = 1), 
+#'     rnbinom(200, mu = 100, size = 1) 
+#'   )),
+#'   nrow = 100,
+#'   dimnames = list(paste0("gene", seq_len(100)),
+#'                     paste0("sample", seq_len(4)))
+#' )
+#' groups_info <- c("control", "control", "treated", "treated")
+#' treats <- c("control", "treated")
+#' designExperimentModel <- rep(treats, each = 2)
 #' toolResult <- NULL
-#' toolResult$ebseq <- runEbseq(gse95077,designExperimentModel,groups = treats)
+#' toolResult$ebseq <- runEbseq(counts,designExperimentModel,groups = treats)
 runEbseq <- function(countMatrix,designExperiment,fdr=0.05,ppThreshold = 0.8,maxRound = 50,
                      methodDeResults = "robust",groups = c("")){
+    .check_package("EBSeq", repo = "Bioconductor")
     sizes<- EBSeq::MedianNorm(countMatrix)
     if(length(groups) > 2){
         cond <- as.factor(designExperiment)

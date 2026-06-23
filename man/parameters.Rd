@@ -2,9 +2,12 @@
 % Please edit documentation in R/Class-ExpressionResultSet.R
 \name{parameters}
 \alias{parameters}
+\alias{parameters,ExpressionResultSet-method}
 \title{Get parameters used in the analysis}
 \usage{
 parameters(object)
+
+\S4method{parameters}{ExpressionResultSet}(object)
 }
 \arguments{
 \item{object}{An ExpressionResultSet object.}

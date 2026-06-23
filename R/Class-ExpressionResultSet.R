@@ -28,7 +28,7 @@ setClass(
     )
 )
 
-# ---- validity ----
+
 #' @importFrom methods setValidity
 setValidity("ExpressionResultSet", function(object) {
     # results: list, ideally named
@@ -67,7 +67,6 @@ setValidity("ExpressionResultSet", function(object) {
     TRUE
 })
 
-# ---- accessors ----
 #' Get result tables
 #'
 #' @param object An ExpressionResultSet object.
@@ -79,9 +78,10 @@ setValidity("ExpressionResultSet", function(object) {
 #'   methodNames = "edgeR"
 #' )
 #' results(obj)
-
 setGeneric("results", function(object) standardGeneric("results"))
 
+#' @rdname results
+#' @aliases results,ExpressionResultSet-method
 #' @export
 setMethod("results", "ExpressionResultSet", function(object) object@results)
 
@@ -96,9 +96,10 @@ setMethod("results", "ExpressionResultSet", function(object) object@results)
 #'   methodNames = c("edgeR")
 #' )
 #' methodNames(obj)
-
 setGeneric("methodNames", function(object) standardGeneric("methodNames"))
 
+#' @rdname methodNames
+#' @aliases methodNames,ExpressionResultSet-method
 #' @export
 setMethod("methodNames", "ExpressionResultSet", function(object) object@methodNames)
 
@@ -114,9 +115,10 @@ setMethod("methodNames", "ExpressionResultSet", function(object) object@methodNa
 #'   parameters = list(alpha = 0.01)
 #' )
 #' parameters(obj)
-
 setGeneric("parameters", function(object) standardGeneric("parameters"))
 
+#' @rdname parameters
+#' @aliases parameters,ExpressionResultSet-method
 #' @export
 setMethod("parameters", "ExpressionResultSet", function(object) object@parameters)
 
@@ -132,13 +134,13 @@ setMethod("parameters", "ExpressionResultSet", function(object) object@parameter
 #'   consensus = list(g1 = TRUE)
 #' )
 #' consensus(obj)
-
 setGeneric("consensus", function(object) standardGeneric("consensus"))
 
+#' @rdname consensus
+#' @aliases consensus,ExpressionResultSet-method
 #' @export
 setMethod("consensus", "ExpressionResultSet", function(object) object@consensus)
 
-# ---- constructor ----
 #' Constructor for ExpressionResultSet
 #'
 #' @param results Named list of data.frames (or NULL elements).
@@ -163,7 +165,6 @@ setMethod("consensus", "ExpressionResultSet", function(object) object@consensus)
 #'
 #' obj
 #' summary(obj)
-
 createExpressionResultSet <- function(results,
                                       methodNames,
                                       parameters = list(),
@@ -202,9 +203,13 @@ createExpressionResultSet <- function(results,
     obj
 }
 
-# ---- show ----
-#' @importFrom methods setMethod show
-
+#' Show an ExpressionResultSet object
+#'
+#' @param object An ExpressionResultSet object.
+#' @return Invisibly returns NULL.
+#' @rdname show-ExpressionResultSet-method
+#' @aliases show,ExpressionResultSet-method
+#' @export
 setMethod("show", "ExpressionResultSet", function(object) {
     message("ExpressionResultSet object")
 
@@ -223,8 +228,14 @@ setMethod("show", "ExpressionResultSet", function(object) {
     }
 })
 
-# ---- summary ----
 
+#' Summarize an ExpressionResultSet object
+#'
+#' @param object An ExpressionResultSet object.
+#' @return Invisibly returns NULL.
+#' @rdname summary-ExpressionResultSet-method
+#' @aliases summary,ExpressionResultSet-method
+#' @export
 setMethod("summary", "ExpressionResultSet", function(object) {
     message("Summary of ExpressionResultSet")
     message("---------------------------------")

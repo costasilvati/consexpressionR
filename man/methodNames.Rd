@@ -2,9 +2,12 @@
 % Please edit documentation in R/Class-ExpressionResultSet.R
 \name{methodNames}
 \alias{methodNames}
+\alias{methodNames,ExpressionResultSet-method}
 \title{Get method names used in the analysis}
 \usage{
 methodNames(object)
+
+\S4method{methodNames}{ExpressionResultSet}(object)
 }
 \arguments{
 \item{object}{An ExpressionResultSet object.}

@@ -88,12 +88,22 @@ Applies specific filtering rules to each expression method result in the
 ExpressionResultSet object and returns the DE genes per tool.
 }
 \examples{
-data(gse95077)
-treats <- c("BM", "JJ")
-res <- runExpression(numberReplics = 3,
+set.seed(42)
+counts <- matrix(
+  as.integer(c(
+    rnbinom(200, mu = 10,  size = 1), 
+    rnbinom(200, mu = 100, size = 1) 
+  )),
+  nrow = 100,
+  dimnames = list(paste0("gene", seq_len(100)),
+                    paste0("sample", seq_len(4)))
+)
+groups_info <- c("control", "control", "treated", "treated")
+treats <- c("control", "treated")
+res <- runExpression(numberReplics = 2,
                      groupName = treats,
-                     rDataFrameCount = gse95077,
-                     controlDeseq2 = "BM",
-                     contrastDeseq2 = "JJ" )
+                     rDataFrameCount = counts,
+                     controlDeseq2 = "control",
+                     contrastDeseq2 = "treated" )
 expDef <- expressionDefinition(res, treats)
 }

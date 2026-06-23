@@ -9,16 +9,26 @@
 #' @export
 #'
 #' @examples
-#' data(gse95077)
-#' treats <- c("BM", "JJ")
-#' numberReplicsModel <- 3
+#' set.seed(42)
+#' counts <- matrix(
+#'   as.integer(c(
+#'     rnbinom(200, mu = 10,  size = 1), 
+#'     rnbinom(200, mu = 100, size = 1) 
+#'   )),
+#'   nrow = 100,
+#'   dimnames = list(paste0("gene", seq_len(100)),
+#'                     paste0("sample", seq_len(4)))
+#' )
+#' treats <- c("control", "treated")
+#' numberReplicsModel <- 2
 #' designExperimentModel <- rep(treats, each = numberReplicsModel)
 #' toolResult <- NULL
-#' toolResult$edger <- runEdger(countMatrix = gse95077, numberReplics = numberReplicsModel,
+#' toolResult$edger <- runEdger(countMatrix = counts, numberReplics = numberReplicsModel,
 #'                                desingExperiment = designExperimentModel)
 runEdger <- function (countMatrix, numberReplics,desingExperiment, methNorm = "TMM"){
     group <- c(desingExperiment)
     m <- as.matrix(countMatrix)
+    .check_package("edgeR", repo = "Bioconductor")
     y.dge <- edgeR::DGEList(counts = m, group = group)
     if (numberReplics < 1){
         message('Replicates not found by edgeR. EdgeR wasn`t executed.')

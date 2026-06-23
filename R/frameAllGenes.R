@@ -11,21 +11,31 @@
 #' @export
 #'
 #' @examples
-#' data(gse95077)
-#' treats <- c("BM", "JJ")
+#' set.seed(42)
+#' counts <- matrix(
+#'   as.integer(c(
+#'     rnbinom(200, mu = 10,  size = 1), 
+#'     rnbinom(200, mu = 100, size = 1) 
+#'   )),
+#'   nrow = 100,
+#'   dimnames = list(paste0("gene", seq_len(100)),
+#'                     paste0("sample", seq_len(4)))
+#' )
+#' groups_info <- c("control", "control", "treated", "treated")
+#' treats <- c("control", "treated")
 #' cons_result <- runExpression(
-#'   numberReplics = 3,
+#'   numberReplics = 2,
 #'   groupName = treats,
-#'   rDataFrameCount = gse95077,
+#'   rDataFrameCount = counts,
 #'   experimentName = "test_cons",
-#'   controlDeseq2 = "BM",
-#'   contrastDeseq2 = "JJ",
+#'   controlDeseq2 = "control",
+#'   contrastDeseq2 = "treated",
 #'   outDirPath = tempdir(),
 #'   printResults = FALSE
 #' )
 #'
 #' genes_list <- results(cons_result)
-#' framed <- frameAllGenes(cons_list = genes_list, countMatrix = gse95077)
+#' framed <- frameAllGenes(cons_list = genes_list, countMatrix = counts)
 #' head(framed)
 frameAllGenes <- function(cons_list,countMatrix){
     newList <- list()

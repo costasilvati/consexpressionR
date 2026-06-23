@@ -33,8 +33,18 @@ limma report in data Frame fromat
 Execute edgeR expression Analisys
 }
 \examples{
-data(gse95077)
-treats <- c("BM", "JJ")
+set.seed(42)
+counts <- matrix(
+  as.integer(c(
+    rnbinom(200, mu = 10,  size = 1), 
+    rnbinom(200, mu = 100, size = 1) 
+  )),
+  nrow = 100,
+  dimnames = list(paste0("gene", seq_len(100)),
+                    paste0("sample", seq_len(4)))
+)
+groups_info <- c("control", "control", "treated", "treated")
+treats <- c("control", "treated")
 toolResult <- NULL
-toolResult$limma <- runLimma(gse95077, 3, rep(treats, each = 3))
+toolResult$limma <- runLimma(counts, 2, rep(treats, each = 2))
 }

@@ -20,4 +20,7 @@ inst/doc
 /doc/
 /Meta/
 vignettes/*.html
-
+vignettes/*.R
+*.DS_Store
+rsconnect/
+R/rsconnect/

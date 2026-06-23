@@ -22,21 +22,23 @@ listDeByTool: creates a data.frame with genes (rows) and DE tools (columns).
 Each tool that identifies a gene as DE is marked with 1.
 }
 \examples{
-data(gse95077)
-treats <- c("BM", "JJ")
-cons_result <- runExpression(numberReplics = 3,
+set.seed(42)
+counts <- matrix(
+  as.integer(c(
+    rnbinom(200, mu = 10,  size = 1), 
+    rnbinom(200, mu = 100, size = 1) 
+  )),
+  nrow = 100,
+  dimnames = list(paste0("gene", seq_len(100)),
+                    paste0("sample", seq_len(4)))
+)
+groups_info <- c("control", "control", "treated", "treated")
+treats <- c("control", "treated")
+cons_result <- runExpression(numberReplics = 2,
                              groupName = treats,
-                             rDataFrameCount = gse95077,
-                             controlDeseq2 = "BM",
-                             contrastDeseq2 = "JJ" )
+                             rDataFrameCount = counts,
+                             controlDeseq2 = "control",
+                             contrastDeseq2 = "treated" )
 expDef_result <- expressionDefinition(cons_result, treats)
-deByTool <- listDeByTool(cons_result,rownames(gse95077), expDef_result)
-
-#      DESeq2 limma edgeR
-# gene1      1     1     1
-# gene2      0     0     1
-# gene3      1     0     1
-# gene4      0     1     0
-# gene5      0     0     0
-# gene6      1     1     1
+deByTool <- listDeByTool(cons_result,rownames(counts), expDef_result)
 }

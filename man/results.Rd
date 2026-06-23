@@ -2,9 +2,12 @@
 % Please edit documentation in R/Class-ExpressionResultSet.R
 \name{results}
 \alias{results}
+\alias{results,ExpressionResultSet-method}
 \title{Get result tables}
 \usage{
 results(object)
+
+\S4method{results}{ExpressionResultSet}(object)
 }
 \arguments{
 \item{object}{An ExpressionResultSet object.}

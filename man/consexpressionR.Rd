@@ -30,6 +30,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Juliana Costa-Silva \email{julianacostasilvati@gmail.com} (\href{https://orcid.org/0000-0002-5830-8548}{ORCID}) [funder]
   \item David Menotti \email{menottid@gmail.com} (\href{https://orcid.org/0000-0003-2430-2030}{ORCID})
   \item Fabricio M. Lopes \email{fabricio@utfpr.edu.br} (\href{https://orcid.org/0000-0002-8025-6422}{ORCID})
 }

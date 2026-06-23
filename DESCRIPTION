@@ -18,34 +18,40 @@ Description: Comprehensive five-stage workflow for differential expression (DE) 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Depends: 
-    R (>= 4.6.0)
-Imports: 
-    mclust,
-    methods,
+    R (>= 4.4.0)
+Imports:
+  methods,
+  DESeq2 (>= 1.38.3),
+  EBSeq (>= 2.1.0),
+  edgeR (>= 4.0.0),
+  limma (>= 3.54.0),
+  NOISeq,
+  stats,
+  utils,
+  baySeq
+Suggests:
     cqn,
-    DESeq2 (>= 1.38.3),
-    EBSeq (>= 2.1.0),
-    edgeR (>= 4.1.17),
-    KnowSeq (>= 1.17.0),
-    limma (>= 3.59.3),
-    NOISeq (>= 2.47.0),
-    samr (>= 3.0),
-    stats,
-    attempt,
-    DT,
-    utils (>= 4.2.2),
+    mclust,
+    samr,
     shiny,
     shinydashboard,
     shinyjs,
-    plotly (>= 4.10.4),
-    UpSetR (>= 1.4.0)
-Suggests: BiocStyle, knitr,rmarkdown, shinybusy, grDevices,testthat (>= 3.0.0),devtools
+    shinybusy,
+    plotly,
+    UpSetR,
+    DT,
+    BiocStyle,
+    knitr,
+    rmarkdown,
+    testthat,
+    devtools,
+    RefManageR,
+    sessioninfo
+biocViews: RNASeq, DifferentialExpression, GeneExpression,Sequencing, Software
 Config/testthat/edition: 3
-File: data/gse95077.csv
 VignetteBuilder: knitr
-biocViews: Workflow, GeneExpressionWorkflow
 URL: https://costasilvati.github.io/consexpressionR/
 BugReports: https://github.com/costasilvati/consexpressionR/issues
 LazyData: false
+Config/roxygen2/version: 8.0.0

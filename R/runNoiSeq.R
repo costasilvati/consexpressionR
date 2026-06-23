@@ -14,13 +14,23 @@
 #' @export
 #'
 #' @examples
-#' data(gse95077)
-#' treats <- c("BM", "JJ")
+#' set.seed(42)
+#' counts <- matrix(
+#'   as.integer(c(
+#'     rnbinom(200, mu = 10,  size = 1), 
+#'     rnbinom(200, mu = 100, size = 1) 
+#'   )),
+#'   nrow = 100,
+#'   dimnames = list(paste0("gene", seq_len(100)),
+#'                     paste0("sample", seq_len(4)))
+#' )
+#' treats <- c("control", "treated")
 #' toolResult <- NULL
-#' toolResult$noiseq <- runNoiSeq(countMatrix = gse95077, designExperiment = rep(treats, each = 3))
+#' toolResult$noiseq <- runNoiSeq(countMatrix = counts, designExperiment = rep(treats, each = 2))
 runNoiSeq <- function (countMatrix, designExperiment, groups = c(""), normParm = "rpkm", kParam = 0.5,
                        factorParam=c("Tissue"), lcParam = 0, replicatesParam = "technical", condExp = c("")){
     myfactors <- data.frame(Tissue=c(designExperiment))
+    .check_package("NOISeq", repo = "Bioconductor")
     mydata <- NOISeq::readData(data=countMatrix, factors=myfactors)
     if(length(groups) > 2 && length(condExp) == 2){
         if(all(condExp %in% groups)){

@@ -1,13 +1,13 @@
 # # app.R
 #
-# # Carregar pacotes necessários
+# Load necessary packages
 # library(shiny)
 # library(devtools)  # ou library(remotes)
 #
-# # Instalar pacote do GitHub
+# Install package from GitHub
 # devtools::install_github("costasilvati/consexpressionR")
 #
-# # Carregar o pacote
+# Load Package
 # library(consexpressionR)
 
 #' @export
@@ -484,7 +484,7 @@ consexpressionR <- function(){
             informedColumns <- input$numberReplicsInp * qtdGroups
             colsReadData <- length(colnames(countData$readData))
             shiny::validate(
-                need(informedColumns == colsReadData,
+                shiny::need(informedColumns == colsReadData,
                      label = paste("ERROR: infromed ",qtdGroups," groups of tretment and ",
                                    input$numberReplicsInp, "replics. File need be ",
                                    (input$numberReplicsInp * qtdGroups),
@@ -589,7 +589,7 @@ consexpressionR <- function(){
             } else {
 
                 shiny::showNotification(
-                    "Não foi possível gerar o UpSet: listDeByTool retornou vazio/NULL.",
+                    "Is not possible generate a UpSet plot: listDeByTool return void/NULL.",
                     type = "warning",
                     duration = 6
                 )
