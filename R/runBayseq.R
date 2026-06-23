@@ -123,7 +123,6 @@ runBayseq <- function(data,
     )
     message("baySeq libsizes")
     baySeq::libsizes(cd) <- baySeq::getLibsizes(cd)
-    set.seed(seed)
     message("baySeq getPriors")
     cd <- tryCatch(
         baySeq::getPriors.NB(cd, samplesize = samplesize, estimation = "QL",
@@ -145,9 +144,7 @@ runBayseq <- function(data,
     if (is.null(cd)) return(invisible(NULL))
     results_raw <- baySeq::topCounts(cd, group = "DE", number = nrow(data),
                                      normaliseData = TRUE)
-    cat("Available columns in results_raw:\n")
-    print(colnames(results_raw))
-    print(utils::head(results_raw))
+    message("Available columns in results_raw:\n")
     grp1_idx <- which(groups$DE == 1L)
     grp2_idx <- which(groups$DE == 2L)
     mean_grp1 <- rowMeans(data[, grp1_idx, drop = FALSE] + 0.5)
