@@ -1,5 +1,5 @@
 ---
-title: "Introduction to cosexpressionR"
+title: "Introduction to consexpressionR"
 author: 
   - name: Juliana Costa-Silva
     affiliation:
@@ -15,7 +15,7 @@ output:
 date: "`r doc_date()`"
 package: "`r pkg_ver('consexpressionR')`"
 vignette: >
-  %\VignetteIndexEntry{Introduction to cosexpressionR}
+  %\VignetteIndexEntry{Introduction to consexpressionR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}  
 ---
@@ -30,10 +30,10 @@ knitr::opts_chunk$set(
 
 
 ```{r vignetteSetup, echo=FALSE, message=FALSE, warning = FALSE}
-## Bib setup
 library("RefManageR")
 
-## Write bibliography information
+bibArticles <- ReadBib("consexpressionR.bib")
+
 bib <- c(
   R = citation(),
   BiocStyle = citation("BiocStyle")[1],
@@ -42,15 +42,61 @@ bib <- c(
   rmarkdown = citation("rmarkdown")[1],
   sessioninfo = citation("sessioninfo")[1],
   testthat = citation("testthat")[1],
+  DESeq2 = citation("DESeq2")[1],
+  edgeR = citation("edgeR")[1],
+  limma = citation("limma")[1],
+  EBSeq = citation("EBSeq")[1],
+  NOISeq = citation("NOISeq")[1],
+  baySeq = citation("baySeq")[1],
   consexpressionR = citation("consexpressionR")[1]
 )
+
+bib <- merge(bib, bibArticles)
 ```
 
 # Basics
 
+## Background
+
+High-throughput RNA sequencing (RNA-seq) is the standard approach for
+quantifying gene expression and identifying genes that are differentially
+expressed (DE) between experimental conditions. A large number of methods
+have been proposed for this task -- including `r Biocpkg("DESeq2")`,
+`r Biocpkg("edgeR")`, `r Biocpkg("limma")`, `r Biocpkg("EBSeq")`,
+`r Biocpkg("NOISeq")`, `r Biocpkg("baySeq")`, and `r Biocpkg("KnowSeq")`
+-- each based on different statistical assumptions (e.g., negative binomial
+generalized linear models, empirical Bayes shrinkage, non-parametric
+testing). Because no single method is universally superior across all
+experimental designs and noise conditions, the choice of DE method can
+materially change the list of genes reported as differentially expressed.
+
+`r Biocpkg("consexpressionR")` addresses this problem by running multiple
+independent DE methods on the same count matrix and reporting a
+**consensus** list: genes called as differentially expressed by a
+user-defined minimum number of methods. The rationale is that genes
+detected by several methodologically independent approaches are less
+likely to be false positives driven by the assumptions of any single
+method.
+
+This consensus strategy was validated against qPCR-confirmed
+differentially expressed genes using public datasets (A: available in the Short 
+Read Archive (SRA) can be accessed using the code SRA010153 and B: available in 
+the Gene Expression Omnibus (GEO) repositorycan accessed using the code 
+GSE95077). Results are previouslly reported in 
+`r Citep(bib[["Costa-Silva2017"]])` and reviewed in 
+`r Citep(bib[["costasilva2025consensus"]])`, showing improved precision compared
+to individual methods.
+
 ## Install `consexpressionR`
 
-`R` is an open-source statistical environment which can be easily modified to enhance its functionality via packages. `r Biocpkg("consexpressionR")` is a `R` package available via the [Bioconductor](http://bioconductor.org) repository for packages. `R` can be installed on any operating system from [CRAN](https://cran.r-project.org/) after which you can install `r Biocpkg("consexpressionR")` by using the following commands in your `R` session:
+`R` is an open-source statistical environment which can be easily modified to 
+enhance its functionality via packages. `r Biocpkg("consexpressionR")` is a `R` 
+package available via the [Bioconductor](http://bioconductor.org) repository 
+for packages. `R` can be installed on any operating system from 
+[CRAN](https://cran.r-project.org/) after which you can install 
+`r Biocpkg("consexpressionR")` by using the following commands in your `R` 
+
+session:
 
 ```{r "install", eval = FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
@@ -65,7 +111,26 @@ BiocManager::valid()
 
 ## Required knowledge
 
-`r Biocpkg("consexpressionR")` is based on many other packages and in particular in those that have implemented the infrastructure needed for dealing with RNA-seq data (EDIT!). That is, packages like `r Biocpkg("SummarizedExperiment")` (EDIT!).
+`r Biocpkg("consexpressionR")` is built on top of several Bioconductor and
+CRAN packages that implement individual differential expression methods:
+`r Biocpkg("DESeq2")`, `r Biocpkg("edgeR")`, `r Biocpkg("limma")`,
+`r Biocpkg("EBSeq")`, `r Biocpkg("NOISeq")`, and `r Biocpkg("baySeq")` are
+required; `r Biocpkg("KnowSeq")` is optional (see
+[Optional dependencies](#optional-dependencies) below). Users are
+expected to be familiar with the basic structure of a gene-level raw
+count matrix (genes as rows, samples as columns) as produced by aligners
+such as STAR/HTSeq or pseudo-aligners such as Salmon/kallisto followed by
+`r Biocpkg("tximport")`.
+
+
+
+<!--
+EDIT: confirm whether your package accepts a plain matrix only, or also
+a SummarizedExperiment / DESeqDataSet as input. If SummarizedExperiment
+is supported (or planned), mention it here and add it as an Import in
+DESCRIPTION -- Bioconductor reviewers will likely request this, since it
+is the standard container for count data across the project.
+-->
 
 If you are asking yourself the question "Where do I start using Bioconductor?" you might be interested in [this blog post](http://lcolladotor.github.io/2014/10/16/startbioc/#.VkOKbq6rRuU).
 
@@ -88,13 +153,128 @@ citation("consexpressionR")
 library("consexpressionR")
 ```
 
-Edit this as you see fit =)
+## Example dataset
 
-Here is an example of you can cite your package inside the vignette:
+Rather than shipping a static dataset inside the package, this vignette
+generates a small synthetic count matrix on the fly using a negative
+binomial model -- the same distributional assumption used by most
+RNA-seq DE methods. This keeps the package lightweight, keeps the
+vignette build fast on the Bioconductor build servers, and lets you
+freely change the simulation parameters (number of genes, samples, and
+effect size) to explore how the consensus behaves under different
+conditions.
 
-* `r Biocpkg("consexpressionR")` `r Citep(bib[["consexpressionR"]])`
+```{r "simulate_data"}
+set.seed(42)
 
+n_genes <- 200
+n_samples_per_group <- 4
+prop_de <- 0.10 # proportion of genes that are truly differentially expressed
 
+n_de <- floor(n_genes * prop_de)
+
+## Baseline mean expression per gene (negative binomial mean)
+baseline_mu <- rgamma(n_genes, shape = 2, scale = 200)
+
+## Group 2 has a fold-change applied to the first n_de genes
+fold_change <- c(rep(4, n_de), rep(1, n_genes - n_de))
+mu_group1 <- baseline_mu
+mu_group2 <- baseline_mu * fold_change
+
+counts_group1 <- sapply(seq_len(n_samples_per_group), function(i) {
+  rnbinom(n_genes, mu = mu_group1, size = 4)
+})
+counts_group2 <- sapply(seq_len(n_samples_per_group), function(i) {
+  rnbinom(n_genes, mu = mu_group2, size = 4)
+})
+
+counts <- cbind(counts_group1, counts_group2)
+rownames(counts) <- paste0("gene", seq_len(n_genes))
+colnames(counts) <- c(
+  paste0("control_", seq_len(n_samples_per_group)),
+  paste0("treated_", seq_len(n_samples_per_group))
+)
+
+sample_info <- c(
+  rep("control", n_samples_per_group),
+  rep("treated", n_samples_per_group)
+)
+
+head(counts)
+```
+
+<!--
+EDIT: if you would like a fully reproducible "realistic" simulation
+instead of this minimal rnbinom() approach, consider using
+`r Biocpkg("compcodeR")` or the Polyester package, both of which simulate
+RNA-seq count matrices with known ground-truth DE genes and are commonly
+used in DE method benchmarking papers. That would also let you show, in
+this same vignette, a precision/recall comparison between the consensus
+and each individual method -- valuable supporting evidence for reviewers.
+-->
+
+## Running individual methods
+
+EDIT: Add 1-2 short examples here calling your individual wrapper
+functions directly (e.g., `runDESeq2()`, `runEdgeR()`, `runBaySeq()`),
+showing the structure of their output (a `data.frame` with a `DE_<method>`
+logical column, as discussed for `runBaySeq()`). For example:
+
+```{r "run_single_method", eval = FALSE}
+de_deseq2 <- runDESeq2(counts, sampleInfo = sample_info)
+head(de_deseq2)
+```
+
+## Running the consensus analysis
+
+EDIT: This is the central example of the vignette and currently missing.
+Add the actual call to your main consensus function (its real name --
+possibly `consexpression()` or similar -- needs to replace the
+placeholder below), explaining the `nMethods` / vote-threshold parameter
+clearly, since that is the core contribution of the package:
+
+```{r "run_consensus", eval = FALSE}
+result <- consexpression(
+  data        = counts,
+  sampleInfo  = sample_info,
+  minMethods  = 5 # gene must be called DE by at least 5 of 7 methods
+)
+
+head(result)
+```
+
+EDIT: Show and explain a sample of the *output* table here (which columns
+it has -- gene ID, number of methods that agreed, which methods agreed,
+consensus logFC, etc.), since that is what most users will want to
+parse programmatically afterward.
+
+## Optional dependencies
+
+`r Biocpkg("KnowSeq")` is listed under `Suggests` rather than `Imports`
+because of its heavier dependency footprint. If it is not installed,
+the corresponding method is skipped with a warning rather than causing
+an error, and the consensus is computed using the remaining methods.
+
+```{r "knowseq_check", eval = FALSE}
+if (!requireNamespace("KnowSeq", quietly = TRUE)) {
+  message("KnowSeq is not installed; it will be skipped in the consensus.")
+}
+```
+
+EDIT: clarify here whether "5 out of 7" stays "5 out of 6" automatically
+when KnowSeq is unavailable, or whether the threshold is fixed regardless
+of how many methods actually ran. This is an important behavioral detail
+for users and reviewers will likely ask about it directly.
+
+## Interpreting the results
+
+EDIT: Add a short paragraph + (optionally) a plot here. A simple option
+that fits naturally into a Bioconductor vignette is an UpSet plot (via
+the `r CRANpkg("UpSetR")` package, already in your Suggests) showing the
+overlap of DE calls across the 7 methods for this example dataset. That
+gives readers an immediate visual sense of *why* consensus filtering
+matters, and doubles as a non-trivial example of using your package's
+multi-method output.
 
 # Reproducibility
 
@@ -107,6 +287,12 @@ The `r Biocpkg("consexpressionR")` package `r Citep(bib[["consexpressionR"]])` w
 * `r CRANpkg("rmarkdown")` `r Citep(bib[["rmarkdown"]])`
 * `r CRANpkg("sessioninfo")` `r Citep(bib[["sessioninfo"]])`
 * `r CRANpkg("testthat")` `r Citep(bib[["testthat"]])`
+* `r Biocpkg("DESeq2")` `r Citep(bib[["DESeq2"]])`
+* `r Biocpkg("edgeR")` `r Citep(bib[["edgeR"]])`
+* `r Biocpkg("limma")` `r Citep(bib[["limma"]])`
+* `r Biocpkg("EBSeq")` `r Citep(bib[["EBSeq"]])`
+* `r Biocpkg("NOISeq")` `r Citep(bib[["NOISeq"]])`
+* `r Biocpkg("baySeq")` `r Citep(bib[["baySeq"]])`
 
 This package was developed using `r BiocStyle::Biocpkg("biocthis")`.
 

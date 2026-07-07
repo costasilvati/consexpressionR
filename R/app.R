@@ -57,7 +57,7 @@ consexpressionR <- function() {
                 ),
               ),
               shiny::p(shiny::helpText(
-                "Note: This tool expect the same number of replics in each group of treatment."
+                "Note: Use the same number of replic for each treatment."
               )),
             ),
             shiny::fluidRow(
